@@ -19,7 +19,7 @@ class Api
     /**
      * Путь получения кодов станций
      */
-    protected string $suggestionPath = 'https://pass.rzd.ru/suggester';
+    protected string $suggestionPath = 'https://ticket.rzd.ru/isdk/suggests';
 
     /**
      * Путь получения станций маршрута
@@ -34,7 +34,7 @@ class Api
      *
      * @param Config|null $config
      */
-    public function __construct(Config $config = null)
+    public function __construct(?Config $config = null)
     {
         if (! $config) {
             $config = new Config();
@@ -48,6 +48,8 @@ class Api
     /**
      * Получает маршруты в 1 точку
      *
+     * Возвращает данные направления вместе со списком поездов в ключе list
+     *
      * @param array $params Массив параметров
      *
      * @return string
@@ -60,7 +62,7 @@ class Api
         ];
         $routes = $this->query->get($this->path, $layer + $params);
 
-        return json_encode($routes->tp[0]->list, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
+        return json_encode($routes->tp[0], JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
     }
 
     /**
@@ -79,8 +81,8 @@ class Api
         $routes = $this->query->get($this->path, $layer + $params);
 
         return json_encode([
-                'forward' => $routes->tp[0]->list,
-                'back'    => $routes->tp[1]->list,
+                'forward' => $routes->tp[0],
+                'back'    => $routes->tp[1],
             ],
             JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE
         );
@@ -101,15 +103,29 @@ class Api
         ];
         $carriages = $this->query->get($this->path, $layer + $params);
 
+        // Данные поезда без списка вагонов, он отдается отдельным ключом
+        $train = $carriages->lst[0] ?? null;
+
+        if ($train) {
+            $train = clone $train;
+            unset($train->cars, $train->functionBlocks);
+        }
+
         return json_encode([
-                'cars'           => $carriages->lst[0]->cars ?? null,
-                'functionBlocks' => $carriages->lst[0]->functionBlocks ?? null,
-                'schemes'        => $carriages->schemes ?? null,
-                'companies'      => $carriages->insuranceCompany ?? null,
+                'train'             => $train,
+                'cars'              => $carriages->lst[0]->cars ?? null,
+                'functionBlocks'    => $carriages->lst[0]->functionBlocks ?? null,
+                'schemes'           => $carriages->schemes ?? null,
+                'companies'         => $carriages->insuranceCompany ?? null,
+                'companyTypes'      => $carriages->insuranceCompanyTypes ?? null,
+                'foodIconTips'      => $carriages->foodIconTips ?? null,
+                'psaction'          => $carriages->psaction ?? null,
+                'childrenAge'       => $carriages->childrenAge ?? null,
+                'motherAndChildAge' => $carriages->motherAndChildAge ?? null,
+                'partialPayment'    => $carriages->partialPayment ?? null,
             ],
             JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE
         );
-
     }
 
     /**
@@ -138,6 +154,9 @@ class Api
     /**
      * Получение списка кодов станций
      *
+     * Вместе с кодом станции отдает коды смежных видов транспорта, включая
+     * пригородные перевозки, часовой пояс станции и коды всех вокзалов города
+     *
      * @param  array $params Массив параметров
      *
      * @return string
@@ -145,24 +164,38 @@ class Api
      */
     public function stationCode(array $params): string
     {
-        $lang = [
-            'lang' => $this->lang,
+        $suggest = [
+            'GroupResults'  => 'true',
+            'TransportType' => 'rail',
+            'Language'      => $this->lang,
+            'Query'         => $params['Query'] ?? $params['stationNamePart'] ?? '',
         ];
 
-        $routes = $this->query->get($this->suggestionPath, $lang + $params, 'GET');
+        $suggests = $this->query->get($this->suggestionPath, $suggest, 'GET');
         $stations = [];
 
-        if ($routes) {
-            foreach ($routes as $station) {
-                if (mb_stristr($station->n, $params['stationNamePart'])) {
-                    $stations[] = [
-                        'station' => $station->n,
-                        'code' => $station->c,
-                    ];
-                }
+        // Город и станция приходят разными узлами с одинаковым кодом
+        foreach ($suggests->transport_node_suggests ?? [] as $node) {
+            $code = $node->Codes->Railway ?? null;
+
+            if ($code === null || isset($stations[$code])) {
+                continue;
             }
+
+            $stations[$code] = [
+                'station'  => $node->Name,
+                'code'     => $code,
+                'region'   => $node->Description ?? null,
+                'type'     => $node->SubType ?? null,
+                'timezone' => $node->Timezone ?? null,
+                'codes'    => $node->Codes ?? null,
+                'stations' => array_map(
+                    static fn($station) => $station->Codes->Railway ?? null,
+                    $node->Stations ?? []
+                ),
+            ];
         }
 
-        return json_encode($stations, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
+        return json_encode(array_values($stations), JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE);
     }
 }

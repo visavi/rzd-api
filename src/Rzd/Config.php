@@ -4,12 +4,19 @@ namespace Rzd;
 
 class Config
 {
+    /**
+     * Запросы без User-Agent отбиваются с 403, поэтому задан браузерный по умолчанию
+     */
+    public const DEFAULT_USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
+
     private bool $debug = false;
     private string $language = 'ru';
     private float $timeout = 5.0;
+    private int $retryDelay = 1;
     private ?string $proxy = null;
-    private ?string $userAgent = null;
+    private ?string $userAgent = self::DEFAULT_USER_AGENT;
     private ?string $referer = null;
+    private $handler = null;
 
     /**
      * Set Language
@@ -72,6 +79,28 @@ class Config
     }
 
     /**
+     * Set retry delay
+     *
+     * Пауза в секундах перед повторным запросом с полученным идентификатором
+     *
+     * @param int $retryDelay
+     */
+    public function setRetryDelay(int $retryDelay): void
+    {
+        $this->retryDelay = $retryDelay;
+    }
+
+    /**
+     * Get retry delay
+     *
+     * @return int
+     */
+    public function getRetryDelay(): int
+    {
+        return $this->retryDelay;
+    }
+
+    /**
      * Set Proxy
      *
      * @param string $proxy
@@ -129,5 +158,27 @@ class Config
     public function getReferer(): ?string
     {
         return $this->referer;
+    }
+
+    /**
+     * Set Handler
+     *
+     * Позволяет подменить транспорт Guzzle, например на MockHandler в тестах
+     *
+     * @param callable|null $handler
+     */
+    public function setHandler(?callable $handler): void
+    {
+        $this->handler = $handler;
+    }
+
+    /**
+     * Get Handler
+     *
+     * @return callable|null
+     */
+    public function getHandler(): ?callable
+    {
+        return $this->handler;
     }
 }

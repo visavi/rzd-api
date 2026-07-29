@@ -108,16 +108,19 @@ class Query
                     if (isset($content->tp[0]->msgList[0]->message)) {
                         throw new RuntimeException($content->tp[0]->msgList[0]->message);
                     }
-                    break 2;
+                    return $content;
 
                 default:
-                    throw new RuntimeException($content->message ?? 'Failed to get request data!');
+                    // Ошибки сайта приходят в error, у части ответов - в message
+                    throw new RuntimeException(
+                        $content->error ?? $content->message ?? 'Failed to get request data!'
+                    );
             }
 
             $i++;
-        } while ($i < 10);
+        } while ($i < $this->config->getRetryLimit());
 
-        return $content;
+        throw new RuntimeException('Data not received, request id limit exceeded!');
     }
 
     /**

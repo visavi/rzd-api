@@ -127,6 +127,48 @@ class ApiLiveTest extends TestCase
     }
 
     /**
+     * Тест получения вагонов в поездах с большим числом свободных мест
+     *
+     * По issue #17 и #23 сайт отдавал по ним ошибку сессии или бесконечный RID,
+     * поэтому берется дальняя дата на длинном направлении, где мест максимум
+     */
+    public function testTrainCarriagesWithManyFreeSeats(): void
+    {
+        $date = (new DateTime('+45 day'))->format('d.m.Y');
+
+        $params = [
+            'dir'        => 0,
+            'tfl'        => 3,
+            'checkSeats' => 1,
+            'code0'      => '2000000',
+            'code1'      => '2064001',
+            'dt0'        => $date,
+        ];
+
+        $routes = $this->request(fn() => $this->api->trainRoutes($params))['list'];
+
+        $this->assertNotEmpty($routes);
+
+        // Поезда с наибольшим числом мест идут первыми
+        usort($routes, static fn($a, $b) => array_sum(array_column($b['cars'] ?? [], 'freeSeats'))
+            <=> array_sum(array_column($a['cars'] ?? [], 'freeSeats')));
+
+        foreach (array_slice($routes, 0, 3) as $route) {
+            $carriages = $this->request(fn() => $this->api->trainCarriages([
+                'dir'   => 0,
+                'code0' => '2000000',
+                'code1' => '2064001',
+                'dt0'   => $route['date0'],
+                'time0' => $route['time0'],
+                'tnum0' => $route['number'],
+            ]));
+
+            $this->assertNotEmpty($carriages['cars'], 'Нет вагонов у поезда ' . $route['number']);
+            $this->assertSame($route['number'], $carriages['train']['number']);
+        }
+    }
+
+    /**
      * Тест просмотра станций
      */
     public function testTrainStationList(): void

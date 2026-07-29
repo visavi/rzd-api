@@ -13,6 +13,7 @@ class Config
     private string $language = 'ru';
     private float $timeout = 5.0;
     private int $retryDelay = 1;
+    private int $retryLimit = 10;
     private ?string $proxy = null;
     private ?string $userAgent = self::DEFAULT_USER_AGENT;
     private ?string $referer = null;
@@ -98,6 +99,28 @@ class Config
     public function getRetryDelay(): int
     {
         return $this->retryDelay;
+    }
+
+    /**
+     * Set retry limit
+     *
+     * Сколько раз повторять запрос, пока сайт отдает идентификатор вместо данных
+     *
+     * @param int $retryLimit
+     */
+    public function setRetryLimit(int $retryLimit): void
+    {
+        $this->retryLimit = $retryLimit;
+    }
+
+    /**
+     * Get retry limit
+     *
+     * @return int
+     */
+    public function getRetryLimit(): int
+    {
+        return $this->retryLimit;
     }
 
     /**

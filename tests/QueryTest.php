@@ -107,10 +107,52 @@ class QueryTest extends TestCase
 
         $query = $this->query($responses, $config);
 
-        $content = $query->get('https://pass.rzd.ru/timetable/public/ru');
+        try {
+            $query->get('https://pass.rzd.ru/timetable/public/ru');
+            $this->fail('Ожидалось исключение об исчерпании попыток');
+        } catch (RuntimeException $e) {
+            $this->assertSame('Data not received, request id limit exceeded!', $e->getMessage());
+        }
 
         $this->assertCount(10, $this->history);
-        $this->assertSame('RID', $content->result);
+    }
+
+    /**
+     * Тест настраиваемого числа попыток
+     */
+    public function testRetryLimitIsConfigurable(): void
+    {
+        $config = new Config();
+        $config->setRetryDelay(0);
+        $config->setRetryLimit(3);
+
+        $query = $this->query(array_map(fn() => $this->rid(), range(1, 3)), $config);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Data not received, request id limit exceeded!');
+
+        try {
+            $query->get('https://pass.rzd.ru/timetable/public/ru');
+        } finally {
+            $this->assertCount(3, $this->history);
+        }
+    }
+
+    /**
+     * Тест ошибки об истекшей сессии
+     *
+     * Сайт кладет текст в error, а не в message
+     */
+    public function testThrowsSessionExpiredError(): void
+    {
+        $query = $this->query([
+            $this->json('{"result":"FAIL","type":"SESSION_EXPIRED","error":"Сессия истекла."}'),
+        ]);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Сессия истекла.');
+
+        $query->get('https://pass.rzd.ru/timetable/public/ru');
     }
 
     /**

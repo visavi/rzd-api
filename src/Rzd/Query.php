@@ -21,13 +21,18 @@ class Query
      */
     public function __construct(public Config $config)
     {
-        $this->client = new Client([
+        $options = [
             'timeout'         => $this->config->getTimeout(),
             'proxy'           => $this->config->getProxy(),
-            'cookie'          => true,
             'verify'          => false,
             'allow_redirects' => true,
-        ]);
+        ];
+
+        if ($handler = $this->config->getHandler()) {
+            $options['handler'] = $handler;
+        }
+
+        $this->client = new Client($options);
 
         $this->headers = [
             'Accept' => 'application/json',
@@ -75,7 +80,7 @@ class Query
         $i = 0;
         do {
             if (isset($rid)) {
-                $params += ['rid' => $rid];
+                $params['rid'] = $rid;
             }
 
             $options = [
@@ -96,7 +101,7 @@ class Query
                 case 'RID':
                 case 'REQUEST_ID':
                     $rid = $this->getRid($content);
-                    sleep(1);
+                    sleep($this->config->getRetryDelay());
                     break;
 
                 case 'OK':
@@ -106,7 +111,7 @@ class Query
                     break 2;
 
                 default:
-                    throw new RuntimeException($response->message ?? 'Failed to get request data!');
+                    throw new RuntimeException($content->message ?? 'Failed to get request data!');
             }
 
             $i++;
@@ -125,7 +130,7 @@ class Query
      */
     protected function getRid(object $content): string
     {
-        foreach (['rid', 'RID'] as $rid) {
+        foreach (['rid', 'RID', 'REQUEST_ID'] as $rid) {
             if (isset($content->$rid)) {
                 return $content->$rid;
             }

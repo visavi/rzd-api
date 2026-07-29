@@ -1,33 +1,47 @@
 # Api сайта rzd.ru
 
-[![Latest Stable Version](https://poser.pugx.org/visavi/rzd-api/v/stable)](https://packagist.org/packages/visavi/rzd-api)
-[![Total Downloads](https://poser.pugx.org/visavi/rzd-api/downloads)](https://packagist.org/packages/visavi/rzd-api)
-[![Latest Unstable Version](https://poser.pugx.org/visavi/rzd-api/v/unstable)](https://packagist.org/packages/visavi/rzd-api)
-[![License](https://poser.pugx.org/visavi/rzd-api/license)](https://packagist.org/packages/visavi/rzd-api)
+[![Packagist](https://img.shields.io/packagist/v/visavi/rzd-api.svg)](https://packagist.org/packages/visavi/rzd-api)
+[![Tests](https://github.com/visavi/rzd-api/actions/workflows/tests.yml/badge.svg)](https://github.com/visavi/rzd-api/actions/workflows/tests.yml)
+[![Coverage](https://coveralls.io/repos/github/visavi/rzd-api/badge.svg?branch=master)](https://coveralls.io/github/visavi/rzd-api?branch=master)
+[![PHP](https://img.shields.io/badge/php-%E2%89%A5%208.0-777bb4.svg)](https://www.php.net/releases/8.0/)
+[![Downloads](https://img.shields.io/packagist/dt/visavi/rzd-api.svg)](https://packagist.org/packages/visavi/rzd-api)
+[![License](https://img.shields.io/packagist/l/visavi/rzd-api.svg)](https://github.com/visavi/rzd-api/blob/master/composer.json)
 
-[Описание установки](https://github.com/visavi/rzd-api/blob/master/docs/install.md)
-
-[Описание интерфейса пользователя](https://github.com/visavi/rzd-api/blob/master/docs/auth.md)
-
-### Что умеет Api 
+### Что умеет Api
 * Получает маршруты в одну точку
 * Получает маршруты туда-обратно
 * Получает список вагонов выбранного поезда
 * Получает список станций в пути следования выбранного маршрута
-* Получает список кодов станций (Поиск по первым символам города)
+* Получает коды станций вместе с часовым поясом и кодами смежных видов транспорта
 
-### Демонстрация возможностей
+### Содержание
 
-#### Быстрый способ (Docker)
+* [Установка](#установка)
+* [Демонстрация возможностей](#демонстрация-возможностей)
+* [Пример запроса](#пример-запроса)
+* [Как устроен обмен с сайтом](https://github.com/visavi/rzd-api/blob/master/docs/protocol.md)
+* Методы
+  * [trainRoutes](#trainroutes---получает-маршруты-поездов-количество-свободных-мест-цены-итд-в-нем-в-один-конец) - маршруты в одну сторону
+  * [trainRoutesReturn](#trainroutesreturn---получает-маршруты-поездов-количество-свободных-мест-цены-итд-туда-обратно) - маршруты туда-обратно
+  * [trainCarriages](#traincarriages---получает-список-вагонов-свободные-места-схема-вагона-стоимость-билетов-тип-и-класс-обслуживания) - вагоны и места
+  * [trainStationList](#trainstationlist---получение-списка-всех-станций-в-текущем-маршруте-движения) - станции в пути следования
+  * [stationCode](#stationcode---получение-списка-кодов-станций) - коды станций
+* [Тесты](#тесты)
 
-```commandline
-docker run -p 8000:8000 --rm --name rzd-api -v $(pwd):/app-it pavelsr/rzd-api
-curl -s 'http://127.0.0.1:8000/train_routes.php?code0=2004000&code1=2000000'
+### Установка
+
+```sh
+composer require visavi/rzd-api
 ```
 
-Если вы предпочитаете Github Container Registry вы можете также использовать образ `ghcr.io/pavelsr/rzd-api:latest`
+Требуется PHP 8.0 и расширения json, curl, mbstring
 
-#### Локальная установка
+Сайт rzd.ru принимает запросы только с российских адресов. Вне РФ понадобится прокси,
+он задается через `Config::setProxy()`
+
+[Подробное описание установки](https://github.com/visavi/rzd-api/blob/master/docs/install.md)
+
+### Демонстрация возможностей
 
 Скачайте архив, распакуйте и перейдите в директорию
 
@@ -41,6 +55,16 @@ composer install
 php -S localhost:8000 -t examples
 ```
 
+Сайт rzd.ru принимает запросы только с российских адресов, вне РФ понадобится прокси
+```sh
+RZD_PROXY=socks5://127.0.0.1:1080 php -S localhost:8000 -t examples
+```
+
+Каждый пример запускается и отдельно
+```sh
+php examples/train_routes.php
+```
+
 ### Пример запроса
 ```php
 <?php
@@ -50,7 +74,7 @@ $config = new Rzd\Config();
 // Set language
 $config->setLanguage('en');
 
-// Set userAgent
+// Set userAgent, по умолчанию задан браузерный, без него сайт отвечает 403
 $config->setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 12_1_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1');
 
 // Set referer
@@ -59,11 +83,17 @@ $config->setReferer('https://ticket.rzd.ru/');
 // Enable debug mode
 $config->setDebugMode(true);
 
-// Set proxy
-$config->setProxy('https://username:password@192.168.16.1:10');
+// Set proxy, сайт принимает запросы только с российских адресов
+$config->setProxy('socks5://127.0.0.1:1080');
 
 // Set timeout
 $config->setTimeout(10);
+
+// Пауза в секундах перед повторным запросом с полученным RID, по умолчанию 1
+$config->setRetryDelay(2);
+
+// Подмена транспорта Guzzle, используется в тестах для моков
+//$config->setHandler($handlerStack);
 
 //$config не обязателен
 $api = new Rzd\Api($config);
@@ -84,85 +114,38 @@ $params = [
 $routes = $api->trainRoutes($params);
 ```
 
-### Процесс приобретения билетов на сайте pass.rzd.ru разделен на несколько этапов
-
-#### Открытая часть
-Выбор маршрута - выбор поезда - выбор вагона
-
-#### Закрытая часть
-* Информация о пассажирах - Проверка заказа - Оплата заказа - Подтверждение заказа
-
-### Этапы
-* В первом этапе пользователь указывают станцию отправления и станцию прибытия поезда, а также дату желаемой поездки.
-В этот момент на сайте pass.rzd.ru происходит отправка ajax-запроса, с которым мы и будем работать, запрос возвращает сформированный JSON пакет с ответом, в нем и находится требуемая нами информация или сообщение об ошибке
-
-* Во втором этапе мы можем выбрать необходимый нам поезд и получить полную информацию о свободных местах
-
-* В третьем этапе необходимо выбрать места и заполнить данные необходимые на оплаты и регистрации на сайте
-
-Допустимые запросы через Curl (POST и GET)
-Для обхода защиты сайта необходимо предварительно отправить запрос для получения cookies и номера идентификатора RID (REQUEST_ID)
-Вторым запросом подставляем уникальный идентификатор RID и отправляем cookie
-
-### Ответы с сайта
-Статус ответа содержится в переменной result
-RID - означает что сайт выдал нам уникальный идентификатор и куки
-OK - получен полный ответ с запрошенными нами данными
-Во всех остальных ответах Error или FAIL означает ошибку получения данных
-
-### Получение cookie
-Каждый запрос к сайту должен содержать куки примерного вида:
-* lang=ru - текущий язык
-* JSESSIONID=0000w74wcMhGMfeoE6ibmsh4i4W:17obq9kpt - уникальный ключ
-* AuthFlag=false - авторизован ли пользователь на сайте
-
-## Пример запроса
-
-Все запросы идут на адрес http://pass.rzd.ru/timetable/public/ru?layer_id=подкатегория&ключ=значение
-
-Где подкатегория это
-* 5827 - выбор маршрута (Получения списка поездов)
-* 5764 - детальная информация выбранному по поезду, список вагонов
-* 5804 - просмотр маршрута со всеми остановками (Вроде больше не работает, реализовано по-другому)
-
-### Первый запрос
-https://pass.rzd.ru/timetable/public/ru?layer_id=5827&dir=0&tfl=3&checkSeats=1&code0={{code_from}}&dt0={{date}}&code1={{code_to}}&dt1={{date}}
-
-### Второй и следующие запросы
-https://pass.rzd.ru/timetable/public/ru?layer_id=5827&rid={{rid}}
-
-Второй запрос выполняется с уже полученным нами уникальным идентификатором который хранит в себе данные предыдущего запроса и куками
-Поэтому в целях оптимизации можно не отправлять некоторые параметры указанные нами в первом запросе
-
 ## Реализованные запросы
 
-Необходимо реализовать отдачу данных через ajax-запросы, в текущих примерах это не реализовано
+Библиотека сама выполняет двухшаговый обмен с сайтом: первый запрос возвращает
+идентификатор RID и куки, второй подставляет их и получает данные. Механика описана
+в [отдельном документе](https://github.com/visavi/rzd-api/blob/master/docs/protocol.md),
+для работы с методами знать ее не нужно
 
 ### trainRoutes - получает маршруты поездов, количество свободных мест, цены итд в нем в один конец
 
-![Маршруты](https://github.com/visavi/rzd-api/blob/master/screens/trainRoute.png)
+![Маршруты](https://raw.githubusercontent.com/visavi/rzd-api/master/screens/trainRoute.png)
 
-Принимает параметры
-обязательные параметр при первом запросе
-* layer_id - подкатегория (5827)
-
-Необязательные параметр при повторном запросе
+Принимает параметры, все необязательные
 * dir - 0 - только в один конец, 1 - туда-обратно
-* tfl - 3 - поезда и электрички, 2 - электрички, 1 - поезда 
+* tfl - 3 - поезда и электрички, 2 - электрички, 1 - поезда
 * checkSeats - 0, 1 - поиск в поездах только если есть свободные места
 * code0 - код станции отправления
 * code1 - код станции прибытия
 * dt0 - дата отправления
 * md - маршруты с пересадками (1 - с пересадками, 0 - только прямые рейсы)
 
-Возвращает массив поездов и свободных мест
-* from - название станции отправления (САНКТ-ПЕТЕРБУРГ)
-* where - название станции прибытия (КИРОВ ПАСС)
-* date - дата отправления (27.03.2016)
-* fromCode - код станции отправления (2004000)
-* whereCode - код станции прибытия (2060600)
+Параметр layer_id подставляется библиотекой, передавать его не нужно
 
-Массив поездов содержит
+Возвращает данные направления
+* from, fromCode - станция и код отправления
+* where, whereCode - станция и код прибытия
+* date - дата отправления
+* noSeats - true если мест нет вообще
+* state - состояние выдачи
+* msgList - сообщения сайта
+* list - список поездов
+
+Каждый поезд в list содержит
 * date0 - дата отправления
 * date1 - дата прибытия
 * time0 - время отправления
@@ -185,13 +168,9 @@ https://pass.rzd.ru/timetable/public/ru?layer_id=5827&rid={{rid}}
 * cars.disabledPerson - флаг обозначающий места для инвалидов
 
 ### trainRoutesReturn - получает маршруты поездов, количество свободных мест, цены итд, туда-обратно
-![Поезда](https://github.com/visavi/rzd-api/blob/master/screens/trainRouteReturn.png)
+![Поезда](https://raw.githubusercontent.com/visavi/rzd-api/master/screens/trainRouteReturn.png)
 
-Принимает параметры
-обязательные параметр при первом запросе
-* layer_id - подкатегория (5827)
-
-Необязательные параметр при повторном запросе
+Принимает параметры, все необязательные
 * dir - 0 только в один конец, 1 - туда-обратно
 * tfl - тип поезда (3 - поезда и электрички, 2 - электрички, 1 - поезда)
 * checkSeats поиск только с билетами (1 - с билетами, 0 - все поезда)
@@ -200,10 +179,10 @@ https://pass.rzd.ru/timetable/public/ru?layer_id=5827&rid={{rid}}
 * dt0 - дата отправления
 * dt1 - дата возвращения
 
-Ответы точно такие же как и в методе trainRoutes, только содержит 2 массива, в первом - туда, во-втором - обратно
+Возвращает два блока в ключах forward и back, каждый устроен так же, как ответ trainRoutes
 
 ### trainCarriages - получает список вагонов, свободные места, схема вагона, стоимость билетов, тип и класс обслуживания
-![Вагоны](https://github.com/visavi/rzd-api/blob/master/screens/trainCarriages.png)
+![Вагоны](https://raw.githubusercontent.com/visavi/rzd-api/master/screens/trainCarriages.png)
 
 Необязательные параметр при повторном запросе
 * dir - 0 только в один конец, 1 - туда-обратно
@@ -213,8 +192,20 @@ https://pass.rzd.ru/timetable/public/ru?layer_id=5827&rid={{rid}}
 * time0 - время отправления (15:30)
 * tnum0 - номер поезда (072Е)
 
-Возвращает следующий массив вагонов
-* Стандартный ответ из запросов выше
+Возвращает объект с ключами
+* cars - список вагонов, описан ниже
+* functionBlocks - доступные действия
+* schemes - схемы вагонов
+* companies - страховые компании
+* train - данные поезда без списка вагонов: номер, бренд, станции и время отправления и прибытия
+* companyTypes - типы страховок с тарифами и суммами покрытия
+* childrenAge - предельный возраст детского билета
+* motherAndChildAge - предельный возраст для тарифа мать и дитя
+* foodIconTips - расшифровка значков питания
+* psaction - действующие акции
+* partialPayment - условия частичной оплаты
+
+Каждый вагон в cars содержит
 * cnumber - номер вагона
 * type - тип вагона
 * typeLoc - полное наименование (Плацкартный, СВ, Купе, Люкс)
@@ -238,34 +229,54 @@ https://pass.rzd.ru/timetable/public/ru?layer_id=5827&rid={{rid}}
 * offerUrl - ссылка на файл с правилами, обычно PDF файл
 
 ### trainStationList - получение списка всех станций в текущем маршруте движения
-![Станции](https://github.com/visavi/rzd-api/blob/master/screens/trainStationList.png)
+![Станции](https://raw.githubusercontent.com/visavi/rzd-api/master/screens/trainStationList.png)
 
-Пример запроса https://pass.rzd.ru/ticket/services/route/basicRoute?STRUCTURE_ID=704&trainNumber=054Г&depDate=13.03.2016
+Запрос идет на адрес https://pass.rzd.ru/ticket/services/route/basicRoute
 
 Принимает параметры
-Необязательные параметр при повторном запросе
-* trainNumber - номер поезда 054Г
-* depDate - дата отправления 13.03.2016
+* trainNumber - номер поезда (022А)
+* depDate - дата отправления (05.08.2026)
 
-Возвращает следующий массив станций
-* Station - название станции
-* Code - код станции
-* ArvTime - время прибытия
-* WaitingTime - время стоянки
-* DepTime - время отправления
-* Distance - пройденная дистанция
+Возвращает объект с ключами
+* train - номер поезда и маршрут следования: name, engName, code
+* routes - варианты маршрута, каждый содержит title, route и список остановок stops
+
+Каждая остановка в stops содержит
+* station.name, station.engName, station.code - станция и ее код
+* arvTime, depTime - время прибытия и отправления по местному времени
+* arvTimeMSK, depTimeMSK - то же по московскому времени
+* waitingTime - время стоянки
 
 ### stationCode - Получение списка кодов станций
 
 Принимает параметры
 * stationNamePart - часть названия станции, минимум 2 символа
-* compactMode - по умолчанию 'y'
 
 Возвращает массив найденных данных
 * station - имя станции
 * code - код станции
+* region - страна и регион
+* type - тип узла: Город или Станция
+* timezone - часовой пояс станции, нужен для корректной даты отправления
+* codes - коды смежных видов транспорта: Railway, Cbdpr (пригородные перевозки), Bus, Avia, Aeroexpress, ForeignRailway
+* stations - коды всех вокзалов города
 
-К примеру при значении stationNamePart = 'ЧЕБ' будут возващены все станции начинающиеся на ЧЕБ (11 станций)
+К примеру при значении stationNamePart = 'ЧЕБ' будут возвращены станции, начинающиеся
+на ЧЕБ: Чебоксары, Чебаркуль, Чебсара и другие
+
+Города и станции приходят от сайта разными узлами с одинаковым кодом, метод отдает их без повторов
+
+### Тесты
+
+Основные тесты работают на моках и не обращаются к сети
+```sh
+composer test
+```
+
+Тесты группы live проверяют реальные ответы сайта и ловят смену протокола. В обычный прогон и в CI они не попадают, запускаются отдельно
+```sh
+RZD_PROXY=socks5://127.0.0.1:1080 composer test:live
+```
 
 ### License
 

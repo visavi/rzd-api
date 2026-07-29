@@ -1,148 +1,240 @@
 <?php
 
-use PHPUnit\Framework\TestCase;
+namespace Rzd\Tests;
+
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
 use Rzd\Api;
+use Rzd\Config;
 
 class ApiTest extends TestCase
 {
-    private Api $api;
-    private Datetime $date0;
-    private Datetime $date1;
-
-    protected function setUp(): void
+    /**
+     * Конфиг не обязателен, по умолчанию создается свой
+     */
+    public function testWorksWithoutConfig(): void
     {
-        $this->api = new Api();
+        $this->assertInstanceOf(Api::class, new Api());
+    }
 
-        $start = new DateTime();
-        $this->date0 = $start->modify('+1 day');
-        $this->date1 = $start->modify('+5 day');
+    /**
+     * Язык из конфига должен попадать в путь запроса
+     */
+    public function testLanguageGoesIntoPath(): void
+    {
+        $this->history = [];
+
+        $stack = HandlerStack::create(new MockHandler([$this->fixture('routes')]));
+        $stack->push(Middleware::history($this->history));
+
+        $config = new Config();
+        $config->setLanguage('en');
+        $config->setHandler($stack);
+
+        (new Api($config))->trainRoutes(['code0' => '2000000']);
+
+        $this->assertStringEndsWith('/timetable/public/en', (string) $this->request(0)->getUri());
+    }
+
+    /**
+     * По умолчанию используется русский язык
+     */
+    public function testDefaultLanguageIsRussian(): void
+    {
+        $api = $this->api([$this->fixture('routes')]);
+
+        $api->trainRoutes(['code0' => '2000000']);
+
+        $this->assertStringEndsWith('/timetable/public/ru', (string) $this->request(0)->getUri());
     }
 
     /**
      * Тест получения маршрутов
-     *
-     * @runInSeparateProcess
      */
     public function testTrainRoutes(): void
     {
-        $params = [
-            'dir'        => 0,
-            'tfl'        => 3,
-            'checkSeats' => 1,
-            'code0'      => '2004000',
-            'code1'      => '2000000',
-            'dt0'        => $this->date0->format('d.m.Y'),
-        ];
+        $api = $this->api([$this->rid(), $this->fixture('routes')]);
 
-        $trainRoutes = $this->api->trainRoutes($params);
+        $routes = $this->decode($api->trainRoutes([
+            'code0' => '2000000',
+            'code1' => '2004000',
+            'dt0'   => '05.08.2026',
+        ]));
 
-        $this->assertIsArray($trainRoutes);
-        $this->assertObjectHasAttribute('route0', $trainRoutes[0]);
-        $this->assertSame('С-ПЕТЕР-ГЛ', $trainRoutes[0]->route0);
+        $this->assertSame('МОСКВА', $routes['from']);
+        $this->assertSame('САНКТ-ПЕТЕРБУРГ', $routes['where']);
+        $this->assertFalse($routes['noSeats']);
+        $this->assertCount(2, $routes['list']);
+        $this->assertSame('022А', $routes['list'][0]['number']);
+        $this->assertSame('МОСКВА ОКТ', $routes['list'][0]['route0']);
+
+        $params = $this->params(0);
+
+        $this->assertSame((string) Api::ROUTES_LAYER, $params['layer_id']);
+        $this->assertSame('2000000', $params['code0']);
     }
 
     /**
      * Тест получения маршрутов туда-обратно
-     *
-     * @runInSeparateProcess
      */
     public function testTrainRoutesReturn(): void
     {
-        $params = [
-            'dir'        => 1,
-            'tfl'        => 3,
-            'checkSeats' => 1,
-            'code0'      => '2004000',
-            'code1'      => '2000000',
-            'dt0'        => $this->date0->format('d.m.Y'),
-            'dt1'        => $this->date1->format('d.m.Y'),
-        ];
+        $routes = json_decode(file_get_contents(__DIR__ . '/fixtures/routes.json'), true);
+        $routes['tp'][] = $routes['tp'][0];
 
-        $trainRoutesReturn = $this->api->trainRoutesReturn($params);
+        $api = $this->api([$this->rid(), $this->json(json_encode($routes))]);
 
-        $this->assertIsArray($trainRoutesReturn['forward']);
-        $this->assertIsArray($trainRoutesReturn['back']);
-        $this->assertObjectHasAttribute('route0', $trainRoutesReturn['forward'][0]);
-        $this->assertSame('С-ПЕТЕР-ГЛ', $trainRoutesReturn['forward'][0]->route0);
+        $result = $this->decode($api->trainRoutesReturn([
+            'dir'   => 1,
+            'code0' => '2000000',
+            'code1' => '2004000',
+        ]));
+
+        $this->assertArrayHasKey('forward', $result);
+        $this->assertArrayHasKey('back', $result);
+        $this->assertSame('022А', $result['forward']['list'][0]['number']);
+        $this->assertSame('022А', $result['back']['list'][0]['number']);
+        $this->assertSame('МОСКВА', $result['forward']['from']);
     }
 
     /**
      * Тест получения вагонов
-     *
-     * @runInSeparateProcess
      */
     public function testTrainCarriages(): void
     {
-        $params = [
-            'dir'        => 0,
-            'tfl'        => 3,
-            'checkSeats' => 1,
-            'code0'      => '2004000',
-            'code1'      => '2000000',
-            'dt0'        => $this->date0->format('d.m.Y'),
-        ];
+        $api = $this->api([$this->rid(), $this->fixture('carriages')]);
 
-        $routes = $this->api->trainRoutes($params);
+        $carriages = $this->decode($api->trainCarriages([
+            'code0' => '2000000',
+            'code1' => '2004000',
+            'tnum0' => '022А',
+        ]));
 
-        if ($routes) {
-            $params = [
-                'dir'   => 0,
-                'code0' => '2004000',
-                'code1' => '2000000',
-                'dt0'   => $routes[0]->date0,
-                'time0' => $routes[0]->time0,
-                'tnum0' => $routes[0]->number,
-            ];
+        $this->assertArrayHasKey('cars', $carriages);
+        $this->assertArrayHasKey('schemes', $carriages);
+        $this->assertArrayHasKey('companies', $carriages);
+        $this->assertSame('02', $carriages['cars'][0]['cnumber']);
+        $this->assertSame((string) Api::CARRIAGES_LAYER, $this->params(0)['layer_id']);
+    }
 
-            $trainCarriages = $this->api->trainCarriages($params);
+    /**
+     * Тест дополнительных данных о поезде, список вагонов в них не дублируется
+     */
+    public function testTrainCarriagesReturnsTrainInfo(): void
+    {
+        $api = $this->api([$this->rid(), $this->fixture('carriages')]);
 
-            $this->assertIsArray($trainCarriages);
-            $this->assertArrayHasKey('cars', $trainCarriages);
-            $this->assertObjectHasAttribute('cnumber', $trainCarriages['cars'][0]);
-        }
+        $carriages = $this->decode($api->trainCarriages(['tnum0' => '022А']));
+
+        $this->assertSame('022А', $carriages['train']['number']);
+        $this->assertArrayHasKey('route0', $carriages['train']);
+        $this->assertArrayNotHasKey('cars', $carriages['train']);
+        $this->assertArrayNotHasKey('functionBlocks', $carriages['train']);
+        $this->assertSame(10, $carriages['childrenAge']);
+        $this->assertNotEmpty($carriages['companyTypes']);
+        $this->assertArrayHasKey('insuranceTariffs', $carriages['companyTypes'][0]);
+        $this->assertArrayHasKey('motherAndChildAge', $carriages);
+        $this->assertArrayHasKey('partialPayment', $carriages);
+    }
+
+    /**
+     * Тест получения вагонов при пустом ответе
+     */
+    public function testTrainCarriagesEmpty(): void
+    {
+        $api = $this->api([$this->json('{"result":"OK"}')]);
+
+        $carriages = $this->decode($api->trainCarriages(['tnum0' => '022А']));
+
+        $this->assertNull($carriages['cars']);
+        $this->assertNull($carriages['schemes']);
     }
 
     /**
      * Тест просмотра станций
-     *
-     * @runInSeparateProcess
      */
     public function testTrainStationList(): void
     {
-        $params = [
-            'trainNumber' => '054Г',
-            'depDate'     => $this->date0->format('d.m.Y'),
-        ];
+        $api = $this->api([$this->rid(), $this->fixture('stations')]);
 
-        $trainStationList = $this->api->trainStationList($params);
+        $stations = $this->decode($api->trainStationList([
+            'trainNumber' => '022А',
+            'depDate'     => '05.08.2026',
+        ]));
 
-        $this->assertIsArray($trainStationList);
-        $this->assertArrayHasKey('train', $trainStationList);
-        $this->assertArrayHasKey('routes', $trainStationList);
-        $this->assertSame('054Г', $trainStationList['train']->number);
+        $this->assertArrayHasKey('train', $stations);
+        $this->assertArrayHasKey('routes', $stations);
+        $this->assertSame('022А', $stations['train']['number']);
+        $this->assertSame((string) Api::STATIONS_STRUCTURE_ID, $this->params(0)['STRUCTURE_ID']);
     }
 
     /**
      * Тест кодов станций
-     *
-     * @runInSeparateProcess
      */
     public function testStationCode(): void
     {
-        $params = [
-            'stationNamePart' => 'ЧЕБ',
-            'compactMode'     => 'y',
-        ];
+        $api = $this->api([$this->fixture('suggests')]);
 
-        $stationCode = $this->api->stationCode($params);
+        $stations = $this->decode($api->stationCode(['stationNamePart' => 'ЧЕБ']));
 
-        $this->assertIsArray($stationCode);
+        $this->assertNotEmpty($stations);
+        $this->assertSame('Чебоксары', $stations[0]['station']);
+        $this->assertSame('2060620', $stations[0]['code']);
+        $this->assertSame('Город', $stations[0]['type']);
+        $this->assertSame('Europe/Moscow', $stations[0]['timezone']);
 
-        $cities = [];
-        foreach($stationCode as $station) {
-            $cities[] = $station['station'];
-        }
+        // Код пригородных перевозок, которого не было в старом эндпоинте
+        $this->assertSame('5389', $stations[0]['codes']['Cbdpr']);
+        $this->assertContains('2060899', $stations[0]['stations']);
 
-        $this->assertContains('ЧЕБОКСАРЫ', $cities);
+        $params = $this->params(0);
+
+        $this->assertSame('ЧЕБ', $params['Query']);
+        $this->assertSame('ru', $params['Language']);
+        $this->assertSame('GET', $this->request(0)->getMethod());
     }
+
+    /**
+     * Тест кодов станций при пустой выдаче
+     */
+    public function testStationCodeEmpty(): void
+    {
+        $api = $this->api([$this->json('{"total_count":0,"transport_node_suggests":[]}')]);
+
+        $this->assertSame([], $this->decode($api->stationCode(['stationNamePart' => 'ЙЦУ'])));
+    }
+
+    /**
+     * Тест алиаса Query
+     */
+    public function testStationCodeAcceptsQueryAlias(): void
+    {
+        $api = $this->api([$this->fixture('suggests')]);
+
+        $api->stationCode(['Query' => 'ЧЕБ']);
+
+        $this->assertSame('ЧЕБ', $this->params(0)['Query']);
+    }
+
+    /**
+     * Город и станция приходят разными узлами с одним кодом, дублей быть не должно
+     */
+    public function testStationCodeDeduplicates(): void
+    {
+        $api = $this->api([$this->json(json_encode([
+            'transport_node_suggests' => [
+                ['Name' => 'Чебоксары', 'SubType' => 'Город', 'Codes' => ['Railway' => '2060620']],
+                ['Name' => 'Чебоксары', 'SubType' => 'Станция', 'Codes' => ['Railway' => '2060620']],
+                ['Name' => 'Чебаркуль', 'SubType' => 'Город', 'Codes' => ['Railway' => '2040425']],
+            ],
+        ]))]);
+
+        $stations = $this->decode($api->stationCode(['stationNamePart' => 'ЧЕБ']));
+
+        $this->assertCount(2, $stations);
+        $this->assertSame(['2060620', '2040425'], array_column($stations, 'code'));
+        $this->assertSame('Город', $stations[0]['type']);
+    }
+
 }

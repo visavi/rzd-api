@@ -1,0 +1,102 @@
+{
+    "total_count": 2,
+    "scroll_id": null,
+    "transport_node_suggests": [
+        {
+            "CityId": "5a13bb25340c745ca1e80dc5",
+            "Codes": {
+                "Avia": "CSY",
+                "Boat": null,
+                "Bus": "5a13bb25340c745ca1e80dc5",
+                "Cbdpr": "5389",
+                "Movista": null,
+                "ForeignRailway": "2060620",
+                "Railway": "2060620",
+                "Aeroexpress": null
+            },
+            "Description": "Российская Федерация",
+            "Name": "Чебоксары",
+            "NodeId": "5a13bb25340c745ca1e80dc5",
+            "Popularity": 428806,
+            "CountryISO": "RU",
+            "RegionISO": "RU-CU",
+            "Stations": [
+                {
+                    "Codes": {
+                        "Railway": "2060206"
+                    }
+                },
+                {
+                    "Codes": {
+                        "Railway": "2060620"
+                    }
+                },
+                {
+                    "Codes": {
+                        "Railway": "2060899"
+                    }
+                }
+            ],
+            "SubType": "Город",
+            "Synonym": null,
+            "Timezone": "Europe/Moscow",
+            "Types": [
+                "avia",
+                "bus",
+                "locality",
+                "railway"
+            ],
+            "score": 857615.0
+        },
+        {
+            "CityId": "5a13be01340c745ca1e8b926",
+            "Codes": {
+                "Avia": null,
+                "Boat": null,
+                "Bus": "5a13be01340c745ca1e8b926",
+                "Cbdpr": "17879",
+                "Movista": null,
+                "ForeignRailway": "2040425",
+                "Railway": "2040425",
+                "Aeroexpress": null
+            },
+            "Description": "Челябинская Область, Российская Федерация",
+            "Name": "Чебаркуль",
+            "NodeId": "5a13be01340c745ca1e8b926",
+            "Popularity": 15038,
+            "CountryISO": "RU",
+            "RegionISO": "RU-CHE",
+            "Stations": [
+                {
+                    "Codes": {
+                        "Railway": "2040424"
+                    }
+                },
+                {
+                    "Codes": {
+                        "Railway": "2040425"
+                    }
+                },
+                {
+                    "Codes": {
+                        "Railway": "2040426"
+                    }
+                },
+                {
+                    "Codes": {
+                        "Railway": "2041717"
+                    }
+                }
+            ],
+            "SubType": "Город",
+            "Synonym": null,
+            "Timezone": "Asia/Yekaterinburg",
+            "Types": [
+                "bus",
+                "locality",
+                "railway"
+            ],
+            "score": 30079.0
+        }
+    ]
+}

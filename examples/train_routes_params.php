@@ -1,7 +1,8 @@
 <?php
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require __DIR__ . '/bootstrap.php';
 
+// Пример переопределения настроек, bootstrap.php задает их по умолчанию
 $config = new Rzd\Config();
 
 // Устанавливаем язык
@@ -13,14 +14,16 @@ $config->setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 12_1_2 like Mac OS X) 
 // Изменяем referer
 $config->setReferer('https://ticket.rzd.ru/');
 
-// Enable debug mode
+// Включаем режим отладки
 //$config->setDebugMode(true);
 
-// Enable proxy
-//$config->setProxy('https://username:password@192.168.16.1:10');
+if ($proxy = getenv('RZD_PROXY')) {
+    $config->setProxy($proxy);
+}
 
-$start = new DateTime();
-$date0 = $start->modify('+1 day');
+$api = new Rzd\Api($config);
+
+$date0 = new DateTime('+1 day');
 
 $params = [
     'dir'        => 0,
@@ -31,6 +34,4 @@ $params = [
     'dt0'        => $date0->format('d.m.Y'),
 ];
 
-$api = new Rzd\Api($config);
-
-echo $api->trainRoutes($params);
+show($api->trainRoutes($params));

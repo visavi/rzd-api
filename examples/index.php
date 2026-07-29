@@ -4,130 +4,32 @@
     Обращаем внимание на то, что по новым условиям RZD.RU дату отправки нужно указывать с учетом часового пояса станции отправления
 </div>
 
-<h3>В каждый запрос можно добавлять свои параметры (Все параметры не обязательны)</h3>
+<div style="background: aliceblue; padding: 5px; margin-top: 5px">
+    Сайт rzd.ru принимает запросы только с российских адресов, вне РФ нужен прокси:<br>
+    <code>RZD_PROXY=socks5://127.0.0.1:1080 php -S localhost:8000 -t examples</code><br><br>
+    Каждый пример запускается и из консоли:<br>
+    <code>php examples/train_routes.php</code><br><br>
+    Описание всех параметров и форматов ответа находится в
+    <a href="https://github.com/visavi/rzd-api/blob/master/readme.md">readme</a>
+</div>
 
-<pre style="background: aliceblue; padding: 5px; border: 1px solid brown">
-$config = new Rzd\Config();
+<h3><a href="station_code.php">station_code.php</a></h3>
+Коды станций, начинающихся с ЧЕБ, с часовым поясом и кодами смежных видов транспорта
 
-// Устанавливаем язык
-$config->setLanguage('en');
+<h3><a href="train_routes.php">train_routes.php</a></h3>
+Маршруты САНКТ-ПЕТЕРБУРГ - МОСКВА, только с билетами, на завтра
 
-// Добавляем прокси
-$config->setProxy('https://username:password@192.168.16.1:10');
+<h3><a href="train_routes_params.php">train_routes_params.php</a></h3>
+Тот же маршрут с измененными настройками: язык en, свои userAgent и referer
 
-// Изменяем userAgent
-$config->setUserAgent('Mozilla 5');
+<h3><a href="train_routes_return.php">train_routes_return.php</a></h3>
+Маршруты туда-обратно: завтра туда и через 5 дней обратно
 
-// Изменяем referer
-$config->setReferer('https://rzd.ru');
+<h3><a href="train_routes_transfer.php">train_routes_transfer.php</a></h3>
+Маршруты НОВЫЙ УРЕНГОЙ - АБАКАН с пересадками, параметр md
 
-$api = new Rzd\Api($config);
-</pre>
+<h3><a href="train_carriages.php">train_carriages.php</a></h3>
+Вагоны, свободные места и цены для первого поезда из найденного маршрута
 
-<h3>Выбор маршрута в одну сторону</h3>
-<a href="train_routes.php">Просмотр</a><br>
-В примере выполняется поиск маршрута САНКТ-ПЕТЕРБУРГ - МОСКВА (только с билетами) на завтра
-
-<pre style="background: aliceblue; padding: 5px; border: 1px solid brown">
-$params = [
-    'dir'        => 0,
-    'tfl'        => 3,
-    'checkSeats' => 1,
-    'code0'      => '2004000',
-    'code1'      => '2000000',
-    'dt0'        => 'Дата отправления',
-];
-
-$routes = $api->trainRoutes($params)
-</pre>
-
-<h3>Выбор маршрута в одну сторону c измененными параметрами</h3>
-<a href="train_routes_params.php">Просмотр</a><br>
-В примере выполняется аналогичный поиск маршрута SANKT-PETERBURG - MOSKVA (только с билетами) на завтра, но с установленными параметрами:<br>
-<pre style="background: aliceblue; padding: 5px; border: 1px solid brown">
-Язык: en
-UserAgent: Mozilla 5
-Referer: rzd.ru
-</pre>
-
-<h3>Выбор маршрута туда-обратно</h3>
-<a href="train_routes_return.php">Просмотр</a><br>
-В примере выполняется поиск маршрута САНКТ-ПЕТЕРБУРГ - МОСКВА (только с билетами) на завтра туда и через 5 дней обратно
-
-<pre style="background: aliceblue; padding: 5px; border: 1px solid brown">
-$params = [
-    'dir'        => 1,
-    'tfl'        => 3,
-    'checkSeats' => 1,
-    'code0'      => '2004000',
-    'code1'      => '2000000',
-    'dt0'        => 'Дата отправления',
-    'dt1'        => 'Дата возврата',
-];
-
-$routes = $api->trainRoutesReturn($params);
-</pre>
-
-<h3>Выбор маршрута в одну сторону с пересадками</h3>
-<a href="train_routes_transfer.php">Просмотр</a><br>
-В примере выполняется поиск маршрута НОВЫЙ УРЕНГОЙ - АБАКАН (только с билетами) (с пересадками) на завтра
-
-<pre style="background: aliceblue; padding: 5px; border: 1px solid brown">
-$params = [
-    'dir'        => 0,
-    'tfl'        => 3,
-    'checkSeats' => 1,
-    'code0'      => '2030319',
-    'code1'      => '2038230',
-    'dt0'        => 'Дата отправления',
-    'md'         => 1,
-];
-
-$routes = $api->trainRoutes($params)
-</pre>
-
-<h3>Выбор вагонов</h3>
-<a href="train_carriages.php">Просмотр</a><br>
-В примере выполняется просмотр всех вагонов в поезде с направлением САНКТ-ПЕТЕРБУРГ - МОСКВА на завтра
-
-<pre style="background: aliceblue; padding: 5px; border: 1px solid brown">
-$params = [
-    'dir'   => 0,
-    'code0' => '2004000',
-    'code1' => '2000000',
-    'dt0'   => 'Дата отправления',
-    'time0' => 'Время отправления',
-    'tnum0' => 'Номер вагона',
-];
-
-$carriages = $api->trainCarriages($params)
-</pre>
-
-<h3>Просмотр станций</h3>
-<a href="train_station_list.php">Просмотр</a><br>
-В примере выполняется поиск всех станций остановок для поезда номер 072E на завтра
-
-<pre style="background: aliceblue; padding: 5px; border: 1px solid brown">
-$params = [
-    'trainNumber' => '054Г',
-    'depDate'     => 'Дата отправления',
-];
-
-$stations = $api->trainStationList($params);
-</pre>
-
-
-<h3>Просмотр списка кодов станций</h3>
-<a href="station_code.php">Просмотр</a><br>
-В примере выполняется поиск кодов станций начинающихся с ЧЕБ
-
-<pre style="background: aliceblue; padding: 5px; border: 1px solid brown">
-$api = new Rzd\Api();
-
-$params = [
-    'stationNamePart' => 'ЧЕБ',
-    'compactMode'     => 'y',
-];
-
-$stations = $api->stationCode($params);
-</pre>
+<h3><a href="train_station_list.php">train_station_list.php</a></h3>
+Станции в пути следования для первого поезда из найденного маршрута

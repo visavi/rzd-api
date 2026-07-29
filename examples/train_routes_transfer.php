@@ -1,9 +1,8 @@
 <?php
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+require __DIR__ . '/bootstrap.php';
 
-$start = new DateTime();
-$date0 = $start->modify('+1 day');
+$date0 = new DateTime('+1 day');
 
 $params = [
     'dir'        => 0,
@@ -15,6 +14,4 @@ $params = [
     'md'         => 1,
 ];
 
-$api = new Rzd\Api();
-
-echo $api->trainRoutes($params);
+show($api->trainRoutes($params));

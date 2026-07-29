@@ -1,17 +1,9 @@
 <?php
-require dirname(__DIR__) . '/vendor/autoload.php';
 
-$api  = new Rzd\Api();
+require __DIR__ . '/bootstrap.php';
 
 $params = [
     'stationNamePart' => 'ЧЕБ',
-    'compactMode'     => 'y',
 ];
 
-$stations = $api->stationCode($params);
-
-if ($stations) {
-    echo $stations;
-} else {
-    echo 'Не найдено совпадений!';
-}
+show($api->stationCode($params));

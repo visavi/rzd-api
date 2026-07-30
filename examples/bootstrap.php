@@ -16,7 +16,7 @@ declare(strict_types=1);
 require __DIR__ . '/../vendor/autoload.php';
 
 use GuzzleHttp\Client as GuzzleClient;
-use Nyholm\Psr7\Factory\Psr17Factory;
+use GuzzleHttp\Psr7\HttpFactory;
 use Rzd\Client;
 use Rzd\Config;
 use Rzd\Exception\RzdException;
@@ -45,7 +45,7 @@ function rzd(): Client
         $options['proxy'] = $proxy;
     }
 
-    $factory = new Psr17Factory();
+    $factory = new HttpFactory();
 
     return new Client(new Config(), new GuzzleClient($options), $factory, $factory);
 }

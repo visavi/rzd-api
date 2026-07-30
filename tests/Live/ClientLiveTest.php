@@ -6,7 +6,7 @@ namespace Rzd\Tests\Live;
 
 use DateTimeImmutable;
 use GuzzleHttp\Client as GuzzleClient;
-use Nyholm\Psr7\Factory\Psr17Factory;
+use GuzzleHttp\Psr7\HttpFactory;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -45,7 +45,7 @@ final class ClientLiveTest extends TestCase
             $options['proxy'] = $proxy;
         }
 
-        $factory = new Psr17Factory();
+        $factory = new HttpFactory();
 
         $this->client = new Client(
             new Config(),

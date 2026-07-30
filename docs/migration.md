@@ -193,7 +193,7 @@ $api = new Rzd\Api($config);
 
 ```php
 // 6.0: сетевое — в HTTP-клиенте, остальное — в Config
-$factory = new Nyholm\Psr7\Factory\Psr17Factory();
+$factory = new GuzzleHttp\Psr7\HttpFactory();
 
 $client = new Rzd\Client(
     config: new Rzd\Config(

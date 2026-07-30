@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Rzd\Tests\Http;
 
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use Http\Discovery\Psr17FactoryDiscovery;
-use Nyholm\Psr7\Request;
-use Nyholm\Psr7\Response;
 use PHPUnit\Framework\Attributes\Test;
 use Psr\Http\Client\ClientExceptionInterface;
 use RuntimeException;

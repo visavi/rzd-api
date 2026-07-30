@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Rzd\Tests;
 
+use GuzzleHttp\Psr7\HttpFactory;
+use GuzzleHttp\Psr7\Response;
 use Http\Mock\Client as MockClient;
-use Nyholm\Psr7\Factory\Psr17Factory;
-use Nyholm\Psr7\Response;
 use PHPUnit\Framework\TestCase as BaseTestCase;
 use Psr\Http\Message\RequestInterface;
 use Rzd\Client;
@@ -38,7 +38,7 @@ abstract class TestCase extends BaseTestCase
             $this->http->addResponse(new Response(200, ['Content-Type' => 'application/json'], $body));
         }
 
-        $factory = new Psr17Factory();
+        $factory = new HttpFactory();
 
         return new Client($config ?? new Config(), $this->http, $factory, $factory);
     }
@@ -58,7 +58,7 @@ abstract class TestCase extends BaseTestCase
     {
         $this->http->addResponse(new Response($status, ['Content-Type' => $contentType], $body));
 
-        $factory = new Psr17Factory();
+        $factory = new HttpFactory();
 
         return new Client(new Config(), $this->http, $factory, $factory);
     }

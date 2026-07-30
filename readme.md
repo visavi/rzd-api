@@ -58,11 +58,11 @@ composer require guzzlehttp/guzzle
 
 Подойдёт любая другая пара, проверенные варианты:
 
-| Клиент PSR-18          | Фабрики PSR-17                                                                |
-|------------------------|-------------------------------------------------------------------------------|
-| `guzzlehttp/guzzle`    | входят в комплект, отдельно ставить нечего                                    |
+| Клиент PSR-18          | Фабрики PSR-17                                                                      |
+|------------------------|-------------------------------------------------------------------------------------|
+| `guzzlehttp/guzzle`    | приедут вместе с ним (`guzzlehttp/psr7`), ставить отдельно не нужно                 |
 | `symfony/http-client`  | нужны отдельно: `nyholm/psr7`, `laminas/laminas-diactoros`, `httpsoft/http-message` |
-| `php-http/curl-client` | нужны отдельно, те же варианты                                                |
+| `php-http/curl-client` | нужны отдельно, те же варианты                                                      |
 
 Реализация подхватывается автоматически через `php-http/discovery`, либо
 передаётся в конструктор явно. Обратите внимание: `symfony/http-client` без
@@ -123,11 +123,11 @@ HTTP-клиенте, а не в библиотеке. Так они настра
 
 ```php
 use GuzzleHttp\Client as GuzzleClient;
-use Nyholm\Psr7\Factory\Psr17Factory;
+use GuzzleHttp\Psr7\HttpFactory;
 use Rzd\Client;
 use Rzd\Config;
 
-$factory = new Psr17Factory();
+$factory = new HttpFactory();
 
 $client = new Client(
     config: new Config(),
@@ -511,18 +511,18 @@ RZD_PROXY=socks5://127.0.0.1:1080 php examples/index.php search_trains
 RZD_PROXY=socks5://127.0.0.1:1080 php -S localhost:8000 -t examples
 ```
 
-| Пример                                            | Что показывает                                 |
-|---------------------------------------------------|------------------------------------------------|
-| [search_trains.php](examples/search_trains.php)   | поиск поездов, цены, типы вагонов              |
-| [round_trip.php](examples/round_trip.php)         | поиск туда-обратно, стоимость поездки целиком   |
-| [car_places.php](examples/car_places.php)         | вагоны, свободные места по купе                |
-| [car_scheme.php](examples/car_scheme.php)         | схема вагона в SVG и фотографии салона         |
-| [train_route.php](examples/train_route.php)       | маршрут поезда по станциям                     |
-| [stations.php](examples/stations.php)             | коды станций, популярные города                |
-| [price_calendar.php](examples/price_calendar.php) | горизонт продажи, наличие мест, цены по датам  |
-| [cards.php](examples/cards.php)                   | карты и абонементы со скидками                 |
-| [aeroexpress.php](examples/aeroexpress.php)       | тарифы аэроэкспресса                           |
-| [tariffs.php](examples/tariffs.php)               | справочник тарифов, конфигурация сайта         |
+| Пример                                            | Что показывает                                |
+|---------------------------------------------------|-----------------------------------------------|
+| [search_trains.php](examples/search_trains.php)   | поиск поездов, цены, типы вагонов             |
+| [round_trip.php](examples/round_trip.php)         | поиск туда-обратно, стоимость поездки целиком |
+| [car_places.php](examples/car_places.php)         | вагоны, свободные места по купе               |
+| [car_scheme.php](examples/car_scheme.php)         | схема вагона в SVG и фотографии салона        |
+| [train_route.php](examples/train_route.php)       | маршрут поезда по станциям                    |
+| [stations.php](examples/stations.php)             | коды станций, популярные города               |
+| [price_calendar.php](examples/price_calendar.php) | горизонт продажи, наличие мест, цены по датам |
+| [cards.php](examples/cards.php)                   | карты и абонементы со скидками                |
+| [aeroexpress.php](examples/aeroexpress.php)       | тарифы аэроэкспресса                          |
+| [tariffs.php](examples/tariffs.php)               | справочник тарифов, конфигурация сайта        |
 
 ## Тесты
 

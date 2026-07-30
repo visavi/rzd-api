@@ -19,6 +19,7 @@ use Rzd\Request\CarSchemeSearch;
 use Rzd\Request\CarSearch;
 use Rzd\Request\RouteSearch;
 use Rzd\Request\TrainSearch;
+use Rzd\Request\TransferSearch;
 
 /**
  * Проверка реальных ответов сайта, ловит смену протокола
@@ -342,6 +343,45 @@ final class ClientLiveTest extends TestCase
         self::assertNotSame([], $tariffs);
         self::assertNotNull($tariffs[0]->name);
         self::assertGreaterThan(0, $tariffs[0]->price);
+    }
+
+    #[Test]
+    public function findsRoutesWithTransfers(): void
+    {
+        // Прямых поездов между этими городами нет, только с пересадкой
+        $result = $this->guard(fn() => $this->client->transfers->search(new TransferSearch(
+            origin: '5a13bdc3340c745ca1e8aa54',      // Новый Уренгой
+            destination: '5a13baab340c745ca1e7f31c', // Абакан
+            date: $this->date('+21 days'),
+        )));
+
+        self::assertNotSame([], $result->routes);
+
+        $route = $result->cheapest();
+
+        self::assertNotNull($route);
+        self::assertGreaterThanOrEqual(1, $route->changes());
+        self::assertGreaterThan(0, $route->minPrice);
+        self::assertGreaterThan($route->trips()[0]->duration(), $route->duration());
+
+        $trip = $route->trips()[0];
+
+        self::assertNotNull($trip->number);
+        self::assertSame('Train', $trip->transportType);
+        self::assertNotNull($trip->train()?->number);
+    }
+
+    #[Test]
+    public function findsRoutesFromStationSuggests(): void
+    {
+        $stations = $this->guard(fn() => $this->client->stations->suggest('Новый Уренгой'));
+        $target = $this->guard(fn() => $this->client->stations->suggest('Абакан'));
+
+        $result = $this->guard(fn() => $this->client->transfers->search(
+            TransferSearch::forStations($stations[0], $target[0], $this->date('+21 days')),
+        ));
+
+        self::assertNotSame([], $result->routes);
     }
 
     #[Test]

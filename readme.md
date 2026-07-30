@@ -13,6 +13,7 @@
 ## Что умеет
 
 * **Поиск поездов** — расписание, время в пути, расстояние, типы вагонов, цены и количество мест
+* **Поиск с пересадками** — цепочки рейсов там, где прямых поездов нет, с ожиданием и переездами между вокзалами
 * **Вагоны и места** — номера свободных мест по вагонам и купе, цены, услуги
 * **Схемы вагонов** — чертеж вагона в SVG и фотографии салона
 * **Маршрут поезда** — все остановки с местным и московским временем, стоянками и часовыми поясами
@@ -28,6 +29,7 @@
 * [Настройка](#настройка)
 * [Методы](#методы)
   * [Поиск поездов](#поиск-поездов)
+  * [Поиск с пересадками](#поиск-с-пересадками)
   * [Вагоны и места](#вагоны-и-места)
   * [Схема и фотографии вагона](#схема-и-фотографии-вагона)
   * [Маршрут поезда](#маршрут-поезда)
@@ -167,7 +169,7 @@ $config = new Config(
 ## Методы
 
 Клиент разбит по ресурсам: `trains`, `cars`, `routes`, `stations`, `prices`,
-`references`, `aeroexpress`.
+`references`, `aeroexpress`, `transfers`.
 
 ### Поиск поездов
 
@@ -243,6 +245,106 @@ $group->upperPlaces;
 $group->minPrice;
 $group->maxPrice;
 $group->availability;      // Available, LastPlaces, NotAvailable
+```
+
+### Поиск с пересадками
+
+Обычный поиск отдаёт только прямые поезда. Между городами без прямого
+сообщения цепочку из нескольких рейсов строит отдельный метод. Города здесь
+задаются **идентификаторами узлов сайта**, а не кодами станций: их отдаёт
+подсказка станций в поле `nodeId`.
+
+```php
+use Rzd\Enum\TransportProvider;
+use Rzd\Request\TransferSearch;
+
+$result = $client->transfers->search(new TransferSearch(
+    origin: '5a13bdc3340c745ca1e8aa54',      // Новый Уренгой
+    destination: '5a13baab340c745ca1e7f31c', // Абакан
+    date: new DateTimeImmutable('2026-08-20'),
+    minTrips: 2,          // наименьшее число рейсов в цепочке, 1 добавит прямые
+    maxTrips: 4,          // наибольшее, то есть пересадок плюс один
+    maxResults: 200,      // предел числа вариантов
+    providers: [TransportProvider::Rails], // виды транспорта в поиске
+));
+```
+
+Готовый запрос можно собрать прямо из подсказок:
+
+```php
+$request = TransferSearch::forStations(
+    $client->stations->suggest('Новый Уренгой')[0],
+    $client->stations->suggest('Абакан')[0],
+    new DateTimeImmutable('2026-08-20'),
+);
+```
+
+Результат перебирается как список вариантов поездки:
+
+```php
+count($result);            // сколько вариантов найдено
+$result->routes;           // список TransferRoute
+$result->withSeats();      // варианты, где места есть на всех плечах
+$result->cheapest();        // самый дешёвый
+$result->fastest();         // самый быстрый
+```
+
+Вариант поездки перебирается как список плеч — частей, оформляемых одним
+билетом:
+
+```php
+$route->changes();         // число пересадок
+$route->minPrice;          // стоимость всей поездки по самым дешёвым местам
+$route->maxPrice;
+$route->duration();        // время в пути в минутах, вместе с ожиданием
+$route->departure();       // отправление первого рейса
+$route->arrival();         // прибытие последнего
+$route->origin();          // Place начала поездки
+$route->destination();
+$route->hasSeats();        // места есть на всех плечах
+$route->trips();           // все рейсы поездки подряд, list<Trip>
+$route->legs;              // плечи, list<RouteLeg>
+$route->transfers;         // переезды между вокзалами, list<Transfer>
+```
+
+Рейс:
+
+```php
+$trip->number;             // номер поезда, например 002Э
+$trip->transportType;      // Train, Bus, Airplane
+$trip->origin;             // Place, с названием станции и города
+$trip->destination;
+$trip->departure;
+$trip->arrival;
+$trip->duration();         // время в пути в минутах
+$trip->distance;           // километров
+$trip->freePlaces;
+$trip->minPrice;
+$trip->maxPrice;
+$trip->products;           // классы обслуживания с ценами, list<TripProduct>
+$trip->train();            // Train со всеми данными обычного поиска, либо null
+```
+
+Сайт вкладывает в рейс поезда полный ответ обычного поиска, поэтому вагоны
+и цены доступны без второго запроса:
+
+```php
+foreach ($route->trips() as $trip) {
+    foreach ($trip->train()?->carGroups ?? [] as $group) {
+        printf("%s %d мест от %s\n", $group->typeName, $group->places, $group->minPrice);
+    }
+}
+```
+
+Переезд между вокзалами появляется, когда цепочка приходит на один вокзал
+города, а уезжает с другого. Пустой список `transfers` означает, что все
+пересадки происходят на одном вокзале, а не что пересадок нет:
+
+```php
+$transfer->origin?->name;   // Ярославль (Московский вокзал)
+$transfer->destination?->name; // Ярославль-Главный
+$transfer->minutes();       // время переезда
+$transfer->price;           // стоимость
 ```
 
 ### Вагоны и места
@@ -515,6 +617,7 @@ RZD_PROXY=socks5://127.0.0.1:1080 php -S localhost:8000 -t examples
 |---------------------------------------------------|-----------------------------------------------|
 | [search_trains.php](examples/search_trains.php)   | поиск поездов, цены, типы вагонов             |
 | [round_trip.php](examples/round_trip.php)         | поиск туда-обратно, стоимость поездки целиком |
+| [transfers.php](examples/transfers.php)           | цепочки рейсов с пересадками, ожидание        |
 | [car_places.php](examples/car_places.php)         | вагоны, свободные места по купе               |
 | [car_scheme.php](examples/car_scheme.php)         | схема вагона в SVG и фотографии салона        |
 | [train_route.php](examples/train_route.php)       | маршрут поезда по станциям                    |

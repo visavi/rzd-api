@@ -10,8 +10,13 @@ use PHPUnit\Framework\TestCase;
 use Rzd\Model\Car;
 use Rzd\Model\CarList;
 use Rzd\Model\PriceDay;
+use Rzd\Model\RouteLeg;
 use Rzd\Model\SearchResult;
 use Rzd\Model\Train;
+use Rzd\Model\Transfer;
+use Rzd\Model\TransferResult;
+use Rzd\Model\TransferRoute;
+use Rzd\Model\Trip;
 
 /**
  * Разбор ответов сайта в моделях, включая неполные и битые данные
@@ -221,5 +226,150 @@ final class ModelTest extends TestCase
         $car = Car::fromArray(['ServiceClassName' => 'Купе']);
 
         self::assertSame('Купе', $car->serviceClassName);
+    }
+
+    #[Test]
+    #[DataProvider('malformedMoney')]
+    public function skipsUnusableMoney(mixed $value): void
+    {
+        $transfer = Transfer::fromArray(['min_price' => $value]);
+
+        self::assertNull($transfer->price);
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function malformedMoney(): array
+    {
+        return [
+            'не объект'      => ['553410'],
+            'без копеек'     => [['rubles' => '5534']],
+            'копейки строкой не числом' => [['kopecks' => 'много']],
+            'null'           => [null],
+        ];
+    }
+
+    #[Test]
+    #[DataProvider('malformedDurations')]
+    public function skipsUnusableDuration(mixed $value): void
+    {
+        $transfer = Transfer::fromArray(['min_duration' => $value]);
+
+        self::assertNull($transfer->duration);
+        self::assertNull($transfer->minutes());
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function malformedDurations(): array
+    {
+        return [
+            'без суффикса'   => ['807.024'],
+            'не строка'      => [807],
+            'пустая строка'  => [''],
+            'с единицами Go' => ['13m27s'],
+            'null'           => [null],
+        ];
+    }
+
+    #[Test]
+    public function roundsDurationToWholeSeconds(): void
+    {
+        self::assertSame(807, Transfer::fromArray(['min_duration' => '807.024s'])->duration);
+        self::assertSame(808, Transfer::fromArray(['min_duration' => '807.6s'])->duration);
+    }
+
+    #[Test]
+    public function transferRouteWithoutLegs(): void
+    {
+        $route = TransferRoute::fromArray([]);
+
+        self::assertCount(0, $route);
+        self::assertSame(0, $route->changes());
+        self::assertSame([], $route->trips());
+        self::assertFalse($route->hasSeats());
+        self::assertNull($route->origin());
+        self::assertNull($route->destination());
+        self::assertNull($route->departure());
+        self::assertNull($route->arrival());
+        self::assertNull($route->duration());
+    }
+
+    #[Test]
+    public function routeHasNoSeatsWhenOneLegIsFull(): void
+    {
+        $route = TransferRoute::fromArray([
+            'routes' => [
+                ['free_places' => 10],
+                ['free_places' => 0],
+            ],
+        ]);
+
+        self::assertFalse($route->hasSeats());
+    }
+
+    #[Test]
+    public function routeLegWithoutTrips(): void
+    {
+        $leg = RouteLeg::fromArray(['segments' => 'не список']);
+
+        self::assertSame([], $leg->trips);
+        self::assertNull($leg->origin());
+        self::assertNull($leg->destination());
+        self::assertNull($leg->provider);
+    }
+
+    #[Test]
+    public function keepsUnknownProviderAsNull(): void
+    {
+        $leg = RouteLeg::fromArray(['provider' => ['key' => 'b2bteleport']]);
+
+        self::assertNull($leg->provider);
+    }
+
+    #[Test]
+    #[DataProvider('tripsWithoutTrain')]
+    public function tripWithoutTrainData(mixed $rawData): void
+    {
+        $trip = Trip::fromArray(['raw_data' => $rawData]);
+
+        self::assertNull($trip->train());
+        self::assertNull($trip->duration());
+        self::assertNull($trip->distance);
+        self::assertNull($trip->origin);
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function tripsWithoutTrain(): array
+    {
+        return [
+            'нет данных'        => [null],
+            'нет ответа поиска' => [['/Railway/V1/Search/CarPricing' => []]],
+            'нет поездов'       => [['/Railway/V1/Search/TrainPricing' => ['Trains' => []]]],
+            'поезд не объект'   => [['/Railway/V1/Search/TrainPricing' => ['Trains' => ['002Э']]]],
+        ];
+    }
+
+    #[Test]
+    public function dropsCodesWithoutProviderCode(): void
+    {
+        $leg = RouteLeg::fromArray([
+            'transport_types' => [['key' => 'abc'], ['key' => 'def', 'provider_code' => 'Bus'], 'мусор'],
+        ]);
+
+        self::assertSame(['Bus'], $leg->transportTypes);
+    }
+
+    #[Test]
+    public function transferResultSkipsRoutesWithoutPriceOrTime(): void
+    {
+        $result = TransferResult::fromArray(['multi_modal_routes' => [[], []]]);
+
+        self::assertNull($result->cheapest());
+        self::assertNull($result->fastest());
     }
 }

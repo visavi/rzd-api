@@ -1,0 +1,1212 @@
+{
+  "request_id": "prod:6d:20260730173315:3423006",
+  "multi_modal_routes": [
+    {
+      "request_id": "prod:6d:20260730173315:3423006",
+      "routes": [
+        {
+          "provider": {
+            "key": "b2brails"
+          },
+          "min_price": {
+            "kopecks": "197640"
+          },
+          "max_price": {
+            "kopecks": "268290"
+          },
+          "free_places": 353,
+          "transport_types": [
+            {
+              "key": "5a816d4216c45c47e79ea084",
+              "provider_code": "Train"
+            }
+          ],
+          "common_service_classes": [
+            {
+              "key": "5b8e14e316c45c59574b9504",
+              "provider_code": "3Э:ФПК"
+            },
+            {
+              "key": "5b8e14d716c45c59574b9503",
+              "provider_code": "2Э:ФПК"
+            },
+            {
+              "key": "5b8e14f016c45c59574b9505",
+              "provider_code": "2Э:ФПК"
+            }
+          ],
+          "booking_system": "Express3",
+          "segments": [
+            {
+              "start_location": {
+                "station": {
+                  "key": "5a8abbdf340c742575d3667c",
+                  "name_ru": "Москва Ярославская (Ярославский вокзал)",
+                  "name_en": "Moskva Yaroslavskaya (Yaroslavskiy vokzal)"
+                }
+              },
+              "finish_location": {
+                "station": {
+                  "key": "5a8abf3b340c7425afd366a8",
+                  "name_ru": "Ярославль (Московский вокзал)",
+                  "name_en": "Yaroslavl (Moskovskiy vokzal)"
+                }
+              },
+              "start_datetime": "2026-09-11T01:00:00+03:00",
+              "finish_datetime": "2026-09-11T04:36:00+03:00",
+              "min_price": {
+                "kopecks": "197640"
+              },
+              "max_price": {
+                "kopecks": "268290"
+              },
+              "free_places": 353,
+              "transport_types": [
+                {
+                  "key": "5a816d4216c45c47e79ea084",
+                  "provider_code": "Train"
+                }
+              ],
+              "common_service_classes": [
+                {
+                  "key": "5b8e14e316c45c59574b9504",
+                  "provider_code": "3Э:ФПК"
+                },
+                {
+                  "key": "5b8e14d716c45c59574b9503",
+                  "provider_code": "2Э:ФПК"
+                },
+                {
+                  "key": "5b8e14f016c45c59574b9505",
+                  "provider_code": "2Э:ФПК"
+                }
+              ],
+              "trips": [
+                {
+                  "start_location": {
+                    "station": {
+                      "key": "5a8abbdf340c742575d3667c",
+                      "name_ru": "Москва Ярославская (Ярославский вокзал)",
+                      "name_en": "Moskva Yaroslavskaya (Yaroslavskiy vokzal)"
+                    },
+                    "parent_city": {
+                      "key": "5a323c29340c7441a0a556bb",
+                      "name_ru": "Москва",
+                      "name_en": "Moscow"
+                    }
+                  },
+                  "finish_location": {
+                    "station": {
+                      "key": "5a8abf3b340c7425afd366a8",
+                      "name_ru": "Ярославль (Московский вокзал)",
+                      "name_en": "Yaroslavl (Moskovskiy vokzal)"
+                    },
+                    "parent_city": {
+                      "key": "5a13bdcc340c745ca1e8ac90",
+                      "name_ru": "Ярославль",
+                      "name_en": "Yaroslavl"
+                    }
+                  },
+                  "start_datetime": "2026-09-11T01:00:00+03:00",
+                  "finish_datetime": "2026-09-11T04:36:00+03:00",
+                  "race_number": "002Э",
+                  "trip_distance": {
+                    "meters": "280000"
+                  },
+                  "min_price": {
+                    "kopecks": "197640"
+                  },
+                  "max_price": {
+                    "kopecks": "268290"
+                  },
+                  "free_places": 353,
+                  "transport_type": {
+                    "key": "5a816d4216c45c47e79ea084",
+                    "provider_code": "Train"
+                  },
+                  "common_service_classes": [
+                    {
+                      "key": "5b8e14f016c45c59574b9505",
+                      "provider_code": "2Э:ФПК"
+                    },
+                    {
+                      "key": "5b8e14e316c45c59574b9504",
+                      "provider_code": "3Э:ФПК"
+                    },
+                    {
+                      "key": "5b8e14d716c45c59574b9503",
+                      "provider_code": "2Э:ФПК"
+                    }
+                  ],
+                  "raw_data": {
+                    "/Railway/V1/Search/TrainPricing": {
+                      "BookingSystem": "Express3",
+                      "DestinationCode": "2010002",
+                      "OriginCode": "2000002",
+                      "Trains": [
+                        {
+                          "ArrivalDateTime": "2026-09-11T04:36:00",
+                          "BookingSystem": "Express3",
+                          "CarGroups": [
+                            {
+                              "CarType": "Compartment",
+                              "CarTypeName": "КУПЕ",
+                              "MaxPrice": 4362.4,
+                              "MinPrice": 2797.2,
+                              "PlaceQuantity": 0,
+                              "ServiceClasses": [
+                                "2Ф"
+                              ],
+                              "TotalPlaceQuantity": 4
+                            },
+                            {
+                              "CarType": "Compartment",
+                              "CarTypeName": "КУПЕ",
+                              "MaxPrice": 4362.4,
+                              "MinPrice": 3295.2,
+                              "PlaceQuantity": 0,
+                              "ServiceClasses": [
+                                "2Ф"
+                              ],
+                              "TotalPlaceQuantity": 8
+                            }
+                          ],
+                          "Carriers": [
+                            "ФПК"
+                          ],
+                          "DepartureDateTime": "2026-09-11T01:00:00",
+                          "DestinationName": "ВЛАДИВОСТОК",
+                          "DestinationStationCode": "2010002",
+                          "DisplayTrainNumber": "002Э",
+                          "LocalArrivalDateTime": "2026-09-11T04:36:00",
+                          "LocalDepartureDateTime": "2026-09-11T01:00:00",
+                          "OriginName": "МОСКВА ЯР",
+                          "OriginStationCode": "2000002",
+                          "Provider": "P1",
+                          "TrainName": "Россия",
+                          "TrainNumber": "002Э",
+                          "TransportType": "Train",
+                          "TripDistance": 280,
+                          "TripDuration": 216
+                        }
+                      ]
+                    }
+                  },
+                  "products": [
+                    {
+                      "carriers": [
+                        {
+                          "key": "5ba0bc0216c45c6e7ab53b1c",
+                          "provider_code": "ФПК"
+                        }
+                      ],
+                      "price": {
+                        "kopecks": "268290"
+                      },
+                      "free_places": 77,
+                      "common_service_class": {
+                        "key": "5b8e14d716c45c59574b9503",
+                        "provider_code": "Compartment"
+                      },
+                      "train_car_type": {
+                        "key": "Compartment"
+                      },
+                      "common_service_classes": [
+                        {
+                          "key": "5b8e14d716c45c59574b9503",
+                          "provider_code": "2Э:ФПК"
+                        },
+                        {
+                          "key": "5b8e14f016c45c59574b9505",
+                          "provider_code": "2Э:ФПК"
+                        },
+                        {
+                          "key": "5b8e14e316c45c59574b9504",
+                          "provider_code": "2Ф:ФПК"
+                        }
+                      ],
+                      "internal_key": "C",
+                      "ttl_rule_key": "128",
+                      "ttl_expire_time": "2026-07-30T18:21:42Z"
+                    },
+                    {
+                      "carriers": [
+                        {
+                          "key": "5ba0bc0216c45c6e7ab53b1c",
+                          "provider_code": "ФПК"
+                        }
+                      ],
+                      "price": {
+                        "kopecks": "197640"
+                      },
+                      "free_places": 276,
+                      "common_service_class": {
+                        "key": "5b8e14e316c45c59574b9504",
+                        "provider_code": "ReservedSeat"
+                      },
+                      "train_car_type": {
+                        "key": "ReservedSeat"
+                      },
+                      "common_service_classes": [
+                        {
+                          "key": "5b8e14e316c45c59574b9504",
+                          "provider_code": "3Э:ФПК"
+                        }
+                      ],
+                      "internal_key": "R",
+                      "ttl_rule_key": "128",
+                      "ttl_expire_time": "2026-07-30T18:21:42Z"
+                    }
+                  ],
+                  "display_priority": "DP_REGULAR",
+                  "legality": "undefined"
+                }
+              ]
+            }
+          ],
+          "internal_key": "1ec780fdb5ec8f1ce2337230d1190ae1",
+          "incomplete": false,
+          "ttl_min_expire_time": "2026-07-30T18:21:42Z",
+          "ttl_max_expire_time": "2026-07-30T18:21:42Z"
+        },
+        {
+          "provider": {
+            "key": "b2brails"
+          },
+          "min_price": {
+            "kopecks": "355770"
+          },
+          "max_price": {
+            "kopecks": "1587940"
+          },
+          "free_places": 120,
+          "transport_types": [
+            {
+              "key": "5a816d4216c45c47e79ea084",
+              "provider_code": "Train"
+            }
+          ],
+          "common_service_classes": [
+            {
+              "key": "5b8e14f016c45c59574b9505",
+              "provider_code": "1Ф:ФПК"
+            },
+            {
+              "key": "5b8e3d7516c45c59574b9528"
+            },
+            {
+              "key": "5b8e14e316c45c59574b9504",
+              "provider_code": "3Э:ФПК"
+            },
+            {
+              "key": "5b8e14d716c45c59574b9503",
+              "provider_code": "1Ф:ФПК"
+            }
+          ],
+          "booking_system": "Express3",
+          "segments": [
+            {
+              "start_location": {
+                "station": {
+                  "key": "5a8abf39340c742578d366b2",
+                  "name_ru": "Ярославль-Главный",
+                  "name_en": "Yaroslavl Gl"
+                }
+              },
+              "finish_location": {
+                "station": {
+                  "key": "5a8abf8e340c74258ad366c5",
+                  "name_ru": "Исакогорка",
+                  "name_en": "Isakogorka"
+                }
+              },
+              "start_datetime": "2026-09-11T05:29:00+03:00",
+              "finish_datetime": "2026-09-11T18:58:00+03:00",
+              "min_price": {
+                "kopecks": "355770"
+              },
+              "max_price": {
+                "kopecks": "1587940"
+              },
+              "free_places": 120,
+              "transport_types": [
+                {
+                  "key": "5a816d4216c45c47e79ea084",
+                  "provider_code": "Train"
+                }
+              ],
+              "common_service_classes": [
+                {
+                  "key": "5b8e14e316c45c59574b9504",
+                  "provider_code": "3Э:ФПК"
+                },
+                {
+                  "key": "5b8e14d716c45c59574b9503",
+                  "provider_code": "1Ф:ФПК"
+                },
+                {
+                  "key": "5b8e14f016c45c59574b9505",
+                  "provider_code": "1Ф:ФПК"
+                },
+                {
+                  "key": "5b8e3d7516c45c59574b9528"
+                }
+              ],
+              "trips": [
+                {
+                  "start_location": {
+                    "station": {
+                      "key": "5a8abf39340c742578d366b2",
+                      "name_ru": "Ярославль-Главный",
+                      "name_en": "Yaroslavl Gl"
+                    },
+                    "parent_city": {
+                      "key": "5a13bdcc340c745ca1e8ac90",
+                      "name_ru": "Ярославль",
+                      "name_en": "Yaroslavl"
+                    }
+                  },
+                  "finish_location": {
+                    "station": {
+                      "key": "5a8abf8e340c74258ad366c5",
+                      "name_ru": "Исакогорка",
+                      "name_en": "Isakogorka"
+                    },
+                    "parent_city": {
+                      "key": "5a13baf9340c745ca1e80436",
+                      "name_ru": "Архангельск",
+                      "name_en": "Arkhangelsk"
+                    }
+                  },
+                  "start_datetime": "2026-09-11T05:29:00+03:00",
+                  "finish_datetime": "2026-09-11T18:58:00+03:00",
+                  "race_number": "080С",
+                  "trip_distance": {
+                    "meters": "838000"
+                  },
+                  "min_price": {
+                    "kopecks": "355770"
+                  },
+                  "max_price": {
+                    "kopecks": "1587940"
+                  },
+                  "free_places": 120,
+                  "transport_type": {
+                    "key": "5a816d4216c45c47e79ea084",
+                    "provider_code": "Train"
+                  },
+                  "common_service_classes": [
+                    {
+                      "key": "5b8e14e316c45c59574b9504",
+                      "provider_code": "3Э:ФПК"
+                    },
+                    {
+                      "key": "5b8e14d716c45c59574b9503",
+                      "provider_code": "1Ф:ФПК"
+                    },
+                    {
+                      "key": "5b8e14f016c45c59574b9505",
+                      "provider_code": "1Ф:ФПК"
+                    },
+                    {
+                      "key": "5b8e3d7516c45c59574b9528"
+                    }
+                  ],
+                  "raw_data": {
+                    "/Railway/V1/Search/TrainPricing": {
+                      "BookingSystem": "Express3",
+                      "DestinationCode": "2010211",
+                      "OriginCode": "2010001",
+                      "Trains": [
+                        {
+                          "ArrivalDateTime": "2026-09-11T18:58:00",
+                          "BookingSystem": "Express3",
+                          "CarGroups": [
+                            {
+                              "CarType": "Luxury",
+                              "CarTypeName": "СВ",
+                              "MaxPrice": 15879.4,
+                              "MinPrice": 15879.4,
+                              "PlaceQuantity": 0,
+                              "ServiceClasses": [
+                                "1Ф"
+                              ],
+                              "TotalPlaceQuantity": 9
+                            },
+                            {
+                              "CarType": "Compartment",
+                              "CarTypeName": "КУПЕ",
+                              "MaxPrice": 8038.7,
+                              "MinPrice": 5598.2,
+                              "PlaceQuantity": 0,
+                              "ServiceClasses": [
+                                "2Ш"
+                              ],
+                              "TotalPlaceQuantity": 8
+                            }
+                          ],
+                          "Carriers": [
+                            "ФПК"
+                          ],
+                          "DepartureDateTime": "2026-09-11T05:29:00",
+                          "DestinationName": "АРХАНГЕЛ Г",
+                          "DestinationStationCode": "2010211",
+                          "DisplayTrainNumber": "080С",
+                          "LocalArrivalDateTime": "2026-09-11T18:58:00",
+                          "LocalDepartureDateTime": "2026-09-11T05:29:00",
+                          "OriginName": "СИРИУС",
+                          "OriginStationCode": "2010001",
+                          "Provider": "P1",
+                          "TrainName": "",
+                          "TrainNumber": "080С",
+                          "TransportType": "Train",
+                          "TripDistance": 838,
+                          "TripDuration": 809
+                        }
+                      ]
+                    }
+                  },
+                  "products": [
+                    {
+                      "carriers": [
+                        {
+                          "key": "5ba0bc0216c45c6e7ab53b1c",
+                          "provider_code": "ФПК"
+                        }
+                      ],
+                      "price": {
+                        "kopecks": "355770"
+                      },
+                      "free_places": 74,
+                      "common_service_class": {
+                        "key": "5b8e14e316c45c59574b9504",
+                        "provider_code": "ReservedSeat"
+                      },
+                      "train_car_type": {
+                        "key": "ReservedSeat"
+                      },
+                      "common_service_classes": [
+                        {
+                          "key": "5b8e14e316c45c59574b9504",
+                          "provider_code": "3Э:ФПК"
+                        }
+                      ],
+                      "internal_key": "R",
+                      "ttl_rule_key": "128",
+                      "ttl_expire_time": "2026-07-30T18:21:42Z"
+                    },
+                    {
+                      "carriers": [
+                        {
+                          "key": "5ba0bc0216c45c6e7ab53b1c",
+                          "provider_code": "ФПК"
+                        }
+                      ],
+                      "price": {
+                        "kopecks": "1587940"
+                      },
+                      "free_places": 9,
+                      "common_service_class": {
+                        "key": "5b8e14f016c45c59574b9505",
+                        "provider_code": "Luxury"
+                      },
+                      "train_car_type": {
+                        "key": "Luxury"
+                      },
+                      "common_service_classes": [
+                        {
+                          "key": "5b8e14d716c45c59574b9503",
+                          "provider_code": "1Ф:ФПК"
+                        },
+                        {
+                          "key": "5b8e14f016c45c59574b9505",
+                          "provider_code": "1Ф:ФПК"
+                        }
+                      ],
+                      "internal_key": "L",
+                      "ttl_rule_key": "128",
+                      "ttl_expire_time": "2026-07-30T18:21:42Z"
+                    }
+                  ],
+                  "display_priority": "DP_REGULAR",
+                  "legality": "undefined"
+                }
+              ]
+            }
+          ],
+          "internal_key": "ee898bb06ebbccd6f0c3be53f6592845",
+          "incomplete": false,
+          "ttl_min_expire_time": "2026-07-30T18:21:42Z",
+          "ttl_max_expire_time": "2026-07-30T18:21:42Z"
+        }
+      ],
+      "legs": [
+        {
+          "start_location": {
+            "station": {
+              "key": "5a8abbdf340c742575d3667c",
+              "name_ru": "Москва Ярославская (Ярославский вокзал)",
+              "name_en": "Moskva Yaroslavskaya (Yaroslavskiy vokzal)",
+              "coordinates": {
+                "lat": 55.777687,
+                "lon": 37.657556
+              },
+              "distance_to_city_center": 3479
+            }
+          },
+          "finish_location": {
+            "station": {
+              "key": "5a8abf8e340c74258ad366c5",
+              "name_ru": "Исакогорка",
+              "name_en": "Isakogorka",
+              "coordinates": {
+                "lat": 64.429244,
+                "lon": 40.608306
+              },
+              "distance_to_city_center": 12718
+            }
+          },
+          "start_datetime": "2026-09-11T01:00:00+03:00",
+          "finish_datetime": "2026-09-11T18:58:00+03:00",
+          "segment_references": [
+            {
+              "route_index": 0,
+              "segment_index": 0
+            },
+            {
+              "route_index": 1,
+              "segment_index": 0,
+              "transfer_index": 0
+            }
+          ],
+          "index_str": "via-graph-003-by-RzdAlgo2-RzdAlgo2OpOnly-any-RegularPathDuration(RankPairing)(DurationP:20h51m8.26552474s-DistanceP:1191517-DistanceWoExP:12393-SumDistance:1023201)"
+        }
+      ],
+      "transfers": [
+        {
+          "start_location": {
+            "station": {
+              "key": "5a8abf3b340c7425afd366a8",
+              "name_ru": "Ярославль (Московский вокзал)",
+              "name_en": "Yaroslavl (Moskovskiy vokzal)"
+            }
+          },
+          "finish_location": {
+            "station": {
+              "key": "5a8abf39340c742578d366b2",
+              "name_ru": "Ярославль-Главный",
+              "name_en": "Yaroslavl Gl"
+            }
+          },
+          "min_price": {
+            "kopecks": "50000"
+          },
+          "min_duration": "807.024s",
+          "options": [
+            {
+              "start_location": {
+                "station": {
+                  "key": "5a8abf3b340c7425afd366a8",
+                  "name_ru": "Ярославль (Московский вокзал)",
+                  "name_en": "Yaroslavl (Moskovskiy vokzal)"
+                }
+              },
+              "finish_location": {
+                "station": {
+                  "key": "5a8abf39340c742578d366b2",
+                  "name_ru": "Ярославль-Главный",
+                  "name_en": "Yaroslavl Gl"
+                }
+              },
+              "min_price": {
+                "kopecks": "50000"
+              },
+              "min_duration": "807.024s"
+            }
+          ]
+        }
+      ],
+      "min_price": {
+        "kopecks": "553410"
+      },
+      "max_price": {
+        "kopecks": "1856230"
+      },
+      "search_duration": "0s",
+      "via_graph_index": "3",
+      "split_index": "0",
+      "split_count": "1"
+    },
+    {
+      "request_id": "prod:6d:20260730173315:3423006",
+      "routes": [
+        {
+          "provider": {
+            "key": "b2brails"
+          },
+          "min_price": {
+            "kopecks": "328140"
+          },
+          "max_price": {
+            "kopecks": "488900"
+          },
+          "free_places": 124,
+          "transport_types": [
+            {
+              "key": "5a816d4216c45c47e79ea084",
+              "provider_code": "Train"
+            }
+          ],
+          "common_service_classes": [
+            {
+              "key": "5b8e14e316c45c59574b9504",
+              "provider_code": "3Э:ФПК"
+            },
+            {
+              "key": "5b8e14d716c45c59574b9503",
+              "provider_code": "2Э:ФПК"
+            },
+            {
+              "key": "5b8e14f016c45c59574b9505",
+              "provider_code": "2Э:ФПК"
+            }
+          ],
+          "booking_system": "Express3",
+          "segments": [
+            {
+              "start_location": {
+                "station": {
+                  "key": "5a8abbdf340c742575d3667c",
+                  "name_ru": "Москва Ярославская (Ярославский вокзал)",
+                  "name_en": "Moskva Yaroslavskaya (Yaroslavskiy vokzal)"
+                }
+              },
+              "finish_location": {
+                "station": {
+                  "key": "5a8abf56340c742572d366b9",
+                  "name_ru": "Коноша 1",
+                  "name_en": "Konosha 1"
+                }
+              },
+              "start_datetime": "2026-09-11T21:50:00+03:00",
+              "finish_datetime": "2026-09-12T09:17:00+03:00",
+              "min_price": {
+                "kopecks": "328140"
+              },
+              "max_price": {
+                "kopecks": "488900"
+              },
+              "free_places": 124,
+              "transport_types": [
+                {
+                  "key": "5a816d4216c45c47e79ea084",
+                  "provider_code": "Train"
+                }
+              ],
+              "common_service_classes": [
+                {
+                  "key": "5b8e14d716c45c59574b9503",
+                  "provider_code": "2Э:ФПК"
+                },
+                {
+                  "key": "5b8e14f016c45c59574b9505",
+                  "provider_code": "2Э:ФПК"
+                },
+                {
+                  "key": "5b8e14e316c45c59574b9504",
+                  "provider_code": "3Э:ФПК"
+                }
+              ],
+              "trips": [
+                {
+                  "start_location": {
+                    "station": {
+                      "key": "5a8abbdf340c742575d3667c",
+                      "name_ru": "Москва Ярославская (Ярославский вокзал)",
+                      "name_en": "Moskva Yaroslavskaya (Yaroslavskiy vokzal)"
+                    },
+                    "parent_city": {
+                      "key": "5a323c29340c7441a0a556bb",
+                      "name_ru": "Москва",
+                      "name_en": "Moscow"
+                    }
+                  },
+                  "finish_location": {
+                    "station": {
+                      "key": "5a8abf56340c742572d366b9",
+                      "name_ru": "Коноша 1",
+                      "name_en": "Konosha 1"
+                    },
+                    "parent_city": {
+                      "key": "5a13bdea340c745ca1e8b3aa",
+                      "name_ru": "Коноша",
+                      "name_en": "Konosha"
+                    }
+                  },
+                  "start_datetime": "2026-09-11T21:50:00+03:00",
+                  "finish_datetime": "2026-09-12T09:17:00+03:00",
+                  "race_number": "042В",
+                  "trip_distance": {
+                    "meters": "707000"
+                  },
+                  "min_price": {
+                    "kopecks": "328140"
+                  },
+                  "max_price": {
+                    "kopecks": "488900"
+                  },
+                  "free_places": 124,
+                  "transport_type": {
+                    "key": "5a816d4216c45c47e79ea084",
+                    "provider_code": "Train"
+                  },
+                  "common_service_classes": [
+                    {
+                      "key": "5b8e14d716c45c59574b9503",
+                      "provider_code": "2Э:ФПК"
+                    },
+                    {
+                      "key": "5b8e14f016c45c59574b9505",
+                      "provider_code": "2Э:ФПК"
+                    },
+                    {
+                      "key": "5b8e14e316c45c59574b9504",
+                      "provider_code": "3Э:ФПК"
+                    }
+                  ],
+                  "raw_data": {
+                    "/Railway/V1/Search/TrainPricing": {
+                      "BookingSystem": "Express3",
+                      "DestinationCode": "2010070",
+                      "OriginCode": "2000002",
+                      "Trains": [
+                        {
+                          "ArrivalDateTime": "2026-09-12T09:17:00",
+                          "BookingSystem": "Express3",
+                          "CarGroups": [
+                            {
+                              "CarType": "Compartment",
+                              "CarTypeName": "КУПЕ",
+                              "MaxPrice": 6008.2,
+                              "MinPrice": 4889,
+                              "PlaceQuantity": 0,
+                              "ServiceClasses": [
+                                "2К"
+                              ],
+                              "TotalPlaceQuantity": 2
+                            },
+                            {
+                              "CarType": "Compartment",
+                              "CarTypeName": "КУПЕ",
+                              "MaxPrice": 6008.2,
+                              "MinPrice": 6008.2,
+                              "PlaceQuantity": 0,
+                              "ServiceClasses": [
+                                "2К"
+                              ],
+                              "TotalPlaceQuantity": 12
+                            }
+                          ],
+                          "Carriers": [
+                            "ФПК"
+                          ],
+                          "DepartureDateTime": "2026-09-11T21:50:00",
+                          "DestinationName": "ВОРКУТА",
+                          "DestinationStationCode": "2010070",
+                          "DisplayTrainNumber": "042В",
+                          "LocalArrivalDateTime": "2026-09-12T09:17:00",
+                          "LocalDepartureDateTime": "2026-09-11T21:50:00",
+                          "OriginName": "МОСКВА ЯР",
+                          "OriginStationCode": "2000002",
+                          "Provider": "P1",
+                          "TrainName": "скорый",
+                          "TrainNumber": "042В",
+                          "TransportType": "Train",
+                          "TripDistance": 707,
+                          "TripDuration": 687
+                        }
+                      ]
+                    }
+                  },
+                  "products": [
+                    {
+                      "carriers": [
+                        {
+                          "key": "5ba0bc0216c45c6e7ab53b1c",
+                          "provider_code": "ФПК"
+                        }
+                      ],
+                      "price": {
+                        "kopecks": "488900"
+                      },
+                      "free_places": 37,
+                      "common_service_class": {
+                        "key": "5b8e14d716c45c59574b9503",
+                        "provider_code": "Compartment"
+                      },
+                      "train_car_type": {
+                        "key": "Compartment"
+                      },
+                      "common_service_classes": [
+                        {
+                          "key": "5b8e14e316c45c59574b9504",
+                          "provider_code": "2К:ФПК"
+                        },
+                        {
+                          "key": "5b8e14d716c45c59574b9503",
+                          "provider_code": "2Э:ФПК"
+                        },
+                        {
+                          "key": "5b8e14f016c45c59574b9505",
+                          "provider_code": "2Э:ФПК"
+                        }
+                      ],
+                      "internal_key": "C",
+                      "ttl_rule_key": "128",
+                      "ttl_expire_time": "2026-07-30T17:46:30Z"
+                    },
+                    {
+                      "carriers": [
+                        {
+                          "key": "5ba0bc0216c45c6e7ab53b1c",
+                          "provider_code": "ФПК"
+                        }
+                      ],
+                      "price": {
+                        "kopecks": "328140"
+                      },
+                      "free_places": 87,
+                      "common_service_class": {
+                        "key": "5b8e14e316c45c59574b9504",
+                        "provider_code": "ReservedSeat"
+                      },
+                      "train_car_type": {
+                        "key": "ReservedSeat"
+                      },
+                      "common_service_classes": [
+                        {
+                          "key": "5b8e14e316c45c59574b9504",
+                          "provider_code": "3Э:ФПК"
+                        }
+                      ],
+                      "internal_key": "R",
+                      "ttl_rule_key": "128",
+                      "ttl_expire_time": "2026-07-30T17:46:30Z"
+                    }
+                  ],
+                  "display_priority": "DP_REGULAR",
+                  "legality": "undefined"
+                }
+              ]
+            }
+          ],
+          "internal_key": "0aac07d764cce93feb7ddb769c1ad921",
+          "incomplete": false,
+          "ttl_min_expire_time": "2026-07-30T17:46:30Z",
+          "ttl_max_expire_time": "2026-07-30T17:46:30Z"
+        },
+        {
+          "provider": {
+            "key": "b2brails"
+          },
+          "min_price": {
+            "kopecks": "238990"
+          },
+          "max_price": {
+            "kopecks": "321150"
+          },
+          "free_places": 124,
+          "transport_types": [
+            {
+              "key": "5a816d4216c45c47e79ea084",
+              "provider_code": "Train"
+            }
+          ],
+          "common_service_classes": [
+            {
+              "key": "5b8e14e316c45c59574b9504",
+              "provider_code": "3Э:ФПК"
+            },
+            {
+              "key": "5b8e14d716c45c59574b9503",
+              "provider_code": "2К:ФПК"
+            }
+          ],
+          "booking_system": "Express3",
+          "segments": [
+            {
+              "start_location": {
+                "station": {
+                  "key": "5a8abf56340c742572d366b9",
+                  "name_ru": "Коноша 1",
+                  "name_en": "Konosha 1"
+                }
+              },
+              "finish_location": {
+                "station": {
+                  "key": "5a8abf8e340c74258ad366c5",
+                  "name_ru": "Исакогорка",
+                  "name_en": "Isakogorka"
+                }
+              },
+              "start_datetime": "2026-09-12T15:45:00+03:00",
+              "finish_datetime": "2026-09-12T23:02:00+03:00",
+              "min_price": {
+                "kopecks": "238990"
+              },
+              "max_price": {
+                "kopecks": "321150"
+              },
+              "free_places": 124,
+              "transport_types": [
+                {
+                  "key": "5a816d4216c45c47e79ea084",
+                  "provider_code": "Train"
+                }
+              ],
+              "common_service_classes": [
+                {
+                  "key": "5b8e14e316c45c59574b9504",
+                  "provider_code": "3Э:ФПК"
+                },
+                {
+                  "key": "5b8e14d716c45c59574b9503",
+                  "provider_code": "2К:ФПК"
+                }
+              ],
+              "trips": [
+                {
+                  "start_location": {
+                    "station": {
+                      "key": "5a8abf56340c742572d366b9",
+                      "name_ru": "Коноша 1",
+                      "name_en": "Konosha 1"
+                    },
+                    "parent_city": {
+                      "key": "5a13bdea340c745ca1e8b3aa",
+                      "name_ru": "Коноша",
+                      "name_en": "Konosha"
+                    }
+                  },
+                  "finish_location": {
+                    "station": {
+                      "key": "5a8abf8e340c74258ad366c5",
+                      "name_ru": "Исакогорка",
+                      "name_en": "Isakogorka"
+                    },
+                    "parent_city": {
+                      "key": "5a13baf9340c745ca1e80436",
+                      "name_ru": "Архангельск",
+                      "name_en": "Arkhangelsk"
+                    }
+                  },
+                  "start_datetime": "2026-09-12T15:45:00+03:00",
+                  "finish_datetime": "2026-09-12T23:02:00+03:00",
+                  "race_number": "221С",
+                  "trip_distance": {
+                    "meters": "413000"
+                  },
+                  "min_price": {
+                    "kopecks": "238990"
+                  },
+                  "max_price": {
+                    "kopecks": "321150"
+                  },
+                  "free_places": 124,
+                  "transport_type": {
+                    "key": "5a816d4216c45c47e79ea084",
+                    "provider_code": "Train"
+                  },
+                  "common_service_classes": [
+                    {
+                      "key": "5b8e14e316c45c59574b9504",
+                      "provider_code": "3Э:ФПК"
+                    },
+                    {
+                      "key": "5b8e14d716c45c59574b9503",
+                      "provider_code": "2К:ФПК"
+                    }
+                  ],
+                  "raw_data": {
+                    "/Railway/V1/Search/TrainPricing": {
+                      "BookingSystem": "Express3",
+                      "DestinationCode": "2010211",
+                      "OriginCode": "2010070",
+                      "Trains": [
+                        {
+                          "ArrivalDateTime": "2026-09-12T23:02:00",
+                          "BookingSystem": "Express3",
+                          "CarGroups": [
+                            {
+                              "CarType": "Compartment",
+                              "CarTypeName": "КУПЕ",
+                              "MaxPrice": 4786.2,
+                              "MinPrice": 3211.5,
+                              "PlaceQuantity": 0,
+                              "ServiceClasses": [
+                                "2К"
+                              ],
+                              "TotalPlaceQuantity": 4
+                            },
+                            {
+                              "CarType": "Compartment",
+                              "CarTypeName": "КУПЕ",
+                              "MaxPrice": 4786.2,
+                              "MinPrice": 3911.4,
+                              "PlaceQuantity": 0,
+                              "ServiceClasses": [
+                                "2К"
+                              ],
+                              "TotalPlaceQuantity": 11
+                            }
+                          ],
+                          "Carriers": [
+                            "ФПК"
+                          ],
+                          "DepartureDateTime": "2026-09-12T15:45:00",
+                          "DestinationName": "АРХАНГЕЛ Г",
+                          "DestinationStationCode": "2010211",
+                          "DisplayTrainNumber": "222*С",
+                          "LocalArrivalDateTime": "2026-09-12T23:02:00",
+                          "LocalDepartureDateTime": "2026-09-12T15:45:00",
+                          "OriginName": "АНАПА",
+                          "OriginStationCode": "2010070",
+                          "Provider": "P1",
+                          "TrainName": "",
+                          "TrainNumber": "221С",
+                          "TransportType": "Train",
+                          "TripDistance": 413,
+                          "TripDuration": 437
+                        }
+                      ]
+                    }
+                  },
+                  "products": [
+                    {
+                      "carriers": [
+                        {
+                          "key": "5ba0bc0216c45c6e7ab53b1c",
+                          "provider_code": "ФПК"
+                        }
+                      ],
+                      "price": {
+                        "kopecks": "321150"
+                      },
+                      "free_places": 31,
+                      "common_service_class": {
+                        "key": "5b8e14d716c45c59574b9503",
+                        "provider_code": "Compartment"
+                      },
+                      "train_car_type": {
+                        "key": "Compartment"
+                      },
+                      "common_service_classes": [
+                        {
+                          "key": "5b8e14e316c45c59574b9504",
+                          "provider_code": "2К:ФПК"
+                        },
+                        {
+                          "key": "5b8e14d716c45c59574b9503",
+                          "provider_code": "2К:ФПК"
+                        }
+                      ],
+                      "internal_key": "C",
+                      "ttl_rule_key": "128",
+                      "ttl_expire_time": "2026-07-30T18:21:42Z"
+                    },
+                    {
+                      "carriers": [
+                        {
+                          "key": "5ba0bc0216c45c6e7ab53b1c",
+                          "provider_code": "ФПК"
+                        }
+                      ],
+                      "price": {
+                        "kopecks": "238990"
+                      },
+                      "free_places": 93,
+                      "common_service_class": {
+                        "key": "5b8e14e316c45c59574b9504",
+                        "provider_code": "ReservedSeat"
+                      },
+                      "train_car_type": {
+                        "key": "ReservedSeat"
+                      },
+                      "common_service_classes": [
+                        {
+                          "key": "5b8e14e316c45c59574b9504",
+                          "provider_code": "3Э:ФПК"
+                        }
+                      ],
+                      "internal_key": "R",
+                      "ttl_rule_key": "128",
+                      "ttl_expire_time": "2026-07-30T18:21:42Z"
+                    }
+                  ],
+                  "display_priority": "DP_REGULAR",
+                  "legality": "undefined"
+                }
+              ]
+            }
+          ],
+          "internal_key": "131b03a02a2e0fb89154134778c9b23e",
+          "incomplete": false,
+          "ttl_min_expire_time": "2026-07-30T18:21:42Z",
+          "ttl_max_expire_time": "2026-07-30T18:21:42Z"
+        }
+      ],
+      "legs": [
+        {
+          "start_location": {
+            "station": {
+              "key": "5a8abbdf340c742575d3667c",
+              "name_ru": "Москва Ярославская (Ярославский вокзал)",
+              "name_en": "Moskva Yaroslavskaya (Yaroslavskiy vokzal)",
+              "coordinates": {
+                "lat": 55.777687,
+                "lon": 37.657556
+              },
+              "distance_to_city_center": 3479
+            }
+          },
+          "finish_location": {
+            "station": {
+              "key": "5a8abf8e340c74258ad366c5",
+              "name_ru": "Исакогорка",
+              "name_en": "Isakogorka",
+              "coordinates": {
+                "lat": 64.429244,
+                "lon": 40.608306
+              },
+              "distance_to_city_center": 12718
+            }
+          },
+          "start_datetime": "2026-09-11T21:50:00+03:00",
+          "finish_datetime": "2026-09-12T23:02:00+03:00",
+          "segment_references": [
+            {
+              "route_index": 0,
+              "segment_index": 0
+            },
+            {
+              "route_index": 1,
+              "segment_index": 0
+            }
+          ],
+          "index_str": "via-graph-006-by-RzdAlgo2-RzdAlgo2OpOnly-any-RegularPathDistance(RankPairing)(DurationP:31h48m17.167811049s-DistanceP:1269006-DistanceWoExP:18957-SumDistance:996985)"
+        }
+      ],
+      "min_price": {
+        "kopecks": "567130"
+      },
+      "max_price": {
+        "kopecks": "810050"
+      },
+      "search_duration": "0s",
+      "via_graph_index": "6",
+      "split_index": "0",
+      "split_count": "1"
+    }
+  ],
+  "num_multi_modal_routes": 2
+}

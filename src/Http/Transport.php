@@ -83,7 +83,10 @@ final readonly class Transport
         $request = $this->requestFactory
             ->createRequest($method, $this->uri($path, $query))
             ->withHeader('Accept', 'application/json, text/plain, */*')
-            ->withHeader('Accept-Language', $this->config->language->value);
+            ->withHeader('Accept-Language', $this->config->language->value)
+            // Поиск с пересадками отвечает 500 без куки языка. Значение сайту
+            // безразлично, важно само ее наличие, поэтому берем язык настроек
+            ->withHeader('Cookie', 'LANG_SITE=' . $this->config->language->value);
 
         // Без User-Agent защита сайта отвечает 403 на любой запрос
         if ($this->config->userAgent !== '') {

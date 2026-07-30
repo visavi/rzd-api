@@ -16,6 +16,7 @@ use Rzd\Endpoint\References;
 use Rzd\Endpoint\Routes;
 use Rzd\Endpoint\Stations;
 use Rzd\Endpoint\Trains;
+use Rzd\Endpoint\Transfers;
 use Rzd\Http\Transport;
 
 /**
@@ -40,6 +41,7 @@ use Rzd\Http\Transport;
 final readonly class Client
 {
     public Trains $trains;
+    public Transfers $transfers;
     public Cars $cars;
     public Routes $routes;
     public Stations $stations;
@@ -62,6 +64,7 @@ final readonly class Client
         );
 
         $this->trains = new Trains($transport, $this->config);
+        $this->transfers = new Transfers($transport, $this->config);
         $this->cars = new Cars($transport, $this->config);
         $this->routes = new Routes($transport, $this->config);
         $this->stations = new Stations($transport, $this->config);

@@ -30,6 +30,7 @@ PSR-18 и больше не тянет Guzzle в зависимости. Тай�
 |------------------------------------|--------------------------------------------------------------------|
 | `$api->trainRoutes($params)`       | `$client->trains->search(new TrainSearch(...))`                    |
 | `$api->trainRoutesReturn($params)` | `$client->trains->searchReturn(new TrainSearch(...), $returnDate)` |
+| `$api->trainRoutes(['md' => 1])`   | `$client->transfers->search(new TransferSearch(...))`              |
 | `$api->trainCarriages($params)`    | `$client->cars->search(CarSearch::forTrain($train))`               |
 | `$api->trainStationList($params)`  | `$client->routes->forTrain(RouteSearch::forTrain($train))`         |
 | `$api->stationCode($params)`       | `$client->stations->suggest('ЧЕБ')`                                |
@@ -106,6 +107,44 @@ foreach ($result as $train) {
 Параметры `dir`, `tfl` и `checkSeats` больше не нужны: они относились к прежнему
 протоколу. Дата передаётся объектом `DateTimeInterface`, а не строкой в
 формате сайта.
+
+### Поиск с пересадками
+
+В 5.x пересадки включались параметром `md` того же запроса, а ответ приходил
+в отдельном формате `state: Transfers` со списком `cases`, который библиотека
+не разбирала.
+
+```php
+// 5.x
+$routes = json_decode($api->trainRoutes([
+    'dir'   => 0,
+    'code0' => 2030319,
+    'code1' => 2038230,
+    'dt0'   => '20.08.2026',
+    'md'    => 1,
+]));
+
+foreach ($routes->tp[0]->list as $variant) {
+    echo $variant->midPt, $variant->totalTravelTime;
+}
+```
+
+```php
+// 6.0
+$result = $client->transfers->search(new Rzd\Request\TransferSearch(
+    origin: '5a13bdc3340c745ca1e8aa54',      // Новый Уренгой
+    destination: '5a13baab340c745ca1e7f31c', // Абакан
+    date: new DateTimeImmutable('2026-08-20'),
+));
+
+foreach ($result as $route) {
+    echo $route->changes(), $route->duration(), $route->minPrice;
+}
+```
+
+Города здесь задаются идентификаторами узлов сайта, а не кодами станций.
+Готовый запрос собирается из подсказок:
+`TransferSearch::forStations($from, $to, $date)`.
 
 ### Вагоны
 

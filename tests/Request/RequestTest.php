@@ -8,13 +8,16 @@ use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Rzd\Enum\TransportProvider;
 use Rzd\Exception\InvalidArgumentException;
 use Rzd\Model\Car;
+use Rzd\Model\Station;
 use Rzd\Model\Train;
 use Rzd\Request\CarSchemeSearch;
 use Rzd\Request\CarSearch;
 use Rzd\Request\RouteSearch;
 use Rzd\Request\TrainSearch;
+use Rzd\Request\TransferSearch;
 use Rzd\Tests\Concerns\AssertsExceptions;
 
 final class RequestTest extends TestCase
@@ -251,6 +254,46 @@ final class RequestTest extends TestCase
             InvalidArgumentException::class,
             'Номер вагона и номер поезда обязательны',
             fn() => new CarSchemeSearch('ФПК', '64К', '', '130Х', $this->date()),
+        );
+    }
+
+    #[Test]
+    public function transferSearchIsBuiltFromStations(): void
+    {
+        $request = TransferSearch::forStations(
+            Station::fromArray(['nodeId' => '5a323c29340c7441a0a556bb']),
+            Station::fromArray(['nodeId' => '5a13baf9340c745ca1e80436']),
+            $this->date(),
+        );
+
+        self::assertSame('5a323c29340c7441a0a556bb', $request->origin);
+        self::assertSame('5a13baf9340c745ca1e80436', $request->destination);
+        // Время отправления не учитывается, сайт ищет в пределах суток
+        self::assertSame('2026-08-01T00:00:00', $request->toBody()['start_datetime_range']['from']);
+    }
+
+    #[Test]
+    public function transferSearchRequiresNodeIds(): void
+    {
+        $this->assertThrows(
+            InvalidArgumentException::class,
+            'У станции нет идентификатора узла',
+            fn() => TransferSearch::forStations(
+                Station::fromArray(['Name' => 'Москва']),
+                Station::fromArray(['nodeId' => '5a13baf9340c745ca1e80436']),
+                $this->date(),
+            ),
+        );
+    }
+
+    #[Test]
+    public function transferSearchListsAllProviders(): void
+    {
+        $request = new TransferSearch('a', 'b', $this->date(), providers: TransportProvider::all());
+
+        self::assertSame(
+            ['b2brails', 'cbdpr', 'b2bbus', 'b2bavia', 'b2bboat', 'aeroexpress'],
+            $request->toBody()['filters'][0]['exact_filter']['param_values'],
         );
     }
 }

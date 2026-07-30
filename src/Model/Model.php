@@ -109,6 +109,82 @@ abstract readonly class Model
     }
 
     /**
+     * Коды из списка справочных объектов вида {"key": …, "provider_code": …}
+     *
+     * Поиск с пересадками ссылается на свои справочники по ключу, но рядом
+     * кладет код перевозчика, понятный без дополнительного запроса
+     *
+     * @param array<string, mixed> $data
+     *
+     * @return list<string>
+     */
+    protected static function codes(array $data, string $key): array
+    {
+        $items = $data[$key] ?? [];
+
+        if (! is_array($items)) {
+            return [];
+        }
+
+        return array_values(array_filter(array_map(
+            static fn(mixed $item): ?string => is_array($item) ? self::str($item, 'provider_code') : null,
+            $items,
+        )));
+    }
+
+    /**
+     * Цена в рублях из вложенного объекта с копейками
+     *
+     * Поиск с пересадками отдает деньги как {"kopecks": "553410"}, причем
+     * строкой: суммы не помещаются в целое число у части языков
+     *
+     * @param array<string, mixed> $data
+     */
+    protected static function money(array $data, string $key): ?float
+    {
+        $value = $data[$key] ?? null;
+
+        if (! is_array($value) || ! is_numeric($value['kopecks'] ?? null)) {
+            return null;
+        }
+
+        return (int) $value['kopecks'] / 100;
+    }
+
+    /**
+     * Длительность в секундах из формата Go, например 807.024s
+     *
+     * @param array<string, mixed> $data
+     */
+    protected static function seconds(array $data, string $key): ?int
+    {
+        $value = $data[$key] ?? null;
+
+        if (! is_string($value) || ! preg_match('/^(\d+(?:\.\d+)?)s$/', $value, $match)) {
+            return null;
+        }
+
+        return (int) round((float) $match[1]);
+    }
+
+    /**
+     * Одна вложенная модель, null если поля нет
+     *
+     * @template T of self
+     *
+     * @param array<string, mixed> $data
+     * @param class-string<T>      $model
+     *
+     * @return T|null
+     */
+    protected static function one(array $data, string $key, string $model): ?self
+    {
+        $value = $data[$key] ?? null;
+
+        return is_array($value) ? $model::fromArray($value) : null;
+    }
+
+    /**
      * Список вложенных моделей
      *
      * @template T of self

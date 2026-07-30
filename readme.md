@@ -3,284 +3,541 @@
 [![Packagist](https://img.shields.io/packagist/v/visavi/rzd-api.svg)](https://packagist.org/packages/visavi/rzd-api)
 [![Tests](https://github.com/visavi/rzd-api/actions/workflows/tests.yml/badge.svg)](https://github.com/visavi/rzd-api/actions/workflows/tests.yml)
 [![Coverage](https://coveralls.io/repos/github/visavi/rzd-api/badge.svg?branch=master)](https://coveralls.io/github/visavi/rzd-api?branch=master)
-[![PHP](https://img.shields.io/badge/php-%E2%89%A5%208.0-777bb4.svg)](https://www.php.net/releases/8.0/)
+[![PHP](https://img.shields.io/badge/php-%E2%89%A5%208.2-777bb4.svg)](https://www.php.net/releases/8.2/)
 [![Downloads](https://img.shields.io/packagist/dt/visavi/rzd-api.svg)](https://packagist.org/packages/visavi/rzd-api)
 [![License](https://img.shields.io/packagist/l/visavi/rzd-api.svg)](https://github.com/visavi/rzd-api/blob/master/composer.json)
 
-### Что умеет Api
-* Получает маршруты в одну точку
-* Получает маршруты туда-обратно
-* Получает список вагонов выбранного поезда
-* Получает список станций в пути следования выбранного маршрута
-* Получает коды станций вместе с часовым поясом и кодами смежных видов транспорта
+Клиент API РЖД: поиск поездов, свободные места в вагонах, схемы вагонов,
+маршруты следования, календарь цен и справочники.
 
-### Содержание
+## Что умеет
+
+* **Поиск поездов** — расписание, время в пути, расстояние, типы вагонов, цены и количество мест
+* **Вагоны и места** — номера свободных мест по вагонам и купе, цены, услуги
+* **Схемы вагонов** — чертеж вагона в SVG и фотографии салона
+* **Маршрут поезда** — все остановки с местным и московским временем, стоянками и часовыми поясами
+* **Станции** — поиск кодов по названию, популярные города, коды смежных видов транспорта
+* **Календарь цен** — минимальные цены по датам, даты с местами и горизонт продажи
+* **Справочники** — тарифы, карты и абонементы, конфигурация сайта
+* **Аэроэкспресс** — тарифы на поездку в аэропорт
+
+## Содержание
 
 * [Установка](#установка)
-* [Демонстрация возможностей](#демонстрация-возможностей)
-* [Пример запроса](#пример-запроса)
-* [Как устроен обмен с сайтом](https://github.com/visavi/rzd-api/blob/master/docs/protocol.md)
-* Методы
-  * [trainRoutes](#trainroutes---получает-маршруты-поездов-количество-свободных-мест-цены-итд-в-нем-в-один-конец) - маршруты в одну сторону
-  * [trainRoutesReturn](#trainroutesreturn---получает-маршруты-поездов-количество-свободных-мест-цены-итд-туда-обратно) - маршруты туда-обратно
-  * [trainCarriages](#traincarriages---получает-список-вагонов-свободные-места-схема-вагона-стоимость-билетов-тип-и-класс-обслуживания) - вагоны и места
-  * [trainStationList](#trainstationlist---получение-списка-всех-станций-в-текущем-маршруте-движения) - станции в пути следования
-  * [stationCode](#stationcode---получение-списка-кодов-станций) - коды станций
+* [Быстрый старт](#быстрый-старт)
+* [Настройка](#настройка)
+* [Методы](#методы)
+  * [Поиск поездов](#поиск-поездов)
+  * [Вагоны и места](#вагоны-и-места)
+  * [Схема и фотографии вагона](#схема-и-фотографии-вагона)
+  * [Маршрут поезда](#маршрут-поезда)
+  * [Станции](#станции)
+  * [Календарь цен](#календарь-цен)
+  * [Справочники](#справочники)
+  * [Аэроэкспресс](#аэроэкспресс)
+* [Ошибки](#ошибки)
+* [Данные вне моделей](#данные-вне-моделей)
+* [Примеры](#примеры)
 * [Тесты](#тесты)
+* [Переход с 5.x](docs/migration.md)
+* [Описание эндпоинтов](docs/endpoints.md)
 
-### Установка
+## Установка
 
 ```sh
 composer require visavi/rzd-api
 ```
 
-Требуется PHP 8.0 и расширения json, curl, mbstring
+Библиотека не привязана к конкретному HTTP-клиенту: ей нужна любая реализация
+[PSR-18](https://www.php-fig.org/psr/psr-18/) и [PSR-17](https://www.php-fig.org/psr/psr-17/).
+Если в проекте их ещё нет, достаточно Guzzle — он даёт и клиент, и фабрики:
 
-Сайт rzd.ru принимает запросы только с российских адресов. Вне РФ понадобится прокси,
-он задается через `Config::setProxy()`
-
-[Подробное описание установки](https://github.com/visavi/rzd-api/blob/master/docs/install.md)
-
-### Демонстрация возможностей
-
-Скачайте архив, распакуйте и перейдите в директорию
-
-Установите необходимые зависимости
 ```sh
-composer install
+composer require guzzlehttp/guzzle
 ```
 
-И запустите встроенный веб-сервер
-```sh
-php -S localhost:8000 -t examples
+Подойдёт любая другая пара, проверенные варианты:
+
+| Клиент PSR-18          | Фабрики PSR-17                                                                |
+|------------------------|-------------------------------------------------------------------------------|
+| `guzzlehttp/guzzle`    | входят в комплект, отдельно ставить нечего                                    |
+| `symfony/http-client`  | нужны отдельно: `nyholm/psr7`, `laminas/laminas-diactoros`, `httpsoft/http-message` |
+| `php-http/curl-client` | нужны отдельно, те же варианты                                                |
+
+Реализация подхватывается автоматически через `php-http/discovery`, либо
+передаётся в конструктор явно. Обратите внимание: `symfony/http-client` без
+реализации PSR-17 не заработает — фабрик в нём нет.
+
+Требования: PHP 8.2 или новее и расширение `json`.
+
+## Быстрый старт
+
+```php
+use Rzd\Client;
+use Rzd\Request\CarSearch;
+use Rzd\Request\TrainSearch;
+
+$client = new Client();
+
+$result = $client->trains->search(new TrainSearch(
+    origin: '2000000',       // Москва
+    destination: '2004000',  // Санкт-Петербург
+    date: new DateTimeImmutable('+7 days'),
+));
+
+foreach ($result as $train) {
+    printf(
+        "%s %s → %s, мест %d, от %.2f\n",
+        $train->number,
+        $train->departure->format('d.m H:i'),
+        $train->arrival->format('d.m H:i'),
+        $train->freeSeats(),
+        $train->minPrice(),
+    );
+}
+
+// Вагоны первого поезда: параметры собираются из него самого
+$cars = $client->cars->search(CarSearch::forTrain($result->trains[0]));
+
+foreach ($cars->withSeats() as $car) {
+    printf("вагон %s %s, места: %s\n", $car->number, $car->typeName, $car->freePlaces);
+}
 ```
 
-Сайт rzd.ru принимает запросы только с российских адресов, вне РФ понадобится прокси
+Коды станций ищутся по названию:
+
+```php
+foreach ($client->stations->suggest('Чебоксары') as $station) {
+    printf("%s %s %s\n", $station->name, $station->code, $station->timezone);
+}
+```
+
+## Настройка
+
+Сетевые настройки — таймаут, прокси, повторы, логирование — задаются в
+HTTP-клиенте, а не в библиотеке. Так они настраиваются один раз для всего
+приложения, и библиотека не дублирует возможности клиента.
+
+**Сайт принимает запросы только с российских адресов**, с остальных соединение
+уходит в таймаут. Вне РФ нужен прокси:
+
+```php
+use GuzzleHttp\Client as GuzzleClient;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Rzd\Client;
+use Rzd\Config;
+
+$factory = new Psr17Factory();
+
+$client = new Client(
+    config: new Config(),
+    httpClient: new GuzzleClient([
+        'proxy'   => 'socks5://127.0.0.1:1080',
+        'timeout' => 30,
+    ]),
+    requestFactory: $factory,
+    streamFactory: $factory,
+);
+```
+
+Если клиент и фабрики не переданы, они определяются автоматически среди
+установленных реализаций PSR-18 и PSR-17.
+
+Настройки самой библиотеки:
+
+```php
+use Rzd\Config;
+use Rzd\Enum\Language;
+
+$config = new Config(
+    // Язык ответов сайта
+    language: Language::English,
+
+    // Без User-Agent сайт отвечает 403, поэтому по умолчанию подставляется браузерный
+    userAgent: 'MyApp/1.0',
+
+    // Дополнительные заголовки к каждому запросу
+    headers: ['X-Client-ID' => '22900'],
+);
+```
+
+Настройки неизменяемы, копию с другими значениями дают методы `withLanguage`,
+`withUserAgent` и `withHeaders`.
+
+## Методы
+
+Клиент разбит по ресурсам: `trains`, `cars`, `routes`, `stations`, `prices`,
+`references`, `aeroexpress`.
+
+### Поиск поездов
+
+```php
+$result = $client->trains->search(new TrainSearch(
+    origin: '2000000',
+    destination: '2004000',
+    date: new DateTimeImmutable('2026-08-01'),
+    adults: 2,            // взрослых пассажиров
+    children: 1,          // детей без места
+    fromSchedule: true,   // добавлять поезда из расписания, у которых мест ещё нет
+    largeFamily: false,   // искать места для многодетных
+    groupCars: false,     // группировать вагоны одного типа
+));
+```
+
+`SearchResult` перебирается как список поездов и хранит данные направления,
+поэтому пустой результат отличим от отсутствия мест:
+
+```php
+count($result);            // сколько поездов найдено
+$result->trains;           // список Train
+$result->withSeats();      // только поезда со свободными местами
+$result->originName;        // название станции отправления
+$result->destinationName;
+$result->moscowTime;        // текущее московское время сайта
+$result->partial;           // сайт вернул не все поезда направления
+```
+
+Поезд:
+
+```php
+$train->number;            // 130Х
+$train->displayNumber;     // номер для показа пользователю
+$train->name;              // название фирменного поезда, иначе null
+$train->description;       // категория: СК, ПАСС, СКОР
+$train->departure;         // DateTimeImmutable по местному времени станции
+$train->arrival;
+$train->moscowDeparture;   // то же по московскому времени
+$train->duration;          // время в пути в минутах
+$train->distance;          // расстояние в километрах
+$train->carriers;          // ['ФПК']
+$train->carGroups;         // группы вагонов с ценами и местами
+$train->freeSeats();       // свободных мест по всем группам
+$train->minPrice();        // минимальная цена по всем группам
+
+$train->provider;          // система бронирования, нужна для запроса вагонов
+$train->originStationCode; // код станции, а не города — тоже нужен для вагонов
+```
+
+Поиск туда-обратно делает два запроса: сайт не умеет искать пару маршрутов
+одним, его собственная страница туда-обратно поступает так же. Параметры
+обратного плеча повторяют первое, меняются только станции и дата:
+
+```php
+$trip = $client->trains->searchReturn($search, new DateTimeImmutable('2026-08-05'));
+
+$trip->forward;      // SearchResult туда
+$trip->back;         // SearchResult обратно
+$trip->hasSeats();   // есть места в обе стороны
+$trip->minPrice();   // минимальная стоимость поездки целиком
+```
+
+Группа вагонов:
+
+```php
+$group->type;              // Compartment, Luxury, Soft, ReservedSeat, Sedentary
+$group->typeName;          // КУПЕ, СВ, ЛЮКС, ПЛАЦ, СИДЯЧИЙ
+$group->serviceClasses;    // ['2Э']
+$group->places;            // свободных мест
+$group->lowerPlaces;       // из них нижних
+$group->upperPlaces;
+$group->minPrice;
+$group->maxPrice;
+$group->availability;      // Available, LastPlaces, NotAvailable
+```
+
+### Вагоны и места
+
+Запросу вагонов нужны коды **конкретных станций** поезда и его система
+бронирования. Всё это есть в найденном поезде, поэтому проще собрать параметры
+из него:
+
+```php
+$cars = $client->cars->search(CarSearch::forTrain($train));
+```
+
+Или задать вручную:
+
+```php
+$cars = $client->cars->search(new CarSearch(
+    origin: '2000003',
+    destination: '2060500',
+    trainNumber: '130Х',
+    departure: new DateTimeImmutable('2026-08-01 00:20'),
+    provider: 'P1',
+));
+```
+
+```php
+count($cars);              // сколько вагонов
+$cars->withSeats();        // только вагоны со свободными местами
+$cars->train;              // данные поезда, приходят тем же ответом
+
+$car->number;              // 09
+$car->typeName;            // КУПЕ
+$car->serviceClass;        // 2Э
+$car->freePlaces;          // «2, 4» как отдаёт сайт
+$car->placeNumbers();      // [2, 4] числами, пометки пола отброшены
+$car->places;              // свободных мест
+$car->minPrice;
+$car->maxPrice;
+$car->serviceCost;         // стоимость сервисных услуг, входит в цену
+$car->schemeId;            // идентификатор схемы вагона
+$car->subType;             // 64К, определяет схему
+
+foreach ($car->compartments as $compartment) {
+    printf("купе %s: %s\n", $compartment->number, implode(', ', $compartment->placeNumbers()));
+}
+```
+
+Пометка после номера места (`4М`, `12Ж`, `22С`) означает пол пассажиров в купе,
+к номеру места отношения не имеет и в `placeNumbers()` отбрасывается.
+
+### Схема и фотографии вагона
+
+```php
+use Rzd\Enum\SchemeView;
+use Rzd\Request\CarSchemeSearch;
+
+$request = CarSchemeSearch::forCar($car, $train);
+
+$scheme = $client->cars->scheme($request);
+
+$scheme->schemeId;          // 567
+$scheme->isTwoStorey();
+$scheme->has(SchemeView::DesktopSecondStorey);
+
+// Чертёж вагона в SVG
+$svg = $client->cars->schemeImage($scheme->schemeId, SchemeView::DesktopFirstStorey);
+
+// Фотографии салона
+foreach ($client->cars->images($request) as $image) {
+    printf("%s %s\n", $image->title, $image->content);
+}
+```
+
+### Маршрут поезда
+
+```php
+use Rzd\Request\RouteSearch;
+
+$route = $client->routes->forTrain(RouteSearch::forTrain($train));
+
+foreach ($route as $stop) {
+    printf(
+        "%s приб %s отпр %s стоянка %s мин, МСК %+d\n",
+        $stop->stationName,
+        $stop->arrival?->format('d.m H:i') ?? '',
+        $stop->departure?->format('d.m H:i') ?? '',
+        $stop->stopDuration,
+        $stop->timeZoneDifference,
+    );
+}
+```
+
+У части поездов сайт отдаёт несколько вариантов маршрута, например с
+прицепными вагонами. `forTrain` возвращает основной, `all` — все.
+
+### Станции
+
+```php
+// Поиск по части названия, повторяющиеся коды отбрасываются
+$stations = $client->stations->suggest('ЧЕБ');
+
+$station->name;             // Чебоксары
+$station->code;             // 2060620, он нужен для поиска поездов
+$station->nodeId;           // идентификатор узла нового сайта
+$station->region;           // Российская Федерация
+$station->type;             // Город, Станция, Поселок
+$station->timezone;         // Europe/Moscow
+$station->codes;            // ['Railway' => ..., 'Cbdpr' => ..., 'Bus' => ..., 'Avia' => ...]
+$station->stationCodes;     // коды всех вокзалов города
+
+// Популярные города
+$client->stations->popular();
+
+// Город или станция по идентификатору узла
+$client->stations->byNodeId('5a323c29340c7441a0a556bb');
+```
+
+### Календарь цен
+
+```php
+// Даты, на которые между станциями есть поезда с местами
+$dates = $client->prices->availability(
+    '2000000',
+    '2004000',
+    new DateTimeImmutable('+1 day'),
+    new DateTimeImmutable('+21 days'),
+);
+
+// Минимальные цены по датам отправления
+foreach ($client->prices->calendar('2000000', '2004000', new DateTimeImmutable('+1 day')) as $day) {
+    printf("%s от %.2f\n", $day->date->format('d.m.Y'), $day->minPrice);
+
+    $day->byCarType();  // ['Compartment' => 2037.30, 'Luxury' => 9043.30]
+    $day->carriers();   // ['ФПК', 'ДОСС']
+}
+```
+
+Отдельный вопрос — до какой даты продажа открыта вообще. Сайт отдаёт календарь
+примерно на тринадцать месяцев вперёд, из которых заполнены только доступные:
+
+```php
+foreach ($client->prices->saleCalendar('2000000', '2004000') as $month) {
+    printf("%d-%02d: дней в продаже %d\n", $month->year, $month->month, count($month->saleDays));
+
+    $month->availableDays;   // числа месяца, на которые есть поезда
+    $month->saleDays;        // числа месяца, на которые открыта продажа
+    $month->isOnSale(15);    // открыта ли продажа на 15-е
+    $month->dates();         // те же дни объектами DateTimeImmutable
+}
+```
+
+### Справочники
+
+```php
+foreach ($client->references->tariffs() as $tariff) {
+    printf("%s %s %s\n", $tariff->sysName, $tariff->category, $tariff->isActive() ? '' : 'недействующий');
+}
+
+// Конфигурация сайта отдаётся массивом: набор ключей меняется сайтом
+$config = $client->references->appConfig();
+```
+
+Карты и абонементы перевозчиков — скидка в процентах либо фиксированное число
+поездок:
+
+```php
+foreach ($client->references->cards() as $card) {
+    printf("%s %s %.2f\n", $card->code, $card->name, $card->price);
+
+    $card->discount;         // скидка в процентах
+    $card->tripQuantity;     // число поездок у абонемента
+    $card->activeDays;       // срок действия в днях
+    $card->carTypes;         // ['Compartment', 'Sedentary']
+    $card->serviceClasses;
+    $card->isPass();          // абонемент на поездки, а не скидочная карта
+    $card->fitsCarType('Compartment');
+}
+```
+
+### Аэроэкспресс
+
+У аэроэкспресса свои тарифы: место обычно не фиксировано, а билет действует
+несколько месяцев, поэтому поиска поездов здесь нет.
+
+```php
+foreach ($client->aeroexpress->tariffs(new DateTimeImmutable('+7 days')) as $tariff) {
+    printf("%s %.2f\n", $tariff->name, $tariff->price);
+
+    $tariff->type;            // Standard, Business
+    $tariff->description;     // условия применения
+    $tariff->maxTickets;      // сколько билетов можно купить одним заказом
+    $tariff->guaranteedSeat;
+    $tariff->documentTypes;
+}
+```
+
+Коды станций необязательны: без них приходят тарифы, действующие на любом
+направлении от аэропортов и к ним.
+
+## Ошибки
+
+Все исключения библиотеки реализуют `Rzd\Exception\RzdException`, поэтому
+ловятся одним `catch`:
+
+```php
+use Rzd\Exception\ApiException;
+use Rzd\Exception\ForbiddenException;
+use Rzd\Exception\InvalidArgumentException;
+use Rzd\Exception\MalformedResponseException;
+use Rzd\Exception\RzdException;
+use Rzd\Exception\TransportException;
+
+try {
+    $client->trains->search($search);
+} catch (TransportException $e) {
+    // Сайт недоступен: таймаут, обрыв соединения, ошибка прокси.
+    // Вне РФ самая частая ошибка
+} catch (ForbiddenException $e) {
+    // Запрос отбит защитой сайта, обычно из-за пустого User-Agent
+} catch (ApiException $e) {
+    // Сайт ответил ошибкой
+    $e->statusCode();  // 500
+    $e->errorCode();   // INTERNAL_ERROR
+    $e->body();        // тело ответа целиком
+} catch (MalformedResponseException $e) {
+    // Ответ успешный, но это не JSON
+} catch (InvalidArgumentException $e) {
+    // Некорректные параметры, обнаружены до обращения к сайту
+} catch (RzdException $e) {
+    // Любая ошибка библиотеки
+}
+```
+
+## Данные вне моделей
+
+Сайт отдаёт у поезда больше семидесяти полей, у вагона больше восьмидесяти.
+Модели описывают то, что нужно на практике, а полный ответ остаётся доступен,
+поэтому редкое поле не требует правки библиотеки:
+
+```php
+$train->get('TrainBrandCode');   // 3033
+$train->get('BoardingSystemTypes');
+$train->raw;                      // весь ответ сайта по этому поезду
+$result->raw;                     // весь ответ целиком
+```
+
+Значения, которые присылает сайт (`CarType`, `Provider`, `CarNumeration`),
+остаются строками, а не перечислениями: сайт может добавить новое значение,
+и перечисление сломало бы клиент на ровном месте. Перечисления используются
+только там, где значение выбираем мы: `Language`, `SchemeView`.
+
+## Примеры
+
+Запускаются из корня проекта, вне РФ — с прокси:
+
+```sh
+php examples/index.php                 # список примеров
+php examples/index.php search_trains   # запустить один
+php examples/search_trains.php         # то же напрямую
+
+RZD_PROXY=socks5://127.0.0.1:1080 php examples/index.php search_trains
+```
+
+Либо в браузере, со страницей-навигацией по примерам:
+
 ```sh
 RZD_PROXY=socks5://127.0.0.1:1080 php -S localhost:8000 -t examples
 ```
 
-Каждый пример запускается и отдельно
+| Пример                                            | Что показывает                                 |
+|---------------------------------------------------|------------------------------------------------|
+| [search_trains.php](examples/search_trains.php)   | поиск поездов, цены, типы вагонов              |
+| [round_trip.php](examples/round_trip.php)         | поиск туда-обратно, стоимость поездки целиком   |
+| [car_places.php](examples/car_places.php)         | вагоны, свободные места по купе                |
+| [car_scheme.php](examples/car_scheme.php)         | схема вагона в SVG и фотографии салона         |
+| [train_route.php](examples/train_route.php)       | маршрут поезда по станциям                     |
+| [stations.php](examples/stations.php)             | коды станций, популярные города                |
+| [price_calendar.php](examples/price_calendar.php) | горизонт продажи, наличие мест, цены по датам  |
+| [cards.php](examples/cards.php)                   | карты и абонементы со скидками                 |
+| [aeroexpress.php](examples/aeroexpress.php)       | тарифы аэроэкспресса                           |
+| [tariffs.php](examples/tariffs.php)               | справочник тарифов, конфигурация сайта         |
+
+## Тесты
+
 ```sh
-php examples/train_routes.php
+composer test           # на моках, без обращения к сети
+composer test:coverage  # с покрытием
 ```
 
-### Пример запроса
-```php
-<?php
+Живые запросы к сайту вынесены в группу `live` и исключены из обычного прогона
+и из CI, поскольку сайт принимает их только с российских адресов:
 
-$config = new Rzd\Config();
-
-// Set language
-$config->setLanguage('en');
-
-// Set userAgent, по умолчанию задан браузерный, без него сайт отвечает 403
-$config->setUserAgent('Mozilla/5.0 (iPhone; CPU iPhone OS 12_1_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1');
-
-// Set referer
-$config->setReferer('https://ticket.rzd.ru/');
-
-// Enable debug mode
-$config->setDebugMode(true);
-
-// Set proxy, сайт принимает запросы только с российских адресов
-$config->setProxy('socks5://127.0.0.1:1080');
-
-// Set timeout
-$config->setTimeout(10);
-
-// Пауза в секундах перед повторным запросом с полученным RID, по умолчанию 1
-$config->setRetryDelay(2);
-
-// Сколько раз повторять запрос, пока сайт отдает RID вместо данных, по умолчанию 10
-$config->setRetryLimit(15);
-
-// Подмена транспорта Guzzle, используется в тестах для моков
-//$config->setHandler($handlerStack);
-
-//$config не обязателен
-$api = new Rzd\Api($config);
-
-// В примере выполняется поиск маршрута САНКТ-ПЕТЕРБУРГ - МОСКВА (только с билетами) на завтра
-$params = [
-    'dir'          => 0, // 0 - только в один конец, 1 - туда-обратно
-    'tfl'          => 3, // 3 - поезда и электрички, 2 - электрички, 1 - поезда 
-    'checkSeats'   => 1, // 1 - только с билетами, 0 - все поезда
-    //'withoutSeats' => 'y', // Если checkSeats = 0, то этот параметр тоже необходим
-    // Коды станций можно получить отдельным запросом
-    'code0'        => '2004000', // код станции отправления
-    'code1'        => '2000000', // код станции прибытия
-    'dt0'          => 'дата на завтра d.m.Y',
-    'md'           => 0, // 0 - без пересадок, 1 - с пересадками
-];
-
-$routes = $api->trainRoutes($params);
-```
-
-## Реализованные запросы
-
-Библиотека сама выполняет двухшаговый обмен с сайтом: первый запрос возвращает
-идентификатор RID и куки, второй подставляет их и получает данные. Механика описана
-в [отдельном документе](https://github.com/visavi/rzd-api/blob/master/docs/protocol.md),
-для работы с методами знать ее не нужно
-
-### trainRoutes - получает маршруты поездов, количество свободных мест, цены итд в нем в один конец
-
-![Маршруты](https://raw.githubusercontent.com/visavi/rzd-api/master/screens/trainRoute.png)
-
-Принимает параметры, все необязательные
-* dir - 0 - только в один конец, 1 - туда-обратно
-* tfl - 3 - поезда и электрички, 2 - электрички, 1 - поезда
-* checkSeats - 0, 1 - поиск в поездах только если есть свободные места
-* code0 - код станции отправления
-* code1 - код станции прибытия
-* dt0 - дата отправления
-* md - маршруты с пересадками (1 - с пересадками, 0 - только прямые рейсы)
-
-Параметр layer_id подставляется библиотекой, передавать его не нужно
-
-Возвращает данные направления
-* from, fromCode - станция и код отправления
-* where, whereCode - станция и код прибытия
-* date - дата отправления
-* noSeats - true если мест нет вообще
-* state - состояние выдачи
-* msgList - сообщения сайта
-* list - список поездов
-
-Каждый поезд в list содержит
-* date0 - дата отправления
-* date1 - дата прибытия
-* time0 - время отправления
-* time1 - время прибытия
-* route0 - код станции отправления С-ПЕТ-ЛАД
-* route1 - код станции прибытия ТЮМЕНЬ
-* number - номер поезда
-* timeInWay - время в пути
-* brand - Название поезда (Демидовский экспресс)
-* carrier - тип поезда ФПК (Фирменный)
-
-* cars - массив свободных мест купе, плацкарт и люкс
-* cars.freeSeats - кол.  свободных мест
-* cars.itype
-* cars.servCls - класс обслуживания (2Ю, 2Ж и т.д.)
-* cars.tariff - стоимость билета
-* cars.pt - баллы
-* cars.typeLoc - полное наименование (Плацкартный, СВ, Купе, Люкс)
-* cars.type - сокращенное наименование (Купе, плац, люкс)
-* cars.disabledPerson - флаг обозначающий места для инвалидов
-
-### trainRoutesReturn - получает маршруты поездов, количество свободных мест, цены итд, туда-обратно
-![Поезда](https://raw.githubusercontent.com/visavi/rzd-api/master/screens/trainRouteReturn.png)
-
-Принимает параметры, все необязательные
-* dir - 0 только в один конец, 1 - туда-обратно
-* tfl - тип поезда (3 - поезда и электрички, 2 - электрички, 1 - поезда)
-* checkSeats поиск только с билетами (1 - с билетами, 0 - все поезда)
-* code0 - код станции отправления
-* code1 - код станции прибытия
-* dt0 - дата отправления
-* dt1 - дата возвращения
-
-Возвращает два блока в ключах forward и back, каждый устроен так же, как ответ trainRoutes
-
-### trainCarriages - получает список вагонов, свободные места, схема вагона, стоимость билетов, тип и класс обслуживания
-![Вагоны](https://raw.githubusercontent.com/visavi/rzd-api/master/screens/trainCarriages.png)
-
-Необязательные параметр при повторном запросе
-* dir - 0 только в один конец, 1 - туда-обратно
-* code0 - код станции отправления
-* code1 - код станции прибытия
-* dt0 - дата отправления (28.03.2016)
-* time0 - время отправления (15:30)
-* tnum0 - номер поезда (072Е)
-
-Возвращает объект с ключами
-* cars - список вагонов, описан ниже
-* functionBlocks - доступные действия
-* schemes - схемы вагонов
-* companies - страховые компании
-* train - данные поезда без списка вагонов: номер, бренд, станции и время отправления и прибытия
-* companyTypes - типы страховок с тарифами и суммами покрытия
-* childrenAge - предельный возраст детского билета
-* motherAndChildAge - предельный возраст для тарифа мать и дитя
-* foodIconTips - расшифровка значков питания
-* psaction - действующие акции
-* partialPayment - условия частичной оплаты
-
-Каждый вагон в cars содержит
-* cnumber - номер вагона
-* type - тип вагона
-* typeLoc - полное наименование (Плацкартный, СВ, Купе, Люкс)
-* clsType - 2Л, 2Э
-* tariff - стоимость билета
-* tariffServ - сервис сбор
-
-* seats - массив мест (верхние, верхние боковые, нижние, нижние боковые итд)
-* seats.*.places - список свободных мест
-* seats.*.tariff - цены за место
-* seats.type - сокр. наименование мест (up)
-* seats.free - количество мест
-* seats.label - полное наименование мест (Верхние)
-
-* schemes схемы вагонов
-* html - json массив информация о схеме вагонов
-* image - ссылка на картинку
-
-* insuranceCompany - массив с компаниями страхователями и правилами страхования
-* shortName - наименование организации
-* offerUrl - ссылка на файл с правилами, обычно PDF файл
-
-### trainStationList - получение списка всех станций в текущем маршруте движения
-![Станции](https://raw.githubusercontent.com/visavi/rzd-api/master/screens/trainStationList.png)
-
-Запрос идет на адрес https://pass.rzd.ru/ticket/services/route/basicRoute
-
-Принимает параметры
-* trainNumber - номер поезда (022А)
-* depDate - дата отправления (05.08.2026)
-
-Возвращает объект с ключами
-* train - номер поезда и маршрут следования: name, engName, code
-* routes - варианты маршрута, каждый содержит title, route и список остановок stops
-
-Каждая остановка в stops содержит
-* station.name, station.engName, station.code - станция и ее код
-* arvTime, depTime - время прибытия и отправления по местному времени
-* arvTimeMSK, depTimeMSK - то же по московскому времени
-* waitingTime - время стоянки
-
-### stationCode - Получение списка кодов станций
-
-Принимает параметры
-* stationNamePart - часть названия станции, минимум 2 символа
-
-Возвращает массив найденных данных
-* station - имя станции
-* code - код станции
-* region - страна и регион
-* type - тип узла: Город или Станция
-* timezone - часовой пояс станции, нужен для корректной даты отправления
-* codes - коды смежных видов транспорта: Railway, Cbdpr (пригородные перевозки), Bus, Avia, Aeroexpress, ForeignRailway
-* stations - коды всех вокзалов города
-
-К примеру при значении stationNamePart = 'ЧЕБ' будут возвращены станции, начинающиеся
-на ЧЕБ: Чебоксары, Чебаркуль, Чебсара и другие
-
-Города и станции приходят от сайта разными узлами с одинаковым кодом, метод отдает их без повторов
-
-### Тесты
-
-Основные тесты работают на моках и не обращаются к сети
-```sh
-composer test
-```
-
-Тесты группы live проверяют реальные ответы сайта и ловят смену протокола. В обычный прогон и в CI они не попадают, запускаются отдельно
 ```sh
 RZD_PROXY=socks5://127.0.0.1:1080 composer test:live
 ```
 
-### License
+## Лицензия
 
-The class is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+MIT

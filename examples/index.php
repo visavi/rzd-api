@@ -1,35 +1,67 @@
-<h1>Примеры запросов</h1>
+<?php
 
-<div style="background: sandybrown; padding: 5px; font-weight: bold">
-    Обращаем внимание на то, что по новым условиям RZD.RU дату отправки нужно указывать с учетом часового пояса станции отправления
-</div>
+declare(strict_types=1);
 
-<div style="background: aliceblue; padding: 5px; margin-top: 5px">
-    Сайт rzd.ru принимает запросы только с российских адресов, вне РФ нужен прокси:<br>
-    <code>RZD_PROXY=socks5://127.0.0.1:1080 php -S localhost:8000 -t examples</code><br><br>
-    Каждый пример запускается и из консоли:<br>
-    <code>php examples/train_routes.php</code><br><br>
-    Описание всех параметров и форматов ответа находится в
-    <a href="https://github.com/visavi/rzd-api/blob/master/readme.md">readme</a>
-</div>
+/**
+ * Список примеров
+ *
+ * Из консоли:
+ *   php examples/index.php                  список
+ *   php examples/index.php search_trains    запустить пример
+ *
+ * В браузере, со ссылками на примеры:
+ *   php -S localhost:8000 -t examples
+ *
+ * Вне РФ нужен прокси:
+ *   RZD_PROXY=socks5://127.0.0.1:1080 php examples/index.php search_trains
+ */
 
-<h3><a href="station_code.php">station_code.php</a></h3>
-Коды станций, начинающихся с ЧЕБ, с часовым поясом и кодами смежных видов транспорта
+$examples = [
+    'search_trains'  => 'Поиск поездов Москва — Санкт-Петербург: расписание, цены, типы вагонов',
+    'round_trip'     => 'Поиск туда и обратно, стоимость поездки целиком',
+    'car_places'     => 'Вагоны поезда и номера свободных мест по купе',
+    'car_scheme'     => 'Схема вагона в SVG и фотографии салона',
+    'train_route'    => 'Маршрут поезда по станциям с местным временем и часовыми поясами',
+    'stations'       => 'Коды станций по части названия и популярные города',
+    'price_calendar' => 'Календари: горизонт продажи, наличие мест, минимальные цены',
+    'cards'          => 'Карты и абонементы перевозчиков со скидками',
+    'aeroexpress'    => 'Тарифы аэроэкспресса и условия их применения',
+    'tariffs'        => 'Справочник тарифов и конфигурация сайта',
+];
 
-<h3><a href="train_routes.php">train_routes.php</a></h3>
-Маршруты САНКТ-ПЕТЕРБУРГ - МОСКВА, только с билетами, на завтра
+$proxy = getenv('RZD_PROXY');
 
-<h3><a href="train_routes_params.php">train_routes_params.php</a></h3>
-Тот же маршрут с измененными настройками: язык en, свои userAgent и referer
+if (PHP_SAPI !== 'cli') {
+    require __DIR__ . '/index_web.php';
 
-<h3><a href="train_routes_return.php">train_routes_return.php</a></h3>
-Маршруты туда-обратно: завтра туда и через 5 дней обратно
+    return;
+}
 
-<h3><a href="train_routes_transfer.php">train_routes_transfer.php</a></h3>
-Маршруты НОВЫЙ УРЕНГОЙ - АБАКАН с пересадками, параметр md
+$name = $argv[1] ?? null;
 
-<h3><a href="train_carriages.php">train_carriages.php</a></h3>
-Вагоны, свободные места и цены для первого поезда из найденного маршрута
+if ($name === null) {
+    printf("Примеры работы с API РЖД\n\n");
 
-<h3><a href="train_station_list.php">train_station_list.php</a></h3>
-Станции в пути следования для первого поезда из найденного маршрута
+    foreach ($examples as $example => $description) {
+        printf("  %-16s %s\n", $example, $description);
+    }
+
+    printf("\nЗапуск: php examples/index.php <имя>\n");
+    printf("Или напрямую: php examples/<имя>.php\n");
+
+    if (! $proxy) {
+        printf("\nСайт принимает запросы только с российских адресов.\n");
+        printf("Вне РФ нужен прокси: RZD_PROXY=socks5://127.0.0.1:1080\n");
+    }
+
+    exit(0);
+}
+
+// Имя приходит из аргументов, поэтому сверяется со списком, а не подставляется в путь
+if (! isset($examples[$name])) {
+    fwrite(STDERR, sprintf("Нет примера «%s». Список: php examples/index.php\n", $name));
+
+    exit(1);
+}
+
+require __DIR__ . '/' . $name . '.php';

@@ -1,0 +1,222 @@
+{
+    "OriginStationCode": "2000000",
+    "DestinationStationCode": "2004000",
+    "PriceByDepartureDates": [
+        {
+            "DepatureDate": "2026-08-03T00:00:00",
+            "MinPrice": 1197.9,
+            "DisabledPlaceMinPrice": 2362.4,
+            "Carriers": [
+                {
+                    "CarrierName": "ФПК",
+                    "MinPrice": 1197.9,
+                    "DisabledPlaceMinPrice": 2362.4,
+                    "Trains": [
+                        {
+                            "TrainName": "3008",
+                            "MinPrice": 4977.5,
+                            "DisabledPlaceMinPrice": 0,
+                            "CarTypes": [
+                                {
+                                    "CarTypeName": "Luxury",
+                                    "IsForDisabledPersons": false,
+                                    "MinPrice": 11355.9
+                                },
+                                {
+                                    "CarTypeName": "Compartment",
+                                    "IsForDisabledPersons": false,
+                                    "MinPrice": 4977.5
+                                }
+                            ]
+                        },
+                        {
+                            "TrainName": "3033",
+                            "MinPrice": 2024.7,
+                            "DisabledPlaceMinPrice": 3397.4,
+                            "CarTypes": [
+                                {
+                                    "CarTypeName": "Compartment",
+                                    "IsForDisabledPersons": true,
+                                    "MinPrice": 3397.4
+                                },
+                                {
+                                    "CarTypeName": "Compartment",
+                                    "IsForDisabledPersons": false,
+                                    "MinPrice": 3755.6
+                                },
+                                {
+                                    "CarTypeName": "ReservedSeat",
+                                    "IsForDisabledPersons": false,
+                                    "MinPrice": 2024.7
+                                }
+                            ]
+                        },
+                        {
+                            "TrainName": "3008",
+                            "MinPrice": 5048.4,
+                            "DisabledPlaceMinPrice": 0,
+                            "CarTypes": [
+                                {
+                                    "CarTypeName": "Luxury",
+                                    "IsForDisabledPersons": false,
+                                    "MinPrice": 12150.1
+                                },
+                                {
+                                    "CarTypeName": "Compartment",
+                                    "IsForDisabledPersons": false,
+                                    "MinPrice": 5048.4
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "CarrierName": "ДОСС",
+                    "MinPrice": 3788.1,
+                    "DisabledPlaceMinPrice": 0,
+                    "Trains": [
+                        {
+                            "TrainName": "4005",
+                            "MinPrice": 16209.3,
+                            "DisabledPlaceMinPrice": 0,
+                            "CarTypes": [
+                                {
+                                    "CarTypeName": "Sedentary",
+                                    "IsForDisabledPersons": false,
+                                    "MinPrice": 16209.3
+                                }
+                            ]
+                        },
+                        {
+                            "TrainName": "4005",
+                            "MinPrice": 32850.2,
+                            "DisabledPlaceMinPrice": 0,
+                            "CarTypes": [
+                                {
+                                    "CarTypeName": "Sedentary",
+                                    "IsForDisabledPersons": false,
+                                    "MinPrice": 32850.2
+                                }
+                            ]
+                        },
+                        {
+                            "TrainName": "4005",
+                            "MinPrice": 7465.2,
+                            "DisabledPlaceMinPrice": 0,
+                            "CarTypes": [
+                                {
+                                    "CarTypeName": "Sedentary",
+                                    "IsForDisabledPersons": false,
+                                    "MinPrice": 7465.2
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "DepatureDate": "2026-07-31T00:00:00",
+            "MinPrice": 2024.7,
+            "DisabledPlaceMinPrice": 3657,
+            "Carriers": [
+                {
+                    "CarrierName": "ФПК",
+                    "MinPrice": 2024.7,
+                    "DisabledPlaceMinPrice": 3657,
+                    "Trains": [
+                        {
+                            "TrainName": "3040",
+                            "MinPrice": 8082.2,
+                            "DisabledPlaceMinPrice": 0,
+                            "CarTypes": [
+                                {
+                                    "CarTypeName": "Luxury",
+                                    "IsForDisabledPersons": false,
+                                    "MinPrice": 14126.4
+                                },
+                                {
+                                    "CarTypeName": "Compartment",
+                                    "IsForDisabledPersons": false,
+                                    "MinPrice": 8082.2
+                                }
+                            ]
+                        },
+                        {
+                            "TrainName": "3008",
+                            "MinPrice": 7041.5,
+                            "DisabledPlaceMinPrice": 0,
+                            "CarTypes": [
+                                {
+                                    "CarTypeName": "Compartment",
+                                    "IsForDisabledPersons": false,
+                                    "MinPrice": 7041.5
+                                }
+                            ]
+                        },
+                        {
+                            "TrainName": "3008",
+                            "MinPrice": 4304.3,
+                            "DisabledPlaceMinPrice": 0,
+                            "CarTypes": [
+                                {
+                                    "CarTypeName": "Compartment",
+                                    "IsForDisabledPersons": false,
+                                    "MinPrice": 4304.3
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "CarrierName": "ДОСС",
+                    "MinPrice": 2732.9,
+                    "DisabledPlaceMinPrice": 5412.6,
+                    "Trains": [
+                        {
+                            "TrainName": "4005",
+                            "MinPrice": 32850.2,
+                            "DisabledPlaceMinPrice": 0,
+                            "CarTypes": [
+                                {
+                                    "CarTypeName": "Sedentary",
+                                    "IsForDisabledPersons": false,
+                                    "MinPrice": 32850.2
+                                }
+                            ]
+                        },
+                        {
+                            "TrainName": "4005",
+                            "MinPrice": 93829.2,
+                            "DisabledPlaceMinPrice": 0,
+                            "CarTypes": [
+                                {
+                                    "CarTypeName": "Sedentary",
+                                    "IsForDisabledPersons": false,
+                                    "MinPrice": 93829.2
+                                }
+                            ]
+                        },
+                        {
+                            "TrainName": "4004",
+                            "MinPrice": 16209.3,
+                            "DisabledPlaceMinPrice": 5412.6,
+                            "CarTypes": [
+                                {
+                                    "CarTypeName": "Sedentary",
+                                    "IsForDisabledPersons": true,
+                                    "MinPrice": 5412.6
+                                },
+                                {
+                                    "CarTypeName": "Sedentary",
+                                    "IsForDisabledPersons": false,
+                                    "MinPrice": 16209.3
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

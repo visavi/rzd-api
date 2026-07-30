@@ -46,7 +46,7 @@
                 "locality",
                 "railway"
             ],
-            "score": 857615.0
+            "score": 857615
         },
         {
             "CityId": "5a13be01340c745ca1e8b926",
@@ -96,7 +96,7 @@
                 "locality",
                 "railway"
             ],
-            "score": 30079.0
+            "score": 30079
         }
     ]
 }

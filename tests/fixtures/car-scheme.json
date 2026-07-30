@@ -1,0 +1,15 @@
+{
+    "SchemeId": 567,
+    "CarSubType": "64К",
+    "StartDate": "2025-09-25T00:00:00",
+    "EndDate": "2049-01-01T00:00:00",
+    "TrainNumber": "055Е,055М,031Г,032Г,126М,126Г,056М,105А,105У, 013У, 014Е, 027Ь, 027Э, 325Э, 351Й, 351Э, 364Э, 373Й, 373Э, 035Э, 002Э, 050Й, 082И, 097С, 375Э, 049М, 035Ь, 393Э, 112Н, 363Э, 010Н, 229Г, 213Э, 214Э, 050Е, 059Е, 060М, 049Е, 005Э",
+    "Carrier": "ФПК",
+    "CarNumber": null,
+    "ServiceClass": null,
+    "PcSchemeFirstStorey": "/567/PcFirstStorey",
+    "PcSchemeSecondStorey": null,
+    "MobileSchemeFirstVertStorey": "/567/MobileFirstStoreyVert",
+    "MobileSchemeSecondVertStorey": null,
+    "Direction": "Unknown"
+}

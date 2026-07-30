@@ -1,0 +1,52 @@
+{
+    "SchemeId": 567,
+    "CarSubType": "64К",
+    "StartDate": "2025-09-25T00:00:00",
+    "EndDate": "2049-01-01T00:00:00",
+    "TrainNumber": "055Е,055М,031Г,032Г,126М,126Г,056М,105А,105У, 013У, 014Е, 027Ь, 027Э, 325Э, 351Й, 351Э, 364Э, 373Й, 373Э, 035Э, 002Э, 050Й, 082И, 097С, 375Э, 049М, 035Ь, 393Э, 112Н, 363Э, 010Н, 229Г, 213Э, 214Э, 050Е, 059Е, 060М, 049Е, 005Э",
+    "Carrier": "ФПК",
+    "CarNumber": null,
+    "ServiceClass": null,
+    "Images": [
+        {
+            "RailwayCarImageId": 2081,
+            "TitleRu": "Интерьер детского купе",
+            "TitleEn": "3",
+            "Preview": "/2081/Preview",
+            "Content": "/2081/Content",
+            "SequenceNumber": 3
+        },
+        {
+            "RailwayCarImageId": 2082,
+            "TitleRu": "Коридор вагона",
+            "TitleEn": "4",
+            "Preview": "/2082/Preview",
+            "Content": "/2082/Content",
+            "SequenceNumber": 4
+        },
+        {
+            "RailwayCarImageId": 2079,
+            "TitleRu": "Интерьер купе",
+            "TitleEn": "1",
+            "Preview": "/2079/Preview",
+            "Content": "/2079/Content",
+            "SequenceNumber": 1
+        },
+        {
+            "RailwayCarImageId": 2083,
+            "TitleRu": "Туалетная комната",
+            "TitleEn": "5",
+            "Preview": "/2083/Preview",
+            "Content": "/2083/Content",
+            "SequenceNumber": 5
+        },
+        {
+            "RailwayCarImageId": 2080,
+            "TitleRu": "Интерьер купе",
+            "TitleEn": "2",
+            "Preview": "/2080/Preview",
+            "Content": "/2080/Content",
+            "SequenceNumber": 2
+        }
+    ]
+}

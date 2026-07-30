@@ -1,66 +1,80 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rzd\Tests;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 use Rzd\Config;
+use Rzd\Enum\Language;
+use Rzd\Enum\ServiceProvider;
 
-class ConfigTest extends TestCase
+final class ConfigTest extends BaseTestCase
 {
-    /**
-     * Тест значений по умолчанию
-     */
-    public function testDefaults(): void
+    #[Test]
+    public function hasSensibleDefaults(): void
     {
         $config = new Config();
 
-        $this->assertSame('ru', $config->getLanguage());
-        $this->assertSame(5.0, $config->getTimeout());
-        $this->assertSame(1, $config->getRetryDelay());
-        $this->assertFalse($config->getDebugMode());
-        $this->assertNull($config->getProxy());
-        $this->assertNull($config->getReferer());
-        $this->assertNull($config->getHandler());
-        $this->assertSame(Config::DEFAULT_USER_AGENT, $config->getUserAgent());
+        self::assertSame(Language::Russian, $config->language);
+        self::assertSame(ServiceProvider::Rzd, $config->serviceProvider);
+        self::assertSame(Config::DEFAULT_USER_AGENT, $config->userAgent);
+        self::assertSame('https://ticket.rzd.ru', $config->baseUri);
+        self::assertSame([], $config->headers);
     }
 
-    /**
-     * Тест изменения настроек
-     */
-    public function testSetters(): void
+    #[Test]
+    public function acceptsNamedArguments(): void
     {
-        $config = new Config();
-        $handler = static fn() => null;
+        $config = new Config(
+            language: Language::English,
+            userAgent: 'MyApp/1.0',
+            baseUri: 'https://example.com',
+            headers: ['X-Test' => '1'],
+        );
 
-        $config->setLanguage('en');
-        $config->setTimeout(30.0);
-        $config->setRetryDelay(3);
-        $config->setDebugMode(true);
-        $config->setProxy('socks5://127.0.0.1:1080');
-        $config->setUserAgent('TestAgent/1.0');
-        $config->setReferer('https://ticket.rzd.ru/');
-        $config->setHandler($handler);
-
-        $this->assertSame('en', $config->getLanguage());
-        $this->assertSame(30.0, $config->getTimeout());
-        $this->assertSame(3, $config->getRetryDelay());
-        $this->assertTrue($config->getDebugMode());
-        $this->assertSame('socks5://127.0.0.1:1080', $config->getProxy());
-        $this->assertSame('TestAgent/1.0', $config->getUserAgent());
-        $this->assertSame('https://ticket.rzd.ru/', $config->getReferer());
-        $this->assertSame($handler, $config->getHandler());
+        self::assertSame(Language::English, $config->language);
+        self::assertSame('MyApp/1.0', $config->userAgent);
+        self::assertSame('https://example.com', $config->baseUri);
+        self::assertSame(['X-Test' => '1'], $config->headers);
     }
 
-    /**
-     * Обработчик можно сбросить
-     */
-    public function testHandlerCanBeReset(): void
+    #[Test]
+    public function withLanguageKeepsOriginalIntact(): void
     {
         $config = new Config();
+        $english = $config->withLanguage(Language::English);
 
-        $config->setHandler(static fn() => null);
-        $config->setHandler(null);
+        self::assertSame(Language::English, $english->language);
+        self::assertSame(Language::Russian, $config->language);
+        self::assertNotSame($config, $english);
+    }
 
-        $this->assertNull($config->getHandler());
+    #[Test]
+    public function withUserAgentKeepsOtherValues(): void
+    {
+        $config = new Config(language: Language::English, headers: ['X-Test' => '1']);
+        $copy = $config->withUserAgent('Other/2.0');
+
+        self::assertSame('Other/2.0', $copy->userAgent);
+        self::assertSame(Language::English, $copy->language);
+        self::assertSame(['X-Test' => '1'], $copy->headers);
+    }
+
+    #[Test]
+    public function withHeadersMergesIntoExisting(): void
+    {
+        $config = (new Config(headers: ['X-First' => '1']))->withHeaders(['X-Second' => '2']);
+
+        self::assertSame(['X-First' => '1', 'X-Second' => '2'], $config->headers);
+    }
+
+    #[Test]
+    public function withHeadersOverwritesSameName(): void
+    {
+        $config = (new Config(headers: ['X-Test' => 'старое']))->withHeaders(['X-Test' => 'новое']);
+
+        self::assertSame(['X-Test' => 'новое'], $config->headers);
     }
 }

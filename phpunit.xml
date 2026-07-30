@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
-         executionOrder="depends,defects"
-         beStrictAboutOutputDuringTests="true"
-         beStrictAboutTodoAnnotatedTests="true"
-         failOnRisky="true"
+         colors="true"
          failOnWarning="true"
-         verbose="true"
-         cacheResult="false">
+         failOnRisky="true"
+         failOnDeprecation="false"
+         cacheDirectory=".phpunit.cache">
     <testsuites>
-        <testsuite name="default">
-            <directory suffix="Test.php">tests</directory>
+        <testsuite name="unit">
+            <directory>tests</directory>
+            <exclude>tests/Live</exclude>
+        </testsuite>
+        <testsuite name="live">
+            <directory>tests/Live</directory>
         </testsuite>
     </testsuites>
+
+    <!-- Живые запросы исключены: сайт принимает их только с российских адресов -->
     <groups>
         <exclude>
             <group>live</group>
         </exclude>
     </groups>
-    <coverage>
+
+    <source>
         <include>
-            <directory suffix=".php">src</directory>
+            <directory>src</directory>
         </include>
-    </coverage>
+    </source>
 </phpunit>

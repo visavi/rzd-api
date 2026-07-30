@@ -1,0 +1,929 @@
+{
+    "OriginCode": "2000003",
+    "DestinationCode": "2060500",
+    "OriginTimeZoneDifference": 0,
+    "DestinationTimeZoneDifference": 0,
+    "Cars": [
+        {
+            "DestinationStationCode": "2060500",
+            "CarType": "Luxury",
+            "CarDirection": "NoValue",
+            "RailwayCarSchemeId": 307,
+            "HasImages": true,
+            "CarSubType": "01Л",
+            "CarTypeName": "СВ",
+            "CarSchemeName": "01Л",
+            "CarNumber": "08",
+            "ServiceClass": "1Ф",
+            "ServiceClassNameRu": null,
+            "ServiceClassNameEn": null,
+            "InternationalServiceClass": "",
+            "CarDescription": "МЖ У0",
+            "ServiceClassTranscript": "Вагон повышенной комфортности, двухместные купе. Кондиционер и биотуалет в вагоне.",
+            "FreePlaces": "4М",
+            "FreePlacesByCompartments": [
+                {
+                    "CompartmentNumber": "2",
+                    "Places": "4М"
+                }
+            ],
+            "PlaceQuantity": 1,
+            "IsTwoStorey": false,
+            "Services": [
+                "Bedclothes",
+                "BusinessLounge",
+                "PetsCarriage",
+                "BioToilet",
+                "AirConditioning",
+                "HygienicKit",
+                "Press"
+            ],
+            "ServicesWithIndication": [
+                {
+                    "CarService": "Bedclothes",
+                    "Indication": "Included"
+                },
+                {
+                    "CarService": "Meal",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Wifi",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Tv",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "HygienicKit",
+                    "Indication": "Included"
+                },
+                {
+                    "CarService": "Press",
+                    "Indication": "Included"
+                },
+                {
+                    "CarService": "AirConditioning",
+                    "Indication": "Included"
+                },
+                {
+                    "CarService": "BioToilet",
+                    "Indication": "Included"
+                },
+                {
+                    "CarService": "Plaid",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "WashbasinInCompartment",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "ShowerRoomInCompartment",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "HygienicShower",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Socket220V",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Slippers",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "PetsCarriage",
+                    "Indication": "Included"
+                },
+                {
+                    "CarService": "PlacesForPassengerWithBaby",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Transfer",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "RestaurantCarOrBuffet",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "LuggageCompartment",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "ShowerRoomInTrain",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Safe",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "ImprovedServices",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "HighComfortWaitingRoomServices",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "InfotainmentService",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "HotDrink",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "UsbSocket",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "ExcursionService",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "PanoramicSalon",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "MediaPlayer",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Iron",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "IroningBoard",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "BusinessLounge",
+                    "Indication": "Included"
+                },
+                {
+                    "CarService": "BuffetWithOrderingMeals",
+                    "Indication": "NotIncluded"
+                }
+            ],
+            "PetTransportationShortDescription": "Перевозка животных возможна при выкупе всех мест в купе:  дополнительная плата не взимается;  разрешена перевозка одной Переноски* или крупной собаки (без переноски)** на одно место;  на каждую Переноску или крупную собаку (без переноски) оформляется безденежный перевозочный документ;  на протяжении всей перевозки животное должно находиться в Переноске;  крупная собака (без переноски) должна быть в наморднике, на поводке и находиться на полу купе;  при совместной перевозке количество Переносок и крупных собак не должно превышать количество мест в купе.",
+            "PetTransportationFullDescription": "Перевозка животных возможна при выкупе всех мест в купе:\n дополнительная плата не взимается;\n разрешена перевозка одной Переноски* или крупной собаки (без переноски)** на одно место;\n на каждую Переноску или крупную собаку (без переноски) оформляется безденежный перевозочный документ;\n на протяжении всей перевозки животное должно находиться в Переноске;\n крупная собака (без переноски) должна быть в наморднике, на поводке и находиться на полу купе на протяжении всего путешествия;\n при совместной перевозке количество Переносок и крупных собак не должно превышать количество мест в купе.\n* Мелких животных перевозят на местах для ручной клади в Переносках (тарах, коробках, ящиках, аквариумах, клетках и т.п.) размером не более 180 см по сумме трех измерений (длина-ширина-высота). Переноски должны быть удобными, чтобы животные могли лежать, вставать, перемещаться и поворачиваться. В одной переноске можно перевозить не более двух мелких животных. На протяжении всей перевозки животное должно находиться в Переноске.\n** Крупные собаки (без переноски) – собаки, не находящиеся в переносках. Крупная собака (без переноски) должна быть в наморднике, на поводке и находиться на полу купе на протяжении всего путешествия.",
+            "MinPrice": 16224.3,
+            "MaxPrice": 16224.3,
+            "ServiceCost": 1846,
+            "PlaceReservationType": "Usual",
+            "Carrier": "ФПК",
+            "CarrierDisplayName": "ФПК",
+            "HasGenderCabins": true,
+            "RzhdCardTypes": [
+                "BusinessTravel",
+                "UniversalRzhdCard",
+                "RzhdBonus"
+            ],
+            "TrainNumber": "130Х",
+            "ArrivalDateTime": "2026-08-01T13:27:00",
+            "LocalArrivalDateTime": "2026-08-01T13:27:00",
+            "HasNoInterchange": false,
+            "HasPlaceNumeration": true,
+            "IsBeddingSelectionPossible": false,
+            "HasElectronicRegistration": true,
+            "HasDynamicPricing": false,
+            "HasPlacesNearBabies": false,
+            "HasPlacesNearPlayground": false,
+            "HasPlacesNearPets": false,
+            "HasNonRefundableTariff": false,
+            "OnlyNonRefundableTariff": false,
+            "IsAdditionalPassengerAllowed": false,
+            "IsChildTariffTypeAllowed": true,
+            "CarPlaceType": "Lower",
+            "CarPlaceCode": "Н",
+            "CarPlaceNameRu": "Нижнее",
+            "CarPlaceNameEn": "Lower",
+            "Discounts": [
+                {
+                    "DiscountType": "Birthday",
+                    "Description": "Скидка по тарифу ДеньР (день рождения в день отправления +- 7 дней)"
+                },
+                {
+                    "DiscountType": "BirthdayAccompanying",
+                    "Description": "Скидка по тарифу ДеньС (сопровождение именинника, если его день рождения в дату отправления +- 7 дней)"
+                },
+                {
+                    "DiscountType": "Single",
+                    "Description": "Скидка по тарифу Сингл (выкуп одновременно 2-х мест в вагоне на одного человека)"
+                },
+                {
+                    "DiscountType": "UniversalCard",
+                    "Description": "Скидка по дорожной карте"
+                },
+                {
+                    "DiscountType": "BusinessTravelCard",
+                    "Description": "Оформление по Деловому проездному"
+                }
+            ],
+            "AllowedTariffs": [],
+            "IsSaleForbidden": false,
+            "AvailabilityIndication": "Available",
+            "IsThreeHoursReservationAvailable": false,
+            "Road": "ГОР",
+            "InfoRequestSchema": "StandardIncludingInvalids",
+            "PassengerSpecifyingRules": "Standard",
+            "IsMealOptionPossible": false,
+            "IsAdditionalMealOptionPossible": false,
+            "IsOnRequestMealOptionPossible": false,
+            "MealSalesOpenedTill": "2026-07-30T00:00:00",
+            "IsTransitDocumentRequired": false,
+            "IsInterstate": false,
+            "ClientFeeCalculation": null,
+            "AgentFeeCalculation": null,
+            "IsBranded": false,
+            "IsBuffet": false,
+            "TripDirection": "Internal",
+            "IsFromUkrainianCalcCenter": false,
+            "IsForDisabledPersons": false,
+            "IsSpecialSaleMode": false,
+            "BoardingSystemType": "PassengerBoardingControl",
+            "AvailableBaggageTypes": [
+                {
+                    "Type": "HandLuggage",
+                    "Name": "Ручная кладь",
+                    "Description": null,
+                    "CarBaggageInfo": null
+                },
+                {
+                    "Type": "OversizedLuggage",
+                    "Name": "Негабаритный багаж",
+                    "Description": null,
+                    "CarBaggageInfo": null
+                },
+                {
+                    "Type": "LuggageInBaggageRoom",
+                    "Name": "Багаж в специально оборудованных купе",
+                    "Description": null,
+                    "CarBaggageInfo": null
+                }
+            ],
+            "IsTourPackageAvailable": false,
+            "ArePlacesForBusinessTravelBooking": false,
+            "IsCarTransportationCoach": false,
+            "CarNumeration": "FromHead",
+            "IsGroupTransportaionAvailable": true,
+            "IsAutoBookingAvailable": false,
+            "TrainNumberFromFormingStation": "130ХА",
+            "PlacesWithConditionalRefundableTariffQuantity": 0,
+            "HasPlacesWithChild": false,
+            "HasPlacesForLargeFamily": false,
+            "CarPlaceName": "Нижнее",
+            "HasFssBenefit": false,
+            "ServiceClassName": ""
+        },
+        {
+            "DestinationStationCode": "2060500",
+            "CarType": "Luxury",
+            "CarDirection": "NoValue",
+            "RailwayCarSchemeId": 307,
+            "HasImages": true,
+            "CarSubType": "01Л",
+            "CarTypeName": "СВ",
+            "CarSchemeName": "01Л",
+            "CarNumber": "09",
+            "ServiceClass": "1Х",
+            "ServiceClassNameRu": null,
+            "ServiceClassNameEn": null,
+            "InternationalServiceClass": "",
+            "CarDescription": "У0",
+            "ServiceClassTranscript": "Вагон повышенной комфортности, двухместные купе. Кондиционер и биотуалет в вагоне.",
+            "FreePlaces": "2, 4",
+            "FreePlacesByCompartments": [
+                {
+                    "CompartmentNumber": "1",
+                    "Places": "2"
+                },
+                {
+                    "CompartmentNumber": "2",
+                    "Places": "4"
+                }
+            ],
+            "PlaceQuantity": 2,
+            "IsTwoStorey": false,
+            "Services": [
+                "Bedclothes",
+                "BusinessLounge",
+                "BioToilet",
+                "AirConditioning",
+                "HygienicKit",
+                "Press"
+            ],
+            "ServicesWithIndication": [
+                {
+                    "CarService": "Bedclothes",
+                    "Indication": "Included"
+                },
+                {
+                    "CarService": "Meal",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Wifi",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Tv",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "HygienicKit",
+                    "Indication": "Included"
+                },
+                {
+                    "CarService": "Press",
+                    "Indication": "Included"
+                },
+                {
+                    "CarService": "AirConditioning",
+                    "Indication": "Included"
+                },
+                {
+                    "CarService": "BioToilet",
+                    "Indication": "Included"
+                },
+                {
+                    "CarService": "Plaid",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "WashbasinInCompartment",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "ShowerRoomInCompartment",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "HygienicShower",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Socket220V",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Slippers",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "PetsCarriage",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "PlacesForPassengerWithBaby",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Transfer",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "RestaurantCarOrBuffet",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "LuggageCompartment",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "ShowerRoomInTrain",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Safe",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "ImprovedServices",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "HighComfortWaitingRoomServices",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "InfotainmentService",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "HotDrink",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "UsbSocket",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "ExcursionService",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "PanoramicSalon",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "MediaPlayer",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Iron",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "IroningBoard",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "BusinessLounge",
+                    "Indication": "Included"
+                },
+                {
+                    "CarService": "BuffetWithOrderingMeals",
+                    "Indication": "NotIncluded"
+                }
+            ],
+            "PetTransportationShortDescription": null,
+            "PetTransportationFullDescription": null,
+            "MinPrice": 16224.3,
+            "MaxPrice": 16224.3,
+            "ServiceCost": 1846,
+            "PlaceReservationType": "Usual",
+            "Carrier": "ФПК",
+            "CarrierDisplayName": "ФПК",
+            "HasGenderCabins": false,
+            "RzhdCardTypes": [
+                "BusinessTravel",
+                "UniversalRzhdCard",
+                "RzhdBonus"
+            ],
+            "TrainNumber": "130Х",
+            "ArrivalDateTime": "2026-08-01T13:27:00",
+            "LocalArrivalDateTime": "2026-08-01T13:27:00",
+            "HasNoInterchange": false,
+            "HasPlaceNumeration": true,
+            "IsBeddingSelectionPossible": false,
+            "HasElectronicRegistration": true,
+            "HasDynamicPricing": false,
+            "HasPlacesNearBabies": false,
+            "HasPlacesNearPlayground": false,
+            "HasPlacesNearPets": false,
+            "HasNonRefundableTariff": false,
+            "OnlyNonRefundableTariff": false,
+            "IsAdditionalPassengerAllowed": false,
+            "IsChildTariffTypeAllowed": true,
+            "CarPlaceType": "Lower",
+            "CarPlaceCode": "Н",
+            "CarPlaceNameRu": "Нижнее",
+            "CarPlaceNameEn": "Lower",
+            "Discounts": [
+                {
+                    "DiscountType": "Birthday",
+                    "Description": "Скидка по тарифу ДеньР (день рождения в день отправления +- 7 дней)"
+                },
+                {
+                    "DiscountType": "BirthdayAccompanying",
+                    "Description": "Скидка по тарифу ДеньС (сопровождение именинника, если его день рождения в дату отправления +- 7 дней)"
+                },
+                {
+                    "DiscountType": "Single",
+                    "Description": "Скидка по тарифу Сингл (выкуп одновременно 2-х мест в вагоне на одного человека)"
+                },
+                {
+                    "DiscountType": "UniversalCard",
+                    "Description": "Скидка по дорожной карте"
+                },
+                {
+                    "DiscountType": "BusinessTravelCard",
+                    "Description": "Оформление по Деловому проездному"
+                }
+            ],
+            "AllowedTariffs": [],
+            "IsSaleForbidden": false,
+            "AvailabilityIndication": "Available",
+            "IsThreeHoursReservationAvailable": false,
+            "Road": "ГОР",
+            "InfoRequestSchema": "StandardIncludingInvalids",
+            "PassengerSpecifyingRules": "Standard",
+            "IsMealOptionPossible": false,
+            "IsAdditionalMealOptionPossible": false,
+            "IsOnRequestMealOptionPossible": false,
+            "MealSalesOpenedTill": "2026-07-30T00:00:00",
+            "IsTransitDocumentRequired": false,
+            "IsInterstate": false,
+            "ClientFeeCalculation": null,
+            "AgentFeeCalculation": null,
+            "IsBranded": false,
+            "IsBuffet": false,
+            "TripDirection": "Internal",
+            "IsFromUkrainianCalcCenter": false,
+            "IsForDisabledPersons": false,
+            "IsSpecialSaleMode": false,
+            "BoardingSystemType": "PassengerBoardingControl",
+            "AvailableBaggageTypes": [
+                {
+                    "Type": "HandLuggage",
+                    "Name": "Ручная кладь",
+                    "Description": null,
+                    "CarBaggageInfo": null
+                },
+                {
+                    "Type": "OversizedLuggage",
+                    "Name": "Негабаритный багаж",
+                    "Description": null,
+                    "CarBaggageInfo": null
+                },
+                {
+                    "Type": "LuggageInBaggageRoom",
+                    "Name": "Багаж в специально оборудованных купе",
+                    "Description": null,
+                    "CarBaggageInfo": null
+                }
+            ],
+            "IsTourPackageAvailable": false,
+            "ArePlacesForBusinessTravelBooking": false,
+            "IsCarTransportationCoach": false,
+            "CarNumeration": "FromHead",
+            "IsGroupTransportaionAvailable": true,
+            "IsAutoBookingAvailable": true,
+            "TrainNumberFromFormingStation": "130ХА",
+            "PlacesWithConditionalRefundableTariffQuantity": 0,
+            "HasPlacesWithChild": false,
+            "HasPlacesForLargeFamily": false,
+            "CarPlaceName": "Нижнее",
+            "HasFssBenefit": false,
+            "ServiceClassName": ""
+        },
+        {
+            "DestinationStationCode": "2060500",
+            "CarType": "Baggage",
+            "CarDirection": "NoValue",
+            "RailwayCarSchemeId": 284,
+            "HasImages": true,
+            "CarSubType": "35К",
+            "CarTypeName": "БАГАЖ",
+            "CarSchemeName": "35К",
+            "CarNumber": "07",
+            "ServiceClass": "",
+            "ServiceClassNameRu": null,
+            "ServiceClassNameEn": null,
+            "InternationalServiceClass": "",
+            "CarDescription": null,
+            "ServiceClassTranscript": "",
+            "FreePlaces": "",
+            "FreePlacesByCompartments": [],
+            "PlaceQuantity": 8,
+            "IsTwoStorey": false,
+            "Services": [],
+            "ServicesWithIndication": [
+                {
+                    "CarService": "Bedclothes",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Meal",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Wifi",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Tv",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "HygienicKit",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Press",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "AirConditioning",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "BioToilet",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Plaid",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "WashbasinInCompartment",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "ShowerRoomInCompartment",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "HygienicShower",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Socket220V",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Slippers",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "PetsCarriage",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "PlacesForPassengerWithBaby",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Transfer",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "RestaurantCarOrBuffet",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "LuggageCompartment",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "ShowerRoomInTrain",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Safe",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "ImprovedServices",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "HighComfortWaitingRoomServices",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "InfotainmentService",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "HotDrink",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "UsbSocket",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "ExcursionService",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "PanoramicSalon",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "MediaPlayer",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "Iron",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "IroningBoard",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "BusinessLounge",
+                    "Indication": "NotIncluded"
+                },
+                {
+                    "CarService": "BuffetWithOrderingMeals",
+                    "Indication": "NotIncluded"
+                }
+            ],
+            "PetTransportationShortDescription": null,
+            "PetTransportationFullDescription": null,
+            "MinPrice": 0,
+            "MaxPrice": 0,
+            "ServiceCost": 0,
+            "PlaceReservationType": "Usual",
+            "Carrier": "ФПК",
+            "CarrierDisplayName": "ФПК",
+            "HasGenderCabins": false,
+            "RzhdCardTypes": [
+                "BusinessTravel",
+                "UniversalRzhdCard",
+                "RzhdBonus"
+            ],
+            "TrainNumber": "130Х",
+            "ArrivalDateTime": "2026-08-01T13:27:00",
+            "LocalArrivalDateTime": "2026-08-01T13:27:00",
+            "HasNoInterchange": false,
+            "HasPlaceNumeration": true,
+            "IsBeddingSelectionPossible": false,
+            "HasElectronicRegistration": false,
+            "HasDynamicPricing": false,
+            "HasPlacesNearBabies": false,
+            "HasPlacesNearPlayground": false,
+            "HasPlacesNearPets": false,
+            "HasNonRefundableTariff": false,
+            "OnlyNonRefundableTariff": false,
+            "IsAdditionalPassengerAllowed": false,
+            "IsChildTariffTypeAllowed": true,
+            "CarPlaceType": "NoValue",
+            "CarPlaceCode": "",
+            "CarPlaceNameRu": "Обычное место",
+            "CarPlaceNameEn": "Regular place",
+            "Discounts": [
+                {
+                    "DiscountType": "Birthday",
+                    "Description": "Скидка по тарифу ДеньР (день рождения в день отправления +- 7 дней)"
+                },
+                {
+                    "DiscountType": "BirthdayAccompanying",
+                    "Description": "Скидка по тарифу ДеньС (сопровождение именинника, если его день рождения в дату отправления +- 7 дней)"
+                },
+                {
+                    "DiscountType": "UniversalCard",
+                    "Description": "Скидка по дорожной карте"
+                },
+                {
+                    "DiscountType": "BusinessTravelCard",
+                    "Description": "Оформление по Деловому проездному"
+                }
+            ],
+            "AllowedTariffs": [],
+            "IsSaleForbidden": false,
+            "AvailabilityIndication": "Available",
+            "IsThreeHoursReservationAvailable": false,
+            "Road": "ГОР",
+            "InfoRequestSchema": "StandardIncludingInvalids",
+            "PassengerSpecifyingRules": "Standard",
+            "IsMealOptionPossible": false,
+            "IsAdditionalMealOptionPossible": false,
+            "IsOnRequestMealOptionPossible": false,
+            "MealSalesOpenedTill": "2026-07-30T00:00:00",
+            "IsTransitDocumentRequired": false,
+            "IsInterstate": false,
+            "ClientFeeCalculation": null,
+            "AgentFeeCalculation": null,
+            "IsBranded": false,
+            "IsBuffet": false,
+            "TripDirection": "Internal",
+            "IsFromUkrainianCalcCenter": false,
+            "IsForDisabledPersons": false,
+            "IsSpecialSaleMode": false,
+            "BoardingSystemType": "NoValue",
+            "AvailableBaggageTypes": [],
+            "IsTourPackageAvailable": false,
+            "ArePlacesForBusinessTravelBooking": false,
+            "IsCarTransportationCoach": false,
+            "CarNumeration": "Unknown",
+            "IsGroupTransportaionAvailable": false,
+            "IsAutoBookingAvailable": false,
+            "TrainNumberFromFormingStation": "130ХА",
+            "PlacesWithConditionalRefundableTariffQuantity": 0,
+            "HasPlacesWithChild": false,
+            "HasPlacesForLargeFamily": false,
+            "CarPlaceName": "Обычное место",
+            "HasFssBenefit": false,
+            "ServiceClassName": ""
+        }
+    ],
+    "RoutePolicy": "Internal",
+    "TrainInfo": {
+        "TrainNumber": "130Х",
+        "TrainNumberToGetRoute": "130Х",
+        "DisplayTrainNumber": "130Х",
+        "TrainDescription": "СК",
+        "TrainName": "",
+        "TrainNameEn": "",
+        "TransportType": "Train",
+        "OriginName": "Москва Казанская (Казанский вокзал)",
+        "InitialStationName": "Москва Казанская",
+        "OriginStationCode": "2000003",
+        "OriginStationInfo": {
+            "StationName": "Москва Казанская",
+            "StationCode": "2000003",
+            "CnsiCode": "4058",
+            "RegionName": "Москва",
+            "IsoCode": "RU-MOW"
+        },
+        "InitialTrainStationInfo": {
+            "StationName": "Москва Казанская",
+            "StationCode": "2000003",
+            "CnsiCode": "4058",
+            "RegionName": "Москва",
+            "IsoCode": "RU-MOW"
+        },
+        "InitialTrainStationCode": "2000003",
+        "InitialTrainStationCnsiCode": "4058",
+        "DestinationName": "Казань Пасс",
+        "FinalStationName": "Казань Пасс",
+        "DestinationStationCode": "2060500",
+        "DestinationStationInfo": {
+            "StationName": "Казань Пасс",
+            "StationCode": "2060500",
+            "CnsiCode": "5435",
+            "RegionName": "Республика Татарстан",
+            "IsoCode": "RU-TA"
+        },
+        "FinalTrainStationInfo": {
+            "StationName": "Казань Пасс",
+            "StationCode": "2060500",
+            "CnsiCode": "5435",
+            "RegionName": "Республика Татарстан",
+            "IsoCode": "RU-TA"
+        },
+        "FinalTrainStationCode": "2060500",
+        "FinalTrainStationCnsiCode": "5435",
+        "DestinationNames": [
+            "КАЗАНЬ ПАС"
+        ],
+        "FinalStationNames": [
+            "КАЗАНЬ ПАС"
+        ],
+        "DepartureDateTime": "2026-08-01T00:20:00",
+        "LocalDepartureDateTime": "2026-08-01T00:20:00",
+        "ArrivalDateTime": "2026-08-01T13:27:00",
+        "LocalArrivalDateTime": "2026-08-01T13:27:00",
+        "ArrivalDateTimes": [
+            "2026-08-01T13:27:00"
+        ],
+        "LocalArrivalDateTimes": [
+            "2026-08-01T13:27:00"
+        ],
+        "DepartureDateFromFormingStation": "2026-08-01T00:00:00",
+        "DepartureStopTime": 0,
+        "ArrivalStopTime": 0,
+        "TripDuration": 787,
+        "TripDistance": 793,
+        "IsSuburban": false,
+        "IsComponent": false,
+        "CarServices": [
+            "Bedclothes",
+            "BusinessLounge"
+        ],
+        "IsSaleForbidden": false,
+        "IsTicketPrintRequiredForBoarding": false,
+        "BookingSystem": "Express3",
+        "IsVrStorageSystem": false,
+        "PlacesStorageType": "Russia",
+        "BoardingSystemTypes": [
+            "PassengerBoardingControl",
+            "NoValue"
+        ],
+        "TrainBrandCode": "3033",
+        "TrainClassNames": null
+    },
+    "IsFromUkrain": false,
+    "AllowedDocumentTypes": [
+        "ForeignPassport",
+        "RussianForeignPassport",
+        "StatelessPersonIdentityCard",
+        "DiplomaticPassport",
+        "ServicePassport",
+        "ReturnToCisCertificate",
+        "RussianPassport",
+        "UssrPassport",
+        "BirthCertificate",
+        "MilitaryCard",
+        "SailorPassport",
+        "PrisonReleaseCertificate",
+        "LostPassportCertificate",
+        "RefugeeCertificate",
+        "RefugeeIdentity",
+        "ResidencePermit",
+        "MilitaryOfficerCard",
+        "RussianTemporaryIdentityCard",
+        "MedicalBirthCertificate",
+        "ConvictedPersonIdentity",
+        "AcknowledgmentOfIdentityOfAForeignCitizenOrStatelessPerson",
+        "CertificateIssuedForAForeignCitizenGoingToDiplomaticOffice",
+        "AnotherDocumentOfAForeignCitizenRecognizedInTheRussianFederation"
+    ],
+    "ClientFeeCalculation": null,
+    "AgentFeeCalculation": null,
+    "BookingSystem": "Express3",
+    "CarTariffPrices": null,
+    "OriginRetrievalDate": "2026-07-30T13:17:23"
+}

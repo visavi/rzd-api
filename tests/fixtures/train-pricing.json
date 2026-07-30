@@ -1,0 +1,625 @@
+{
+    "OriginStationCode": "2000000",
+    "DestinationStationCode": "2060615",
+    "Trains": [
+        {
+            "CarGroups": [
+                {
+                    "Carriers": [
+                        "ФПК"
+                    ],
+                    "CarrierDisplayNames": [
+                        "ФПК"
+                    ],
+                    "ServiceClasses": [
+                        "1Ф"
+                    ],
+                    "MinPrice": 16224.3,
+                    "MaxPrice": 16224.3,
+                    "HasPlacesWithChild": false,
+                    "HasPlacesForLargeFamily": false,
+                    "CarType": "Luxury",
+                    "CarTypeName": "СВ",
+                    "PlaceQuantity": 0,
+                    "LowerPlaceQuantity": 1,
+                    "UpperPlaceQuantity": 0,
+                    "LowerSidePlaceQuantity": 0,
+                    "UpperSidePlaceQuantity": 0,
+                    "PlacesWithConditionalRefundableTariffQuantity": 0,
+                    "LowerPlacesWithConditionalRefundableTariffQuantity": 0,
+                    "UpperPlacesWithConditionalRefundableTariffQuantity": 0,
+                    "MalePlaceQuantity": 1,
+                    "FemalePlaceQuantity": 0,
+                    "LargeFamilyPlaceQuantity": 0,
+                    "EmptyCabinQuantity": 0,
+                    "MixedCabinQuantity": 0,
+                    "IsSaleForbidden": false,
+                    "AvailabilityIndication": "Available",
+                    "CarDescriptions": [
+                        "МЖ У0"
+                    ],
+                    "ServiceClassNameRu": null,
+                    "ServiceClassNameEn": null,
+                    "InternationalServiceClasses": [
+                        ""
+                    ],
+                    "ServiceCosts": [
+                        1846
+                    ],
+                    "IsBeddingSelectionPossible": false,
+                    "BoardingSystemTypes": [
+                        "PassengerBoardingControl"
+                    ],
+                    "HasElectronicRegistration": true,
+                    "HasGenderCabins": true,
+                    "HasPlaceNumeration": true,
+                    "HasPlacesNearPlayground": false,
+                    "HasPlacesNearPets": false,
+                    "HasPlacesForDisabledPersons": false,
+                    "HasPlacesNearBabies": false,
+                    "AvailableBaggageTypes": [
+                        {
+                            "Type": "HandLuggage",
+                            "Name": "Ручная кладь",
+                            "Description": null,
+                            "CarBaggageInfo": null
+                        },
+                        {
+                            "Type": "OversizedLuggage",
+                            "Name": "Негабаритный багаж",
+                            "Description": null,
+                            "CarBaggageInfo": null
+                        },
+                        {
+                            "Type": "LuggageInBaggageRoom",
+                            "Name": "Багаж в специально оборудованных купе",
+                            "Description": null,
+                            "CarBaggageInfo": null
+                        }
+                    ],
+                    "HasNonRefundableTariff": false,
+                    "Discounts": [
+                        {
+                            "DiscountType": "Birthday",
+                            "Description": "Скидка по тарифу ДеньР (день рождения в день отправления +- 7 дней)"
+                        },
+                        {
+                            "DiscountType": "BirthdayAccompanying",
+                            "Description": "Скидка по тарифу ДеньС (сопровождение именинника, если его день рождения в дату отправления +- 7 дней)"
+                        },
+                        {
+                            "DiscountType": "Single",
+                            "Description": "Скидка по тарифу Сингл (выкуп одновременно 2-х мест в вагоне на одного человека)"
+                        },
+                        {
+                            "DiscountType": "UniversalCard",
+                            "Description": "Скидка по дорожной карте"
+                        },
+                        {
+                            "DiscountType": "BusinessTravelCard",
+                            "Description": "Оформление по Деловому проездному"
+                        }
+                    ],
+                    "AllowedTariffs": [],
+                    "InfoRequestSchema": "StandardIncludingInvalids",
+                    "TotalPlaceQuantity": 1,
+                    "PlaceReservationTypes": [
+                        "Usual"
+                    ],
+                    "IsThreeHoursReservationAvailable": false,
+                    "IsMealOptionPossible": false,
+                    "IsAdditionalMealOptionPossible": false,
+                    "IsOnRequestMealOptionPossible": false,
+                    "IsTransitDocumentRequired": false,
+                    "IsInterstate": false,
+                    "ClientFeeCalculation": null,
+                    "AgentFeeCalculation": null,
+                    "HasNonBrandedCars": true,
+                    "TripPointQuantity": 4857,
+                    "HasPlacesForBusinessTravelBooking": false,
+                    "IsCarTransportationCoaches": false,
+                    "IsGroupTransportaionAvailable": null,
+                    "ServiceClassName": "",
+                    "HasFssBenefit": false
+                },
+                {
+                    "Carriers": [
+                        "ФПК"
+                    ],
+                    "CarrierDisplayNames": [
+                        "ФПК"
+                    ],
+                    "ServiceClasses": [
+                        "1Х"
+                    ],
+                    "MinPrice": 16224.3,
+                    "MaxPrice": 16224.3,
+                    "HasPlacesWithChild": false,
+                    "HasPlacesForLargeFamily": false,
+                    "CarType": "Luxury",
+                    "CarTypeName": "СВ",
+                    "PlaceQuantity": 0,
+                    "LowerPlaceQuantity": 2,
+                    "UpperPlaceQuantity": 0,
+                    "LowerSidePlaceQuantity": 0,
+                    "UpperSidePlaceQuantity": 0,
+                    "PlacesWithConditionalRefundableTariffQuantity": 0,
+                    "LowerPlacesWithConditionalRefundableTariffQuantity": 0,
+                    "UpperPlacesWithConditionalRefundableTariffQuantity": 0,
+                    "MalePlaceQuantity": 0,
+                    "FemalePlaceQuantity": 0,
+                    "LargeFamilyPlaceQuantity": 0,
+                    "EmptyCabinQuantity": 0,
+                    "MixedCabinQuantity": 0,
+                    "IsSaleForbidden": false,
+                    "AvailabilityIndication": "Available",
+                    "CarDescriptions": [
+                        "У0"
+                    ],
+                    "ServiceClassNameRu": null,
+                    "ServiceClassNameEn": null,
+                    "InternationalServiceClasses": [
+                        ""
+                    ],
+                    "ServiceCosts": [
+                        1846
+                    ],
+                    "IsBeddingSelectionPossible": false,
+                    "BoardingSystemTypes": [
+                        "PassengerBoardingControl"
+                    ],
+                    "HasElectronicRegistration": true,
+                    "HasGenderCabins": false,
+                    "HasPlaceNumeration": true,
+                    "HasPlacesNearPlayground": false,
+                    "HasPlacesNearPets": false,
+                    "HasPlacesForDisabledPersons": false,
+                    "HasPlacesNearBabies": false,
+                    "AvailableBaggageTypes": [
+                        {
+                            "Type": "HandLuggage",
+                            "Name": "Ручная кладь",
+                            "Description": null,
+                            "CarBaggageInfo": null
+                        },
+                        {
+                            "Type": "OversizedLuggage",
+                            "Name": "Негабаритный багаж",
+                            "Description": null,
+                            "CarBaggageInfo": null
+                        },
+                        {
+                            "Type": "LuggageInBaggageRoom",
+                            "Name": "Багаж в специально оборудованных купе",
+                            "Description": null,
+                            "CarBaggageInfo": null
+                        }
+                    ],
+                    "HasNonRefundableTariff": false,
+                    "Discounts": [
+                        {
+                            "DiscountType": "Birthday",
+                            "Description": "Скидка по тарифу ДеньР (день рождения в день отправления +- 7 дней)"
+                        },
+                        {
+                            "DiscountType": "BirthdayAccompanying",
+                            "Description": "Скидка по тарифу ДеньС (сопровождение именинника, если его день рождения в дату отправления +- 7 дней)"
+                        },
+                        {
+                            "DiscountType": "Single",
+                            "Description": "Скидка по тарифу Сингл (выкуп одновременно 2-х мест в вагоне на одного человека)"
+                        },
+                        {
+                            "DiscountType": "UniversalCard",
+                            "Description": "Скидка по дорожной карте"
+                        },
+                        {
+                            "DiscountType": "BusinessTravelCard",
+                            "Description": "Оформление по Деловому проездному"
+                        }
+                    ],
+                    "AllowedTariffs": [],
+                    "InfoRequestSchema": "StandardIncludingInvalids",
+                    "TotalPlaceQuantity": 2,
+                    "PlaceReservationTypes": [
+                        "Usual"
+                    ],
+                    "IsThreeHoursReservationAvailable": false,
+                    "IsMealOptionPossible": false,
+                    "IsAdditionalMealOptionPossible": false,
+                    "IsOnRequestMealOptionPossible": false,
+                    "IsTransitDocumentRequired": false,
+                    "IsInterstate": false,
+                    "ClientFeeCalculation": null,
+                    "AgentFeeCalculation": null,
+                    "HasNonBrandedCars": true,
+                    "TripPointQuantity": 4857,
+                    "HasPlacesForBusinessTravelBooking": false,
+                    "IsCarTransportationCoaches": false,
+                    "IsGroupTransportaionAvailable": null,
+                    "ServiceClassName": "",
+                    "HasFssBenefit": false
+                }
+            ],
+            "IsFromSchedule": false,
+            "IsTourPackagePossible": false,
+            "CarTransportationsFreePlacesCount": null,
+            "ActualMovement": null,
+            "CategoryId": null,
+            "ScheduleId": null,
+            "BaggageCarsThreads": null,
+            "CarTransportationCoachesThreads": null,
+            "Provider": "P1",
+            "IsWaitListAvailable": true,
+            "BaggageTotalPlaceQuantity": 8,
+            "HasElectronicRegistration": true,
+            "HasCarTransportationCoaches": false,
+            "HasDynamicPricingCars": false,
+            "HasTwoStoreyCars": false,
+            "HasSpecialSaleMode": false,
+            "Carriers": [
+                "ФПК"
+            ],
+            "CarrierDisplayNames": [
+                "ФПК"
+            ],
+            "Id": 1,
+            "IsBranded": false,
+            "TrainNumber": "130Х",
+            "TrainNumberToGetRoute": "130Х",
+            "DisplayTrainNumber": "130Х",
+            "TrainDescription": "СК",
+            "TrainName": "",
+            "TrainNameEn": "",
+            "TransportType": "Train",
+            "OriginName": "Москва Казанская",
+            "InitialStationName": "Москва Казанская (Казанский вокзал)",
+            "OriginStationCode": "2000003",
+            "OriginStationInfo": {
+                "StationName": "Москва Казанская",
+                "StationCode": "2000003",
+                "CnsiCode": "4058",
+                "RegionName": "Москва",
+                "IsoCode": "RU-MOW"
+            },
+            "InitialTrainStationInfo": {
+                "StationName": "Москва Казанская",
+                "StationCode": "2000003",
+                "CnsiCode": "4058",
+                "RegionName": "Москва",
+                "IsoCode": "RU-MOW"
+            },
+            "InitialTrainStationCode": "2000003",
+            "InitialTrainStationCnsiCode": "4058",
+            "DestinationName": "Казань Пасс",
+            "FinalStationName": "Казань Пасс",
+            "DestinationStationCode": "2060500",
+            "DestinationStationInfo": {
+                "StationName": "Казань Пасс",
+                "StationCode": "2060500",
+                "CnsiCode": "5435",
+                "RegionName": "Республика Татарстан",
+                "IsoCode": "RU-TA"
+            },
+            "FinalTrainStationInfo": {
+                "StationName": "Казань Пасс",
+                "StationCode": "2060500",
+                "CnsiCode": "5435",
+                "RegionName": "Республика Татарстан",
+                "IsoCode": "RU-TA"
+            },
+            "FinalTrainStationCode": "2060500",
+            "FinalTrainStationCnsiCode": "5435",
+            "DestinationNames": [
+                "КАЗАНЬ ПАС"
+            ],
+            "FinalStationNames": [
+                "КАЗАНЬ ПАС"
+            ],
+            "DepartureDateTime": "2026-08-01T00:20:00",
+            "LocalDepartureDateTime": "2026-08-01T00:20:00",
+            "ArrivalDateTime": "2026-08-01T13:27:00",
+            "LocalArrivalDateTime": "2026-08-01T13:27:00",
+            "ArrivalDateTimes": [
+                "2026-08-01T13:27:00"
+            ],
+            "LocalArrivalDateTimes": [
+                "2026-08-01T13:27:00"
+            ],
+            "DepartureDateFromFormingStation": "2026-08-01T00:00:00",
+            "DepartureStopTime": 0,
+            "ArrivalStopTime": 0,
+            "TripDuration": 787,
+            "TripDistance": 793,
+            "IsSuburban": false,
+            "IsComponent": false,
+            "CarServices": [
+                "Bedclothes"
+            ],
+            "IsSaleForbidden": false,
+            "IsTicketPrintRequiredForBoarding": false,
+            "BookingSystem": "Express3",
+            "IsVrStorageSystem": false,
+            "PlacesStorageType": "Russia",
+            "BoardingSystemTypes": [
+                "PassengerBoardingControl",
+                "NoValue"
+            ],
+            "TrainBrandCode": "3033",
+            "TrainClassNames": null,
+            "ServiceProvider": "B2B_RZD",
+            "DestinationStationName": "Казань Пасс",
+            "OriginStationName": "Москва Казанская (Казанский вокзал)",
+            "IsPlaceRangeAllowed": true,
+            "IsTrainRouteAllowed": true
+        },
+        {
+            "CarGroups": [
+                {
+                    "Carriers": [
+                        "ФПК"
+                    ],
+                    "CarrierDisplayNames": [
+                        "ФПК"
+                    ],
+                    "ServiceClasses": [
+                        "1Э"
+                    ],
+                    "MinPrice": 19462.1,
+                    "MaxPrice": 19462.1,
+                    "HasPlacesWithChild": false,
+                    "HasPlacesForLargeFamily": false,
+                    "CarType": "Luxury",
+                    "CarTypeName": "СВ",
+                    "PlaceQuantity": 0,
+                    "LowerPlaceQuantity": 0,
+                    "UpperPlaceQuantity": 3,
+                    "LowerSidePlaceQuantity": 0,
+                    "UpperSidePlaceQuantity": 0,
+                    "PlacesWithConditionalRefundableTariffQuantity": 0,
+                    "LowerPlacesWithConditionalRefundableTariffQuantity": 0,
+                    "UpperPlacesWithConditionalRefundableTariffQuantity": 0,
+                    "MalePlaceQuantity": 0,
+                    "FemalePlaceQuantity": 0,
+                    "LargeFamilyPlaceQuantity": 0,
+                    "EmptyCabinQuantity": 0,
+                    "MixedCabinQuantity": 3,
+                    "IsSaleForbidden": false,
+                    "AvailabilityIndication": "Available",
+                    "CarDescriptions": [
+                        "МЖ У1"
+                    ],
+                    "ServiceClassNameRu": null,
+                    "ServiceClassNameEn": null,
+                    "InternationalServiceClasses": [
+                        ""
+                    ],
+                    "ServiceCosts": [
+                        4963
+                    ],
+                    "IsBeddingSelectionPossible": false,
+                    "BoardingSystemTypes": [
+                        "PassengerBoardingControl"
+                    ],
+                    "HasElectronicRegistration": true,
+                    "HasGenderCabins": true,
+                    "HasPlaceNumeration": true,
+                    "HasPlacesNearPlayground": false,
+                    "HasPlacesNearPets": false,
+                    "HasPlacesForDisabledPersons": false,
+                    "HasPlacesNearBabies": false,
+                    "AvailableBaggageTypes": [
+                        {
+                            "Type": "HandLuggage",
+                            "Name": "Ручная кладь",
+                            "Description": null,
+                            "CarBaggageInfo": null
+                        },
+                        {
+                            "Type": "OversizedLuggage",
+                            "Name": "Негабаритный багаж",
+                            "Description": null,
+                            "CarBaggageInfo": null
+                        },
+                        {
+                            "Type": "LuggageInBaggageRoom",
+                            "Name": "Багаж в специально оборудованных купе",
+                            "Description": null,
+                            "CarBaggageInfo": null
+                        }
+                    ],
+                    "HasNonRefundableTariff": false,
+                    "Discounts": [
+                        {
+                            "DiscountType": "Birthday",
+                            "Description": "Скидка по тарифу ДеньР (день рождения в день отправления +- 7 дней)"
+                        },
+                        {
+                            "DiscountType": "BirthdayAccompanying",
+                            "Description": "Скидка по тарифу ДеньС (сопровождение именинника, если его день рождения в дату отправления +- 7 дней)"
+                        },
+                        {
+                            "DiscountType": "Single",
+                            "Description": "Скидка по тарифу Сингл (выкуп одновременно 2-х мест в вагоне на одного человека)"
+                        },
+                        {
+                            "DiscountType": "UniversalCard",
+                            "Description": "Скидка по дорожной карте"
+                        },
+                        {
+                            "DiscountType": "BusinessTravelCard",
+                            "Description": "Оформление по Деловому проездному"
+                        }
+                    ],
+                    "AllowedTariffs": [],
+                    "InfoRequestSchema": "StandardIncludingInvalids",
+                    "TotalPlaceQuantity": 3,
+                    "PlaceReservationTypes": [
+                        "Usual"
+                    ],
+                    "IsThreeHoursReservationAvailable": false,
+                    "IsMealOptionPossible": true,
+                    "IsAdditionalMealOptionPossible": false,
+                    "IsOnRequestMealOptionPossible": false,
+                    "IsTransitDocumentRequired": false,
+                    "IsInterstate": false,
+                    "ClientFeeCalculation": null,
+                    "AgentFeeCalculation": null,
+                    "HasNonBrandedCars": false,
+                    "TripPointQuantity": 5826,
+                    "HasPlacesForBusinessTravelBooking": false,
+                    "IsCarTransportationCoaches": false,
+                    "IsGroupTransportaionAvailable": null,
+                    "ServiceClassName": "",
+                    "HasFssBenefit": false
+                }
+            ],
+            "IsFromSchedule": false,
+            "IsTourPackagePossible": false,
+            "CarTransportationsFreePlacesCount": null,
+            "ActualMovement": null,
+            "CategoryId": null,
+            "ScheduleId": null,
+            "BaggageCarsThreads": null,
+            "CarTransportationCoachesThreads": null,
+            "Provider": "P1",
+            "IsWaitListAvailable": true,
+            "BaggageTotalPlaceQuantity": 7,
+            "HasElectronicRegistration": true,
+            "HasCarTransportationCoaches": false,
+            "HasDynamicPricingCars": false,
+            "HasTwoStoreyCars": false,
+            "HasSpecialSaleMode": false,
+            "Carriers": [
+                "ФПК"
+            ],
+            "CarrierDisplayNames": [
+                "ФПК"
+            ],
+            "Id": 2,
+            "IsBranded": true,
+            "TrainNumber": "056М",
+            "TrainNumberToGetRoute": "056М",
+            "DisplayTrainNumber": "056М",
+            "TrainDescription": "СК ФИРМ",
+            "TrainName": "Урал",
+            "TrainNameEn": "Ural",
+            "TransportType": "Train",
+            "OriginName": "Москва Казанская",
+            "InitialStationName": "Москва Казанская (Казанский вокзал)",
+            "OriginStationCode": "2000003",
+            "OriginStationInfo": {
+                "StationName": "Москва Казанская",
+                "StationCode": "2000003",
+                "CnsiCode": "4058",
+                "RegionName": "Москва",
+                "IsoCode": "RU-MOW"
+            },
+            "InitialTrainStationInfo": {
+                "StationName": "Москва Казанская",
+                "StationCode": "2000003",
+                "CnsiCode": "4058",
+                "RegionName": "Москва",
+                "IsoCode": "RU-MOW"
+            },
+            "InitialTrainStationCode": "2000003",
+            "InitialTrainStationCnsiCode": "4058",
+            "DestinationName": "Казань-2 (Восстание-пасс.)",
+            "FinalStationName": "Екатеринбург-Пассажирс",
+            "DestinationStationCode": "2060961",
+            "DestinationStationInfo": {
+                "StationName": "Казань-2 (Восстание-пасс.)",
+                "StationCode": "2060961",
+                "CnsiCode": "5442",
+                "RegionName": "Республика Татарстан",
+                "IsoCode": "RU-TA"
+            },
+            "FinalTrainStationInfo": {
+                "StationName": "Екатеринбург-Пассажирс",
+                "StationCode": "2030000",
+                "CnsiCode": "17247",
+                "RegionName": "Свердловская область",
+                "IsoCode": "RU-SVE"
+            },
+            "FinalTrainStationCode": "2030000",
+            "FinalTrainStationCnsiCode": "17247",
+            "DestinationNames": [
+                "ЕКАТЕРИНБ П"
+            ],
+            "FinalStationNames": [
+                "ЕКАТЕРИНБ П"
+            ],
+            "DepartureDateTime": "2026-08-01T13:15:00",
+            "LocalDepartureDateTime": "2026-08-01T13:15:00",
+            "ArrivalDateTime": "2026-08-02T00:27:00",
+            "LocalArrivalDateTime": "2026-08-02T00:27:00",
+            "ArrivalDateTimes": [
+                "2026-08-02T00:27:00"
+            ],
+            "LocalArrivalDateTimes": [
+                "2026-08-02T00:27:00"
+            ],
+            "DepartureDateFromFormingStation": "2026-08-01T00:00:00",
+            "DepartureStopTime": 0,
+            "ArrivalStopTime": 5,
+            "TripDuration": 672,
+            "TripDistance": 792,
+            "IsSuburban": false,
+            "IsComponent": false,
+            "CarServices": [
+                "Meal",
+                "RestaurantCarOrBuffet",
+                "InfotainmentService"
+            ],
+            "IsSaleForbidden": false,
+            "IsTicketPrintRequiredForBoarding": false,
+            "BookingSystem": "Express3",
+            "IsVrStorageSystem": false,
+            "PlacesStorageType": "Russia",
+            "BoardingSystemTypes": [
+                "PassengerBoardingControl",
+                "NoValue"
+            ],
+            "TrainBrandCode": "3033",
+            "TrainClassNames": [
+                "BrandedTrain"
+            ],
+            "ServiceProvider": "B2B_RZD",
+            "DestinationStationName": "Казань-2 (Восстание-пасс.) (Северный вокзал)",
+            "OriginStationName": "Москва Казанская (Казанский вокзал)",
+            "IsPlaceRangeAllowed": true,
+            "IsTrainRouteAllowed": true
+        }
+    ],
+    "ClientFeeCalculation": null,
+    "AgentFeeCalculation": null,
+    "OriginRetrievalDate": "2026-07-30T13:08:32",
+    "OriginCode": "2000000",
+    "OriginStationInfo": {
+        "StationName": "Москва",
+        "StationCode": "2000000",
+        "CnsiCode": null,
+        "RegionName": null,
+        "IsoCode": null
+    },
+    "OriginTimeZoneDifference": 0,
+    "DestinationCode": "2060615",
+    "DestinationStationInfo": {
+        "StationName": "Казань",
+        "StationCode": "2060615",
+        "CnsiCode": null,
+        "RegionName": "Республика Татарстан",
+        "IsoCode": "RU-TA"
+    },
+    "DestinationTimeZoneDifference": 0,
+    "RoutePolicy": "Internal",
+    "DepartureTimeDescription": "Moscow",
+    "ArrivalTimeDescription": "Moscow",
+    "IsFromUkrain": false,
+    "NotAllTrainsReturned": false,
+    "BookingSystem": "Express3",
+    "Id": 0,
+    "DestinationStationName": "Казань",
+    "OriginStationName": "Москва",
+    "MoscowDateTime": "2026-07-30T13:08:32.370277791"
+}

@@ -1,125 +1,114 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Rzd\Tests;
 
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
+use Http\Mock\Client as MockClient;
+use Nyholm\Psr7\Factory\Psr17Factory;
+use Nyholm\Psr7\Response;
 use PHPUnit\Framework\TestCase as BaseTestCase;
-use Rzd\Api;
+use Psr\Http\Message\RequestInterface;
+use Rzd\Client;
 use Rzd\Config;
 
+/**
+ * Основа тестов на подставном HTTP-клиенте
+ *
+ * Ни один тест не обращается к сети: ответы задаются заранее, а ушедшие
+ * запросы проверяются по журналу подставного клиента
+ */
 abstract class TestCase extends BaseTestCase
 {
-    /**
-     * Перехваченные запросы
-     *
-     * @var array
-     */
-    protected array $history = [];
+    protected MockClient $http;
 
-    /**
-     * Создает Api с подменённым транспортом
-     *
-     * @param array $responses Очередь ответов
-     *
-     * @return Api
-     */
-    protected function api(array $responses): Api
+    protected function setUp(): void
     {
-        $this->history = [];
-
-        $stack = HandlerStack::create(new MockHandler($responses));
-        $stack->push(Middleware::history($this->history));
-
-        $config = new Config();
-        $config->setHandler($stack);
-
-        return new Api($config);
+        $this->http = new MockClient();
     }
 
     /**
-     * Ответ с телом из файла фикстуры
+     * Клиент, отвечающий заготовленными телами ответов
      *
-     * @param string $name
-     *
-     * @return Response
+     * @param list<string> $responses
      */
-    protected function fixture(string $name): Response
+    protected function client(array $responses = [], ?Config $config = null): Client
     {
-        return $this->json(file_get_contents(__DIR__ . '/fixtures/' . $name . '.json'));
+        foreach ($responses as $body) {
+            $this->http->addResponse(new Response(200, ['Content-Type' => 'application/json'], $body));
+        }
+
+        $factory = new Psr17Factory();
+
+        return new Client($config ?? new Config(), $this->http, $factory, $factory);
     }
 
     /**
-     * Ответ с произвольным json
-     *
-     * @param string $body
-     * @param int    $status
-     *
-     * @return Response
+     * Клиент, отвечающий содержимым файлов фикстур
      */
-    protected function json(string $body, int $status = 200): Response
+    protected function clientWith(string ...$fixtures): Client
     {
-        return new Response($status, ['Content-Type' => 'application/json'], $body);
+        return $this->client(array_map($this->fixture(...), $fixtures));
     }
 
     /**
-     * Ответ первого шага, отдающий идентификатор запроса
-     *
-     * @param string $key RID или REQUEST_ID
-     * @param int    $rid
-     *
-     * @return Response
+     * Клиент, отвечающий заданным кодом и телом
      */
-    protected function rid(string $key = 'RID', int $rid = 12345): Response
+    protected function clientFailing(int $status, string $body = '', string $contentType = 'application/json'): Client
     {
-        $result = $key === 'RID' ? 'RID' : 'REQUEST_ID';
+        $this->http->addResponse(new Response($status, ['Content-Type' => $contentType], $body));
 
-        return $this->json(json_encode([$result => $rid, 'result' => $result]));
+        $factory = new Psr17Factory();
+
+        return new Client(new Config(), $this->http, $factory, $factory);
     }
 
     /**
-     * Запрос из истории
-     *
-     * @param int $index
-     *
-     * @return Request
+     * Содержимое файла фикстуры
      */
-    protected function request(int $index): Request
+    protected function fixture(string $name): string
     {
-        return $this->history[$index]['request'];
+        $path = __DIR__ . '/fixtures/' . $name . '.json';
+
+        if (! is_file($path)) {
+            self::fail('Нет файла фикстуры: ' . $path);
+        }
+
+        return (string) file_get_contents($path);
     }
 
     /**
-     * Параметры запроса из истории
-     *
-     * @param int $index
-     *
-     * @return array
+     * Запрос по порядку отправки
      */
-    protected function params(int $index): array
+    protected function request(int $index = 0): RequestInterface
     {
-        $request = $this->request($index);
-        $source = $request->getMethod() === 'GET'
-            ? $request->getUri()->getQuery()
-            : (string) $request->getBody();
+        $requests = $this->http->getRequests();
 
-        parse_str($source, $params);
+        self::assertArrayHasKey($index, $requests, 'Запрос с таким номером не отправлялся');
 
-        return $params;
+        return $requests[$index];
     }
 
     /**
-     * Декодирует ответ Api
+     * Параметры строки запроса
      *
-     * @param string $response
-     *
-     * @return array
+     * @return array<string, string>
      */
-    protected function decode(string $response): array
+    protected function query(int $index = 0): array
     {
-        return json_decode($response, true, 512, JSON_THROW_ON_ERROR);
+        parse_str($this->request($index)->getUri()->getQuery(), $query);
+
+        /** @var array<string, string> $query */
+        return $query;
+    }
+
+    /**
+     * Тело запроса, разобранное из JSON
+     *
+     * @return array<string, mixed>
+     */
+    protected function body(int $index = 0): array
+    {
+        return (array) json_decode((string) $this->request($index)->getBody(), true, 512, JSON_THROW_ON_ERROR);
     }
 }

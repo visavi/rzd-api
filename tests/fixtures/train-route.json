@@ -1,0 +1,157 @@
+{
+    "Routes": [
+        {
+            "Name": "ОСНОВНОЙ МАРШРУТ",
+            "OriginName": "МОСКВА ПАВ",
+            "DestinationName": "АДЛЕР",
+            "TrainNumber": "197Щ",
+            "CutawayTrainNumber": null,
+            "Directions": [
+                {
+                    "InitialStationName": "МОСКВА ПАВ",
+                    "InitialTrainStationCode": "2000005",
+                    "FinalStationName": "АДЛЕР",
+                    "FinalTrainStationCode": "2064150"
+                }
+            ],
+            "RouteStops": [
+                {
+                    "StationName": "Москва Павелецкая (Павелецкий вокзал)",
+                    "CityName": null,
+                    "DepartureTime": "00:55",
+                    "ArrivalTime": "",
+                    "LocalArrivalTime": "",
+                    "StopDuration": 0,
+                    "TimeDescription": "Local",
+                    "StationCode": "2000005",
+                    "StationInfo": {
+                        "StationName": "Москва Павелецкая",
+                        "StationCode": "2000005",
+                        "CnsiCode": "4043",
+                        "RegionName": "Москва",
+                        "IsoCode": "RU-MOW"
+                    },
+                    "LocalDepartureTime": "00:55",
+                    "DepartureDateTime": "2026-08-05T00:55:00",
+                    "LocalDepartureDateTime": "2026-08-05T00:55:00",
+                    "ArrivalDateTime": null,
+                    "LocalArrivalDateTime": null,
+                    "Clarification": null,
+                    "DaysFromFormingStation": 0,
+                    "TimeZoneDifference": 0,
+                    "ActualMovement": null,
+                    "IsCutawayStation": false
+                },
+                {
+                    "StationName": "Павелец-Тульский",
+                    "CityName": null,
+                    "DepartureTime": "06:22",
+                    "ArrivalTime": "06:15",
+                    "LocalArrivalTime": "06:15",
+                    "StopDuration": 7,
+                    "TimeDescription": "Local",
+                    "StationCode": "2000118",
+                    "StationInfo": {
+                        "StationName": "Павелец-Тульский",
+                        "StationCode": "2000118",
+                        "CnsiCode": "4903",
+                        "RegionName": "Рязанская область",
+                        "IsoCode": "RU-RYA"
+                    },
+                    "LocalDepartureTime": "06:22",
+                    "DepartureDateTime": "2026-08-05T06:22:00",
+                    "LocalDepartureDateTime": "2026-08-05T06:22:00",
+                    "ArrivalDateTime": "2026-08-05T06:15:00",
+                    "LocalArrivalDateTime": "2026-08-05T06:15:00",
+                    "Clarification": null,
+                    "DaysFromFormingStation": 0,
+                    "TimeZoneDifference": 0,
+                    "ActualMovement": null,
+                    "IsCutawayStation": false
+                },
+                {
+                    "StationName": "Топиллы",
+                    "CityName": null,
+                    "DepartureTime": "06:46",
+                    "ArrivalTime": "06:33",
+                    "LocalArrivalTime": "06:33",
+                    "StopDuration": 13,
+                    "TimeDescription": "Local",
+                    "StationCode": "2014396",
+                    "StationInfo": {
+                        "StationName": "Топиллы",
+                        "StationCode": "2014396",
+                        "CnsiCode": "13326",
+                        "RegionName": "Рязанская область",
+                        "IsoCode": "RU-RYA"
+                    },
+                    "LocalDepartureTime": "06:46",
+                    "DepartureDateTime": "2026-08-05T06:46:00",
+                    "LocalDepartureDateTime": "2026-08-05T06:46:00",
+                    "ArrivalDateTime": "2026-08-05T06:33:00",
+                    "LocalArrivalDateTime": "2026-08-05T06:33:00",
+                    "Clarification": null,
+                    "DaysFromFormingStation": 0,
+                    "TimeZoneDifference": 0,
+                    "ActualMovement": null,
+                    "IsCutawayStation": false
+                },
+                {
+                    "StationName": "Милославское",
+                    "CityName": null,
+                    "DepartureTime": "07:26",
+                    "ArrivalTime": "07:24",
+                    "LocalArrivalTime": "07:24",
+                    "StopDuration": 2,
+                    "TimeDescription": "Local",
+                    "StationCode": "2014398",
+                    "StationInfo": {
+                        "StationName": "Милославское",
+                        "StationCode": "2014398",
+                        "CnsiCode": "13330",
+                        "RegionName": "Рязанская область",
+                        "IsoCode": "RU-RYA"
+                    },
+                    "LocalDepartureTime": "07:26",
+                    "DepartureDateTime": "2026-08-05T07:26:00",
+                    "LocalDepartureDateTime": "2026-08-05T07:26:00",
+                    "ArrivalDateTime": "2026-08-05T07:24:00",
+                    "LocalArrivalDateTime": "2026-08-05T07:24:00",
+                    "Clarification": null,
+                    "DaysFromFormingStation": 0,
+                    "TimeZoneDifference": 0,
+                    "ActualMovement": null,
+                    "IsCutawayStation": false
+                },
+                {
+                    "StationName": "Троекурово",
+                    "CityName": null,
+                    "DepartureTime": "08:13",
+                    "ArrivalTime": "08:11",
+                    "LocalArrivalTime": "08:11",
+                    "StopDuration": 2,
+                    "TimeDescription": "Local",
+                    "StationCode": "2014402",
+                    "StationInfo": {
+                        "StationName": "Троекурово",
+                        "StationCode": "2014402",
+                        "CnsiCode": "13335",
+                        "RegionName": "Липецкая область",
+                        "IsoCode": "RU-LIP"
+                    },
+                    "LocalDepartureTime": "08:13",
+                    "DepartureDateTime": "2026-08-05T08:13:00",
+                    "LocalDepartureDateTime": "2026-08-05T08:13:00",
+                    "ArrivalDateTime": "2026-08-05T08:11:00",
+                    "LocalArrivalDateTime": "2026-08-05T08:11:00",
+                    "Clarification": null,
+                    "DaysFromFormingStation": 0,
+                    "TimeZoneDifference": 0,
+                    "ActualMovement": null,
+                    "IsCutawayStation": false
+                }
+            ]
+        }
+    ],
+    "OriginRetrievalDate": null
+}

@@ -1,0 +1,116 @@
+{
+    "Tariffs": [
+        {
+            "DocumentTypes": [
+                "RussianPassport",
+                "RussianForeignPassport",
+                "ForeignPassport",
+                "DiplomaticPassport",
+                "BirthCertificate",
+                "MilitaryCard",
+                "MilitaryOfficerCard",
+                "SailorPassport"
+            ],
+            "ClientFeeCalculation": null,
+            "AgentFeeCalculation": {
+                "Charge": 0,
+                "Profit": 0
+            },
+            "TariffId": "21",
+            "TariffName": "Стандарт 650",
+            "TariffType": "Standard",
+            "RouteName": null,
+            "Description": "1 поездка в вагоне «Стандарт». Действителен на любом направлении от/до аэропортов Шереметьево, Домодедово в течение 90 дней с даты, выбранной при покупке. Посадочное место не фиксировано. Стоимость: 700 руб. при покупке билета «на сегодня», 650 руб. при покупке билета с датой начала действия от 1 до 7 дней до даты поездки, 650 руб. при покупке билета от 7 дней и более до даты поездки.\nТариф не предназначен для поездки между терминалами B, C и D, E, F аэропорта Шереметьево.",
+            "Price": 650,
+            "MaxTicketsQuantityAllowedForBooking": 10,
+            "IsForGuaranteedSeats": false,
+            "Races": null,
+            "OriginStationCode": null,
+            "DestinationStationCode": null
+        },
+        {
+            "DocumentTypes": [
+                "RussianPassport",
+                "RussianForeignPassport",
+                "ForeignPassport",
+                "DiplomaticPassport",
+                "BirthCertificate",
+                "MilitaryCard",
+                "MilitaryOfficerCard",
+                "SailorPassport"
+            ],
+            "ClientFeeCalculation": null,
+            "AgentFeeCalculation": {
+                "Charge": 0,
+                "Profit": 0
+            },
+            "TariffId": "2",
+            "TariffName": "Туда-Обратно",
+            "TariffType": "RoundTrip",
+            "RouteName": null,
+            "Description": "2 поездки в вагоне «Стандарт» (1 поездка в аэропорт, 1 поездка из аэропорта). Действителен на любом направлении от/до аэропортов Шереметьево, Домодедово в течение 90 дней с даты, выбранной при покупке. Посадочное место не фиксировано.\nТариф не предназначен для поездки между терминалами B, C и D, E, F аэропорта Шереметьево.",
+            "Price": 1350,
+            "MaxTicketsQuantityAllowedForBooking": 10,
+            "IsForGuaranteedSeats": false,
+            "Races": null,
+            "OriginStationCode": null,
+            "DestinationStationCode": null
+        },
+        {
+            "DocumentTypes": [
+                "RussianPassport",
+                "RussianForeignPassport",
+                "ForeignPassport",
+                "DiplomaticPassport",
+                "BirthCertificate",
+                "MilitaryCard",
+                "MilitaryOfficerCard",
+                "SailorPassport"
+            ],
+            "ClientFeeCalculation": null,
+            "AgentFeeCalculation": {
+                "Charge": 0,
+                "Profit": 0
+            },
+            "TariffId": "18",
+            "TariffName": "Бизнес",
+            "TariffType": "Business",
+            "RouteName": null,
+            "Description": "1 поездка в вагоне класса «Бизнес».\r\nДействителен на любом направлении от/до аэропортов Шереметьево или Домодедово в течение 90 дней с даты, выбранной при покупке. Посадочное место не фиксировано. Приобретение билета возможно за 90 суток.\r\nВ стоимость включены: напитки на стойке самообслуживания, упаковка 1 места багажа*, хранение 1 места багажа на срок до 24 часов**, \r\n*Услуга упаковки багажа доступна в залах ожидания Аэроэкспресс на Павелецком и на Белорусском вокзалах. Размеры 1 места – не более 50x50x100 см. Режим работы: 8:00 – 21:00, перерыв – с 12:00 до 13:00.\r\n**Услуга хранения багажа доступна в залах ожидания Аэроэкспресс на Павелецком и на Белорусском вокзалах. Размеры 1 места – не более 50x40x90 см. Режим работы: прием 8:00 – 21:00, перерыв – с 12:00 до 13:00; выдача 5:30 – 00:00\r\n",
+            "Price": 1700,
+            "MaxTicketsQuantityAllowedForBooking": 10,
+            "IsForGuaranteedSeats": false,
+            "Races": null,
+            "OriginStationCode": null,
+            "DestinationStationCode": null
+        },
+        {
+            "DocumentTypes": [
+                "RussianPassport",
+                "RussianForeignPassport",
+                "ForeignPassport",
+                "DiplomaticPassport",
+                "BirthCertificate",
+                "MilitaryCard",
+                "MilitaryOfficerCard",
+                "SailorPassport"
+            ],
+            "ClientFeeCalculation": null,
+            "AgentFeeCalculation": {
+                "Charge": 0,
+                "Profit": 0
+            },
+            "TariffId": "19",
+            "TariffName": "Бизнес туда-обратно",
+            "TariffType": "BusinessRoundTrip",
+            "RouteName": null,
+            "Description": "2 поездки в вагоне класса «Бизнес» (1 поездка в аэропорт, 1 поездка из аэропорта). Действителен на любом направлении от/до аэропортов «Шереметьево» или «Домодедово» в течение 90 дней с даты, выбранной при покупке. Посадочное место не фиксировано. Приобретение билета возможно за 90 суток.\r\nВ стоимость включены: напитки на стойке самообслуживания, упаковка 1 места багажа*, хранение 1 места багажа на срок до 24 часов**, \r\n*Услуга упаковки багажа доступна в залах ожидания Аэроэкспресс на Павелецком и на Белорусском вокзалах. Размеры 1 места – не более 50x50x100 см. Режим работы: 8:00 – 21:00, перерыв – с 12:00 до 13:00.\r\n**Услуга хранения багажа доступна в залах ожидания Аэроэкспресс на Павелецком и на Белорусском вокзалах. Размеры 1 места – не более 50x40x90 см. Режим работы: прием 8:00 – 21:00, перерыв – с 12:00 до 13:00; выдача 5:30 – 00:00\r\n",
+            "Price": 2700,
+            "MaxTicketsQuantityAllowedForBooking": 10,
+            "IsForGuaranteedSeats": false,
+            "Races": null,
+            "OriginStationCode": null,
+            "DestinationStationCode": null
+        }
+    ]
+}

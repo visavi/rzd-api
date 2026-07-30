@@ -3,6 +3,8 @@
 /.gitignore         export-ignore
 /docs               export-ignore
 /examples           export-ignore
-/screens            export-ignore
 /tests              export-ignore
 /phpunit.xml        export-ignore
+/CHANGELOG.md       export-ignore
+
+*.php               diff=php

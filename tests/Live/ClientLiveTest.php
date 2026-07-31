@@ -158,7 +158,7 @@ final class ClientLiveTest extends TestCase
     }
 
     /**
-     * По issue #17 и #23 вагоны не отдавались у поездов с большим числом
+     * По issue вагоны не отдавались у поездов с большим числом
      * свободных мест, поэтому берется дальняя дата на длинном направлении
      */
     #[Test]
@@ -365,6 +365,10 @@ final class ClientLiveTest extends TestCase
         self::assertGreaterThan(0, $route->minPrice);
         self::assertGreaterThan($route->trips()[0]->duration(), $route->duration());
 
+        // Ожидание на пересадке считается по времени соседних рейсов
+        self::assertCount($route->changes(), $route->waits());
+        self::assertGreaterThan(0, $route->waitTotal());
+
         $trip = $route->trips()[0];
 
         self::assertNotNull($trip->number);
@@ -377,6 +381,9 @@ final class ClientLiveTest extends TestCase
     {
         $stations = $this->guard(fn() => $this->client->stations->suggest('Новый Уренгой'));
         $target = $this->guard(fn() => $this->client->stations->suggest('Абакан'));
+
+        // Подсказка отдаёт и город, и его вокзалы, у станции есть ссылка на город
+        self::assertSame($stations[0]->nodeId, $stations[0]->cityId, 'Первым идёт узел города');
 
         $result = $this->guard(fn() => $this->client->transfers->search(
             TransferSearch::forStations($stations[0], $target[0], $this->date('+21 days')),

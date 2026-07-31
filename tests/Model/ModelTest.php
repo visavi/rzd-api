@@ -12,6 +12,7 @@ use Rzd\Model\CarList;
 use Rzd\Model\PriceDay;
 use Rzd\Model\RouteLeg;
 use Rzd\Model\SearchResult;
+use Rzd\Model\Station;
 use Rzd\Model\Train;
 use Rzd\Model\Transfer;
 use Rzd\Model\TransferResult;
@@ -272,7 +273,7 @@ final class ModelTest extends TestCase
         $transfer = Transfer::fromArray(['min_duration' => $value]);
 
         self::assertNull($transfer->duration);
-        self::assertNull($transfer->minutes());
+        self::assertNull($transfer->seconds);
     }
 
     /**
@@ -292,8 +293,11 @@ final class ModelTest extends TestCase
     #[Test]
     public function roundsDurationToWholeSeconds(): void
     {
-        self::assertSame(807, Transfer::fromArray(['min_duration' => '807.024s'])->duration);
-        self::assertSame(808, Transfer::fromArray(['min_duration' => '807.6s'])->duration);
+        self::assertSame(807, Transfer::fromArray(['min_duration' => '807.024s'])->seconds);
+        self::assertSame(808, Transfer::fromArray(['min_duration' => '807.6s'])->seconds);
+
+        // В минуты переводится вниз, как и время в пути
+        self::assertSame(13, Transfer::fromArray(['min_duration' => '807.6s'])->duration);
     }
 
     #[Test]
@@ -310,6 +314,41 @@ final class ModelTest extends TestCase
         self::assertNull($route->departure());
         self::assertNull($route->arrival());
         self::assertNull($route->duration());
+    }
+
+    #[Test]
+    public function skipsWaitsWithoutTimes(): void
+    {
+        $route = TransferRoute::fromArray(['routes' => [['segments' => [['trips' => [
+            ['finish_datetime' => '2026-09-11T04:36:00+03:00'],
+            ['race_number' => 'без времени'],
+            ['start_datetime' => '2026-09-11T09:20:00+03:00'],
+        ]]]]]]);
+
+        // Три рейса, но время известно только у крайних
+        self::assertSame([], $route->waits());
+        self::assertSame(0, $route->waitTotal());
+    }
+
+    #[Test]
+    public function routeWithoutChangesHasNoWaits(): void
+    {
+        $route = TransferRoute::fromArray(['routes' => [['segments' => [['trips' => [
+            ['start_datetime' => '2026-09-11T01:00:00+03:00', 'finish_datetime' => '2026-09-11T04:36:00+03:00'],
+        ]]]]]]);
+
+        self::assertSame([], $route->waits());
+        self::assertSame(0, $route->waitTotal());
+        self::assertSame(0, $route->changes());
+    }
+
+    #[Test]
+    public function readsCityOfStation(): void
+    {
+        $station = Station::fromArray(['NodeId' => '5a8ac376…', 'CityId' => '5a13bdc3…']);
+
+        self::assertSame('5a8ac376…', $station->nodeId);
+        self::assertSame('5a13bdc3…', $station->cityId);
     }
 
     #[Test]

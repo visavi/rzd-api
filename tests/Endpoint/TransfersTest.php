@@ -79,6 +79,16 @@ final class TransfersTest extends TestCase
     }
 
     #[Test]
+    public function countsWaitsBetweenTrips(): void
+    {
+        $route = $this->search()->routes[0];
+
+        // Одна пересадка: прибытие в 04:36, отправление в 05:29
+        self::assertSame([53], $route->waits());
+        self::assertSame(53, $route->waitTotal());
+    }
+
+    #[Test]
     public function describesTrips(): void
     {
         $trips = $this->search()->routes[0]->trips();
@@ -132,8 +142,9 @@ final class TransfersTest extends TestCase
         self::assertSame('Ярославль (Московский вокзал)', $transfer->origin?->name);
         self::assertSame('Ярославль-Главный', $transfer->destination?->name);
         self::assertSame(500.0, $transfer->price);
-        self::assertSame(807, $transfer->duration);
-        self::assertSame(13, $transfer->minutes());
+        self::assertSame(13, $transfer->duration);
+        // Сайт считает переезд посекундно, точность сохранена рядом
+        self::assertSame(807, $transfer->seconds);
     }
 
     #[Test]

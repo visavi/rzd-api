@@ -66,11 +66,7 @@ final readonly class Trip extends Model
      */
     public function duration(): ?int
     {
-        if ($this->departure === null || $this->arrival === null) {
-            return null;
-        }
-
-        return intdiv($this->arrival->getTimestamp() - $this->departure->getTimestamp(), 60);
+        return self::minutesBetween($this->departure, $this->arrival);
     }
 
     /**

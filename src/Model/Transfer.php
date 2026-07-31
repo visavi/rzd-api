@@ -18,28 +18,25 @@ final readonly class Transfer extends Model
         public ?Place $destination,
         /** Стоимость переезда в рублях */
         public ?float $price,
-        /** Наименьшее время переезда в секундах */
+        /** Наименьшее время переезда в минутах, как у рейса и всей поездки */
         public ?int $duration,
+        /** То же время без округления: сайт считает переезд посекундно */
+        public ?int $seconds,
     ) {
         parent::__construct($raw);
     }
 
     public static function fromArray(array $data): static
     {
+        $seconds = self::seconds($data, 'min_duration');
+
         return new self(
             $data,
             self::one($data, 'start_location', Place::class),
             self::one($data, 'finish_location', Place::class),
             self::money($data, 'min_price'),
-            self::seconds($data, 'min_duration'),
+            $seconds === null ? null : intdiv($seconds, 60),
+            $seconds,
         );
-    }
-
-    /**
-     * Время переезда в минутах
-     */
-    public function minutes(): ?int
-    {
-        return $this->duration === null ? null : intdiv($this->duration, 60);
     }
 }

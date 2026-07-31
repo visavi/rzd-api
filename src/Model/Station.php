@@ -16,6 +16,14 @@ final readonly class Station extends Model
         public ?string $code,
         /** Идентификатор узла нового сайта, участвует в адресах страниц */
         public ?string $nodeId,
+        /**
+         * Узел города, которому принадлежит станция
+         *
+         * У самого города совпадает с nodeId. Поиску с пересадками годится
+         * любой из двух, но выдача отличается: город объединяет вокзалы,
+         * отдельный вокзал дает больше вариантов от него самого
+         */
+        public ?string $cityId,
         /** Регион или страна */
         public ?string $region,
         /** Тип узла: Город, Станция. У популярных городов машинное значение, city */
@@ -49,6 +57,7 @@ final readonly class Station extends Model
             self::str($data, 'Name') ?? self::str($data, 'name'),
             isset($codes['Railway']) ? (string) $codes['Railway'] : self::str($data, 'expressCode'),
             self::str($data, 'NodeId') ?? self::str($data, 'nodeId'),
+            self::str($data, 'CityId') ?? self::str($data, 'cityId'),
             self::str($data, 'Description'),
             self::str($data, 'SubType') ?? self::str($data, 'nodeType'),
             self::str($data, 'Timezone'),

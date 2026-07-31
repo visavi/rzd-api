@@ -95,14 +95,39 @@ final readonly class TransferRoute extends Model implements IteratorAggregate, C
      */
     public function duration(): ?int
     {
-        $departure = $this->departure();
-        $arrival = $this->arrival();
+        return self::minutesBetween($this->departure(), $this->arrival());
+    }
 
-        if ($departure === null || $arrival === null) {
-            return null;
+    /**
+     * Ожидание между рейсами в минутах, по одному числу на пересадку
+     *
+     * Пересадки, у которых сайт не дал время рейса, пропускаются, поэтому
+     * список бывает короче числа пересадок
+     *
+     * @return list<int>
+     */
+    public function waits(): array
+    {
+        $trips = $this->trips();
+        $waits = [];
+
+        foreach (array_slice($trips, 1) as $index => $trip) {
+            $wait = self::minutesBetween($trips[$index]->arrival, $trip->departure);
+
+            if ($wait !== null) {
+                $waits[] = $wait;
+            }
         }
 
-        return intdiv($arrival->getTimestamp() - $departure->getTimestamp(), 60);
+        return $waits;
+    }
+
+    /**
+     * Сколько всего ждать на пересадках, в минутах
+     */
+    public function waitTotal(): int
+    {
+        return array_sum($this->waits());
     }
 
     /**
@@ -132,5 +157,4 @@ final readonly class TransferRoute extends Model implements IteratorAggregate, C
 
         return true;
     }
-
 }

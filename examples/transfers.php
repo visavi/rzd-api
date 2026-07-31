@@ -65,22 +65,12 @@ foreach ($route->trips() as $trip) {
 
 heading('Пересадки');
 
-printf("ожидание между рейсами\n");
+printf("ожидание между рейсами, всего %s\n", duration($route->waitTotal()));
 
 $trips = $route->trips();
 
-foreach (array_slice($trips, 1) as $index => $trip) {
-    $previous = $trips[$index];
-
-    if ($previous->arrival === null || $trip->departure === null) {
-        continue;
-    }
-
-    printf(
-        "  %s  %s\n",
-        pad($previous->destination?->name, 24),
-        duration(intdiv($trip->departure->getTimestamp() - $previous->arrival->getTimestamp(), 60)),
-    );
+foreach ($route->waits() as $index => $wait) {
+    printf("  %s  %s\n", pad($trips[$index]->destination?->name, 24), duration($wait));
 }
 
 if ($route->transfers === []) {
@@ -92,7 +82,7 @@ foreach ($route->transfers as $transfer) {
         "\nпереезд %s → %s, %s, около %s\n",
         $transfer->origin?->name,
         $transfer->destination?->name,
-        duration($transfer->minutes()),
+        duration($transfer->duration),
         price($transfer->price),
     );
 }

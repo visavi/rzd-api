@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rzd\Model;
 
 use DateTimeImmutable;
+use DateTimeInterface;
 use Exception;
 
 /**
@@ -106,6 +107,18 @@ abstract readonly class Model
             // Формат даты у сайта единый, но ломать разбор ответа из-за него не стоит
             return null;
         }
+    }
+
+    /**
+     * Разница между моментами в минутах, null если известен не каждый
+     */
+    protected static function minutesBetween(?DateTimeInterface $from, ?DateTimeInterface $to): ?int
+    {
+        if ($from === null || $to === null) {
+            return null;
+        }
+
+        return intdiv($to->getTimestamp() - $from->getTimestamp(), 60);
     }
 
     /**

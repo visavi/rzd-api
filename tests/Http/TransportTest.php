@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Rzd\Tests\Http;
 
+use DateTimeImmutable;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Http\Discovery\Psr17FactoryDiscovery;
@@ -18,6 +19,7 @@ use Rzd\Exception\MalformedResponseException;
 use Rzd\Exception\RzdException;
 use Rzd\Exception\TransportException;
 use Rzd\Http\Transport;
+use Rzd\Request\TransferSearch;
 use Rzd\Tests\Concerns\AssertsExceptions;
 use Rzd\Tests\TestCase;
 
@@ -62,6 +64,28 @@ final class TransportTest extends TestCase
         $this->client(['{}'], $config)->references->appConfig();
 
         self::assertSame('22900', $this->request()->getHeaderLine('X-Client-ID'));
+    }
+
+    #[Test]
+    public function sendsNoCookiesByDefault(): void
+    {
+        $this->client(['{}'])->references->appConfig();
+
+        // Куку требует только поиск с пересадками, он и добавляет ее сам
+        self::assertFalse($this->request()->hasHeader('Cookie'));
+    }
+
+    #[Test]
+    public function requestHeadersWinOverConfig(): void
+    {
+        $config = (new Config())->withHeaders(['Cookie' => 'my=1']);
+
+        $this->client([$this->fixture('transfer-search')], $config)->transfers->search(
+            new TransferSearch('a', 'b', new DateTimeImmutable('2026-09-11')),
+        );
+
+        // Заголовок метода важнее пользовательского: без него ответ будет 500
+        self::assertSame('LANG_SITE=ru', $this->request()->getHeaderLine('Cookie'));
     }
 
     #[Test]

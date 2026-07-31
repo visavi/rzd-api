@@ -43,9 +43,6 @@ final readonly class Aeroexpress extends Endpoint
 
         $response = $this->transport->post(self::TARIFFS_PATH, $body);
 
-        return array_values(array_map(
-            static fn(array $tariff): AeroexpressTariff => AeroexpressTariff::fromArray($tariff),
-            array_filter($response['Tariffs'] ?? [], 'is_array'),
-        ));
+        return $this->models($response['Tariffs'] ?? [], AeroexpressTariff::class);
     }
 }

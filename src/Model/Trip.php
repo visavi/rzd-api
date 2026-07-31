@@ -43,11 +43,7 @@ final readonly class Trip extends Model
 
     public static function fromArray(array $data): static
     {
-        $distance = $data['trip_distance'] ?? [];
-        $meters = is_array($distance) ? self::int($distance, 'meters') : null;
-
-        $transport = $data['transport_type'] ?? [];
-        $transport = is_array($transport) ? $transport : [];
+        $meters = self::int(self::nested($data, 'trip_distance'), 'meters');
 
         return new self(
             $data,
@@ -59,7 +55,7 @@ final readonly class Trip extends Model
             self::money($data, 'min_price'),
             self::money($data, 'max_price'),
             self::int($data, 'free_places') ?? 0,
-            self::str($transport, 'provider_code'),
+            self::str(self::nested($data, 'transport_type'), 'provider_code'),
             $meters === null ? null : intdiv($meters, 1000),
             self::each($data, 'products', TripProduct::class),
         );

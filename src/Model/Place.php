@@ -27,11 +27,8 @@ final readonly class Place extends Model
 
     public static function fromArray(array $data): static
     {
-        $station = $data['station'] ?? [];
-        $station = is_array($station) ? $station : [];
-
-        $city = $data['parent_city'] ?? [];
-        $city = is_array($city) ? $city : [];
+        $station = self::nested($data, 'station');
+        $city = self::nested($data, 'parent_city');
 
         return new self(
             $data,

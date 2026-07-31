@@ -22,6 +22,12 @@ final readonly class Transfers extends Endpoint
      */
     public function search(TransferSearch $request): TransferResult
     {
-        return TransferResult::fromArray($this->transport->post(self::SEARCH_PATH, $request->toBody()));
+        // Единственный запрос сайта, которому нужна кука: без нее ответ 500.
+        // Значение безразлично, важно само ее наличие, поэтому берем язык
+        $headers = ['Cookie' => 'LANG_SITE=' . $this->config->language->value];
+
+        return TransferResult::fromArray(
+            $this->transport->post(self::SEARCH_PATH, $request->toBody(), headers: $headers),
+        );
     }
 }

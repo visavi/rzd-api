@@ -44,6 +44,6 @@ enum TransportProvider: string
      */
     public static function values(array $providers): array
     {
-        return array_values(array_map(static fn(self $provider): string => $provider->value, $providers));
+        return array_map(static fn(self $provider): string => $provider->value, $providers);
     }
 }

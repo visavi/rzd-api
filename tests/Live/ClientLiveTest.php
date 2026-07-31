@@ -14,6 +14,7 @@ use Rzd\Client;
 use Rzd\Config;
 use Rzd\Enum\SchemeView;
 use Rzd\Exception\TransportException;
+use Rzd\Model\Station;
 use Rzd\Model\Train;
 use Rzd\Request\CarSchemeSearch;
 use Rzd\Request\CarSearch;
@@ -237,13 +238,13 @@ final class ClientLiveTest extends TestCase
 
         self::assertNotSame([], $stations);
 
-        $names = array_map(static fn(object $station): ?string => $station->name, $stations);
+        $names = array_map(static fn(Station $station): ?string => $station->name, $stations);
 
         self::assertContains('Чебоксары', $names);
         self::assertNotNull($stations[0]->code);
         self::assertNotNull($stations[0]->timezone);
 
-        $codes = array_map(static fn(object $station): ?string => $station->code, $stations);
+        $codes = array_map(static fn(Station $station): ?string => $station->code, $stations);
 
         self::assertSame($codes, array_values(array_unique($codes)));
     }

@@ -68,10 +68,7 @@ final readonly class Stations extends Endpoint
     {
         $response = $this->transport->get(self::POPULAR_PATH . '/' . $this->config->language->value);
 
-        return array_values(array_map(
-            static fn(array $city): Station => Station::fromArray($city),
-            array_filter($response, 'is_array'),
-        ));
+        return $this->models($response, Station::class);
     }
 
     /**

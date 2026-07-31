@@ -18,7 +18,7 @@ final readonly class Station extends Model
         public ?string $nodeId,
         /** Регион или страна */
         public ?string $region,
-        /** Тип узла: Город, Станция */
+        /** Тип узла: Город, Станция. У популярных городов машинное значение, city */
         public ?string $type,
         /** Часовой пояс станции, нужен для расчета местного времени */
         public ?string $timezone,
@@ -40,19 +40,17 @@ final readonly class Station extends Model
 
     public static function fromArray(array $data): static
     {
-        $codes = $data['Codes'] ?? [];
-        $codes = is_array($codes) ? array_filter($codes, 'is_string') : [];
+        $codes = array_filter(self::nested($data, 'Codes'), 'is_string');
+        $stations = self::nested($data, 'Stations');
 
-        $stations = $data['Stations'] ?? [];
-        $stations = is_array($stations) ? $stations : [];
-
+        // Популярные города приходят с теми же полями, но со строчной буквы
         return new self(
             $data,
-            self::str($data, 'Name'),
+            self::str($data, 'Name') ?? self::str($data, 'name'),
             isset($codes['Railway']) ? (string) $codes['Railway'] : self::str($data, 'expressCode'),
             self::str($data, 'NodeId') ?? self::str($data, 'nodeId'),
             self::str($data, 'Description'),
-            self::str($data, 'SubType'),
+            self::str($data, 'SubType') ?? self::str($data, 'nodeType'),
             self::str($data, 'Timezone'),
             $codes,
             array_values(array_filter(array_map(

@@ -51,12 +51,13 @@ final readonly class Transport
      *
      * @param array<string, mixed>       $body
      * @param array<string, scalar|null> $query
+     * @param array<string, string>      $headers Заголовки только этого запроса
      *
      * @return array<mixed>
      */
-    public function post(string $path, array $body = [], array $query = []): array
+    public function post(string $path, array $body = [], array $query = [], array $headers = []): array
     {
-        $request = $this->request('POST', $path, $query)
+        $request = $this->request('POST', $path, $query, $headers)
             ->withHeader('Content-Type', 'application/json')
             ->withBody($this->streamFactory->createStream($this->encode($body)));
 
@@ -76,24 +77,25 @@ final readonly class Transport
     /**
      * Собирает запрос с обязательными заголовками
      *
+     * Заголовки запроса перекрывают заголовки настроек: их задает не
+     * пользователь, а сам метод, которому они нужны для работы
+     *
      * @param array<string, scalar|null> $query
+     * @param array<string, string>      $headers
      */
-    private function request(string $method, string $path, array $query = []): RequestInterface
+    private function request(string $method, string $path, array $query = [], array $headers = []): RequestInterface
     {
         $request = $this->requestFactory
             ->createRequest($method, $this->uri($path, $query))
             ->withHeader('Accept', 'application/json, text/plain, */*')
-            ->withHeader('Accept-Language', $this->config->language->value)
-            // Поиск с пересадками отвечает 500 без куки языка. Значение сайту
-            // безразлично, важно само ее наличие, поэтому берем язык настроек
-            ->withHeader('Cookie', 'LANG_SITE=' . $this->config->language->value);
+            ->withHeader('Accept-Language', $this->config->language->value);
 
         // Без User-Agent защита сайта отвечает 403 на любой запрос
         if ($this->config->userAgent !== '') {
             $request = $request->withHeader('User-Agent', $this->config->userAgent);
         }
 
-        foreach ($this->config->headers as $name => $value) {
+        foreach ([...$this->config->headers, ...$headers] as $name => $value) {
             $request = $request->withHeader($name, $value);
         }
 

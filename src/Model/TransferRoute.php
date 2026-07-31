@@ -77,19 +77,17 @@ final readonly class TransferRoute extends Model implements IteratorAggregate, C
 
     public function destination(): ?Place
     {
-        $last = $this->legs === [] ? null : $this->legs[count($this->legs) - 1];
-
-        return $last?->destination();
+        return self::last($this->legs)?->destination();
     }
 
     public function departure(): ?DateTimeImmutable
     {
-        return $this->firstTrip()?->departure;
+        return ($this->trips()[0] ?? null)?->departure;
     }
 
     public function arrival(): ?DateTimeImmutable
     {
-        return $this->lastTrip()?->arrival;
+        return self::last($this->trips())?->arrival;
     }
 
     /**
@@ -135,17 +133,4 @@ final readonly class TransferRoute extends Model implements IteratorAggregate, C
         return true;
     }
 
-    private function firstTrip(): ?Trip
-    {
-        $trips = $this->trips();
-
-        return $trips[0] ?? null;
-    }
-
-    private function lastTrip(): ?Trip
-    {
-        $trips = $this->trips();
-
-        return $trips === [] ? null : $trips[count($trips) - 1];
-    }
 }

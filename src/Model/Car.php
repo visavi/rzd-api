@@ -127,6 +127,6 @@ final readonly class Car extends Model
 
         preg_match_all('/\d+/', $places, $matches);
 
-        return array_values(array_map('intval', $matches[0]));
+        return array_map('intval', $matches[0]);
     }
 }

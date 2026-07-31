@@ -84,10 +84,7 @@ final readonly class Prices extends Endpoint
             'DepartureDate'   => ($from ?? new DateTimeImmutable('today'))->format('Y-m-d\T00:00:00'),
         ]);
 
-        return array_values(array_map(
-            static fn(array $month): SaleMonth => SaleMonth::fromArray($month),
-            array_filter($response, 'is_array'),
-        ));
+        return $this->models($response, SaleMonth::class);
     }
 
     /**
@@ -110,9 +107,6 @@ final readonly class Prices extends Endpoint
             'dateFrom'        => $from->format('Y-m-d'),
         ]);
 
-        return array_values(array_map(
-            static fn(array $day): PriceDay => PriceDay::fromArray($day),
-            array_filter($response['PriceByDepartureDates'] ?? [], 'is_array'),
-        ));
+        return $this->models($response['PriceByDepartureDates'] ?? [], PriceDay::class);
     }
 }

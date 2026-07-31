@@ -34,20 +34,12 @@ final readonly class RouteLeg extends Model
 
     public static function fromArray(array $data): static
     {
-        $provider = $data['provider'] ?? [];
-        $provider = is_array($provider) ? self::str($provider, 'key') : null;
-
-        $segments = $data['segments'] ?? [];
-        $segments = is_array($segments) ? array_filter($segments, 'is_array') : [];
+        $provider = self::str(self::nested($data, 'provider'), 'key');
 
         $trips = [];
 
-        foreach ($segments as $segment) {
-            $items = $segment['trips'] ?? [];
-
-            foreach (is_array($items) ? array_filter($items, 'is_array') : [] as $trip) {
-                $trips[] = Trip::fromArray($trip);
-            }
+        foreach (array_filter(self::nested($data, 'segments'), 'is_array') as $segment) {
+            $trips = [...$trips, ...self::each($segment, 'trips', Trip::class)];
         }
 
         return new self(
@@ -69,8 +61,6 @@ final readonly class RouteLeg extends Model
 
     public function destination(): ?Place
     {
-        $last = $this->trips === [] ? null : $this->trips[count($this->trips) - 1];
-
-        return $last?->destination;
+        return self::last($this->trips)?->destination;
     }
 }

@@ -71,9 +71,6 @@ final readonly class Cars extends Endpoint
             $request->toImageQuery() + $this->serviceProvider(),
         );
 
-        return array_values(array_map(
-            static fn(array $image): CarImage => CarImage::fromArray($image),
-            array_filter($response['Images'] ?? [], 'is_array'),
-        ));
+        return $this->models($response['Images'] ?? [], CarImage::class);
     }
 }

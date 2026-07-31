@@ -27,7 +27,7 @@ final class TrainsTest extends TestCase
         self::assertSame('Казань', $result->destinationName);
         self::assertSame('2000000', $result->originCode);
         self::assertFalse($result->partial);
-        self::assertContainsOnlyInstancesOf(Train::class, $result->trains);
+        self::assertSame('130Х', $result->trains[0]->number);
     }
 
     #[Test]

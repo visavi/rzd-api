@@ -109,6 +109,34 @@ abstract readonly class Model
     }
 
     /**
+     * Вложенный массив, пустой если поля нет или лежит не массив
+     *
+     * @param array<string, mixed> $data
+     *
+     * @return array<mixed>
+     */
+    protected static function nested(array $data, string $key): array
+    {
+        $value = $data[$key] ?? [];
+
+        return is_array($value) ? $value : [];
+    }
+
+    /**
+     * Последний элемент списка
+     *
+     * @template T
+     *
+     * @param list<T> $items
+     *
+     * @return T|null
+     */
+    protected static function last(array $items): mixed
+    {
+        return $items === [] ? null : $items[count($items) - 1];
+    }
+
+    /**
      * Коды из списка справочных объектов вида {"key": …, "provider_code": …}
      *
      * Поиск с пересадками ссылается на свои справочники по ключу, но рядом
@@ -120,15 +148,9 @@ abstract readonly class Model
      */
     protected static function codes(array $data, string $key): array
     {
-        $items = $data[$key] ?? [];
-
-        if (! is_array($items)) {
-            return [];
-        }
-
         return array_values(array_filter(array_map(
             static fn(mixed $item): ?string => is_array($item) ? self::str($item, 'provider_code') : null,
-            $items,
+            self::nested($data, $key),
         )));
     }
 
@@ -142,13 +164,9 @@ abstract readonly class Model
      */
     protected static function money(array $data, string $key): ?float
     {
-        $value = $data[$key] ?? null;
+        $kopecks = self::nested($data, $key)['kopecks'] ?? null;
 
-        if (! is_array($value) || ! is_numeric($value['kopecks'] ?? null)) {
-            return null;
-        }
-
-        return (int) $value['kopecks'] / 100;
+        return is_numeric($kopecks) ? (int) $kopecks / 100 : null;
     }
 
     /**
@@ -196,15 +214,9 @@ abstract readonly class Model
      */
     protected static function each(array $data, string $key, string $model): array
     {
-        $items = $data[$key] ?? [];
-
-        if (! is_array($items)) {
-            return [];
-        }
-
         return array_values(array_map(
             static fn(array $item): self => $model::fromArray($item),
-            array_filter($items, 'is_array'),
+            array_filter(self::nested($data, $key), 'is_array'),
         ));
     }
 

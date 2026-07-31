@@ -48,7 +48,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function clientWith(string ...$fixtures): Client
     {
-        return $this->client(array_map($this->fixture(...), $fixtures));
+        return $this->client(array_values(array_map($this->fixture(...), $fixtures)));
     }
 
     /**

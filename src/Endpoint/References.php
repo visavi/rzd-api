@@ -25,10 +25,7 @@ final readonly class References extends Endpoint
     {
         $response = $this->transport->post(self::TARIFFS_PATH, [], $this->serviceProvider());
 
-        return array_values(array_map(
-            static fn(array $tariff): Tariff => Tariff::fromArray($tariff),
-            array_filter($response['Tariffs'] ?? [], 'is_array'),
-        ));
+        return $this->models($response['Tariffs'] ?? [], Tariff::class);
     }
 
     /**
@@ -42,10 +39,7 @@ final readonly class References extends Endpoint
     {
         $response = $this->transport->get(self::CARDS_PATH);
 
-        return array_values(array_map(
-            static fn(array $card): Card => Card::fromArray($card),
-            array_filter($response['Cards'] ?? [], 'is_array'),
-        ));
+        return $this->models($response['Cards'] ?? [], Card::class);
     }
 
     /**

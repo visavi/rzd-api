@@ -99,8 +99,9 @@ final class CarsTest extends TestCase
     {
         $cars = $this->clientWith('car-pricing')->cars->search($this->search());
 
-        self::assertSame('130Х', $cars->train?->number);
-        self::assertSame(787, $cars->train?->duration);
+        self::assertNotNull($cars->train);
+        self::assertSame('130Х', $cars->train->number);
+        self::assertSame(787, $cars->train->duration);
         self::assertSame('2000003', $cars->originCode);
         self::assertNotSame([], $cars->allowedDocumentTypes);
     }

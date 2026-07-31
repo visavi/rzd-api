@@ -31,6 +31,8 @@ final class RequestTest extends TestCase
 
     /**
      * Поезд с полным набором полей для сборки запросов
+     *
+     * @param array<string, mixed> $override
      */
     private function train(array $override = []): Train
     {
@@ -67,6 +69,9 @@ final class RequestTest extends TestCase
         );
     }
 
+    /**
+     * @return array<string, array{int, int, string}>
+     */
     public static function invalidPassengerCounts(): array
     {
         return [

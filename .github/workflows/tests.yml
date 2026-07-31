@@ -32,6 +32,11 @@ jobs:
       - name: Tests
         run: vendor/bin/phpunit --coverage-clover=clover.xml
 
+      # Анализ не зависит от версии PHP, поэтому запускается один раз
+      - name: Static analysis
+        if: matrix.php == '8.4'
+        run: vendor/bin/phpstan analyse --no-progress --memory-limit=512M
+
       - name: Upload coverage to Coveralls
         if: matrix.php == '8.4'
         uses: coverallsapp/github-action@v2

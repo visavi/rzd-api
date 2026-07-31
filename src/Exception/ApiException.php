@@ -15,7 +15,11 @@ use RuntimeException;
  */
 class ApiException extends RuntimeException implements RzdException
 {
-    public function __construct(
+    /**
+     * Конструктор финальный: fromResponse() создает наследников через
+     * new static, а это безопасно только при неизменной сигнатуре
+     */
+    final public function __construct(
         string $message,
         private readonly int $statusCode,
         private readonly string $body,

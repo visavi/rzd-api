@@ -1,0 +1,12 @@
+parameters:
+    level: 8
+
+    paths:
+        - src
+        - tests
+        - examples
+
+    # Примеры пишут в консоль и живут вне автозагрузки библиотеки
+    excludePaths:
+        analyseAndScan:
+            - examples/index_web.php

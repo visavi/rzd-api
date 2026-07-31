@@ -64,6 +64,9 @@ final class ModelTest extends TestCase
         self::assertNull($train->departure);
     }
 
+    /**
+     * @return array<string, array{mixed}>
+     */
     public static function malformedDates(): array
     {
         return [
@@ -154,6 +157,9 @@ final class ModelTest extends TestCase
         self::assertNull($result->originName);
     }
 
+    /**
+     * @param list<mixed> $carriers
+     */
     #[Test]
     #[DataProvider('malformedPrices')]
     public function calendarSkipsUnusablePrices(array $carriers): void
@@ -163,6 +169,9 @@ final class ModelTest extends TestCase
         self::assertSame([], $day->byCarType());
     }
 
+    /**
+     * @return array<string, array{list<mixed>}>
+     */
     public static function malformedPrices(): array
     {
         return [
@@ -197,6 +206,9 @@ final class ModelTest extends TestCase
         self::assertSame('2026-08-03', $day->date?->format('Y-m-d'));
     }
 
+    /**
+     * @param list<int> $expected
+     */
     #[Test]
     #[DataProvider('placesStrings')]
     public function parsesPlacesString(?string $places, array $expected): void
@@ -204,6 +216,9 @@ final class ModelTest extends TestCase
         self::assertSame($expected, Car::parsePlaces($places));
     }
 
+    /**
+     * @return array<string, array{string|null, list<int>}>
+     */
     public static function placesStrings(): array
     {
         return [

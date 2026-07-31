@@ -48,9 +48,6 @@ final readonly class Routes extends Endpoint
             $request->toQuery() + ['serviceProvider' => $this->config->serviceProvider->value],
         );
 
-        return array_values(array_map(
-            static fn(array $route): Route => Route::fromArray($route),
-            array_filter($response['Routes'] ?? [], 'is_array'),
-        ));
+        return $this->models($response['Routes'] ?? [], Route::class);
     }
 }

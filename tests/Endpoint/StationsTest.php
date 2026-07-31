@@ -121,6 +121,9 @@ final class StationsTest extends TestCase
         self::assertCount(1, $cities);
         self::assertSame('2000000', $cities[0]->code);
         self::assertSame('5a323c29340c7441a0a556bb', $cities[0]->nodeId);
+        // Тут сайт называет поля со строчной буквы, в отличие от подсказок
+        self::assertSame('Москва', $cities[0]->name);
+        self::assertSame('city', $cities[0]->type);
         self::assertSame('/api/v1/popular_cities/ru', $this->request()->getUri()->getPath());
     }
 
@@ -132,6 +135,7 @@ final class StationsTest extends TestCase
         $station = $this->client([$response])->stations->byNodeId('5a323c29340c7441a0a556bb');
 
         self::assertSame('2000000', $station->code);
+        self::assertSame('Москва', $station->name);
         self::assertSame('/api/v1/getobject', $this->request()->getUri()->getPath());
         self::assertSame('5a323c29340c7441a0a556bb', $this->query()['id']);
     }

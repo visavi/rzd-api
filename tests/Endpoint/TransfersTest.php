@@ -58,10 +58,13 @@ final class TransfersTest extends TestCase
     {
         $route = $this->search()->routes[0];
 
-        self::assertSame('Москва Ярославская (Ярославский вокзал)', $route->origin()?->name);
+        $origin = $route->origin();
+
+        self::assertNotNull($origin);
+        self::assertSame('Москва Ярославская (Ярославский вокзал)', $origin->name);
+        self::assertSame('Москва', $origin->cityName);
+        self::assertSame('Moskva Yaroslavskaya (Yaroslavskiy vokzal)', $origin->nameEn);
         self::assertSame('Исакогорка', $route->destination()?->name);
-        self::assertSame('Москва', $route->origin()?->cityName);
-        self::assertSame('Moskva Yaroslavskaya (Yaroslavskiy vokzal)', $route->origin()?->nameEn);
     }
 
     #[Test]
@@ -110,10 +113,11 @@ final class TransfersTest extends TestCase
     {
         $train = $this->search()->routes[0]->trips()[0]->train();
 
-        self::assertSame('002Э', $train?->number);
-        self::assertSame('Россия', $train?->name);
-        self::assertSame('2000002', $train?->originStationCode);
-        self::assertNotSame([], $train?->carGroups);
+        self::assertNotNull($train);
+        self::assertSame('002Э', $train->number);
+        self::assertSame('Россия', $train->name);
+        self::assertSame('2000002', $train->originStationCode);
+        self::assertNotSame([], $train->carGroups);
     }
 
     #[Test]

@@ -36,14 +36,11 @@ final readonly class TripProduct extends Model
 
     public static function fromArray(array $data): static
     {
-        $carType = $data['train_car_type'] ?? [];
-        $carType = is_array($carType) ? $carType : [];
-
         return new self(
             $data,
             self::money($data, 'price'),
             self::int($data, 'free_places') ?? 0,
-            self::str($carType, 'key'),
+            self::str(self::nested($data, 'train_car_type'), 'key'),
             // Одиночное common_service_class дублирует тип вагона, а не класс
             self::codes($data, 'common_service_classes'),
             self::codes($data, 'carriers'),

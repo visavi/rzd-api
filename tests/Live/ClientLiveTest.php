@@ -188,7 +188,7 @@ final class ClientLiveTest extends TestCase
     {
         $train = $this->anyTrain();
 
-        $route = $this->guard(fn() => $this->client->routes->forTrain(RouteSearch::forTrain($train)));
+        $route = $this->guard(fn() => $this->client->routes->search(RouteSearch::forTrain($train)));
 
         self::assertGreaterThan(1, count($route));
         self::assertNotNull($route->name);

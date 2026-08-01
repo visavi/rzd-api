@@ -22,7 +22,7 @@ final readonly class Routes extends Endpoint
      * с прицепными вагонами. Здесь возвращается первый, остальные доступны
      * через all
      */
-    public function forTrain(RouteSearch $request): Route
+    public function search(RouteSearch $request): Route
     {
         $routes = $this->all($request);
 
@@ -34,6 +34,18 @@ final readonly class Routes extends Endpoint
         }
 
         return $routes[0];
+    }
+
+    /**
+     * Основной маршрут поезда
+     *
+     * @deprecated 6.1 Имя совпадало с фабрикой запроса, отчего вызов выглядел
+     *             как routes->forTrain(RouteSearch::forTrain($train)).
+     *             Используйте search(), метод будет удален в 7.0
+     */
+    public function forTrain(RouteSearch $request): Route
+    {
+        return $this->search($request);
     }
 
     /**

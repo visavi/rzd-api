@@ -32,7 +32,7 @@ PSR-18 и больше не тянет Guzzle в зависимости. Тай�
 | `$api->trainRoutesReturn($params)` | `$client->trains->searchReturn(new TrainSearch(...), $returnDate)` |
 | `$api->trainRoutes(['md' => 1])`   | `$client->transfers->search(new TransferSearch(...))`              |
 | `$api->trainCarriages($params)`    | `$client->cars->search(CarSearch::forTrain($train))`               |
-| `$api->trainStationList($params)`  | `$client->routes->forTrain(RouteSearch::forTrain($train))`         |
+| `$api->trainStationList($params)`  | `$client->routes->search(RouteSearch::forTrain($train))`           |
 | `$api->stationCode($params)`       | `$client->stations->suggest('ЧЕБ')`                                |
 | —                                  | `$client->cars->scheme()`, `schemeImage()`, `images()`             |
 | —                                  | `$client->prices->availability()`, `calendar()`                    |
@@ -192,7 +192,7 @@ foreach ($stations->routes as $stop) { ... }
 
 ```php
 // 6.0
-$route = $client->routes->forTrain(Rzd\Request\RouteSearch::forTrain($train));
+$route = $client->routes->search(Rzd\Request\RouteSearch::forTrain($train));
 
 foreach ($route as $stop) {
     echo $stop->stationName, $stop->arrival?->format('H:i'), $stop->stopDuration;

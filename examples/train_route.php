@@ -26,7 +26,7 @@ if (count($result) === 0) {
 
 $train = $result->trains[0];
 
-$route = attempt(fn() => $client->routes->forTrain(RouteSearch::forTrain($train)));
+$route = attempt(fn() => $client->routes->search(RouteSearch::forTrain($train)));
 
 heading(sprintf('%s, поезд %s: остановок %d', $route->name, $route->trainNumber, count($route)));
 

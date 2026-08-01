@@ -1,5 +1,31 @@
 # Changelog
 
+## 6.1.0
+
+### Added
+
+**`TrainSearch::forStations()`** — запрос поиска поездов собирается прямо из
+подсказок станций, доставать `->code` вручную больше не нужно. Такие фабрики
+теперь есть у всех запросов, кроме тех, которым выводить параметры не из чего.
+
+```php
+$result = $client->trains->search(TrainSearch::forStations(
+    $client->stations->suggest('Москва')[0],
+    $client->stations->suggest('Санкт-Петербург')[0],
+    new DateTimeImmutable('2026-08-01'),
+));
+```
+
+**`Routes::search()`** — основной маршрут поезда. Пришёл на смену
+`Routes::forTrain()`, у которого имя совпадало с фабрикой запроса, отчего вызов
+читался как `routes->forTrain(RouteSearch::forTrain($train))`, и выбивался из
+ряда `trains->search()`, `cars->search()`, `transfers->search()`.
+
+### Deprecated
+
+**`Routes::forTrain()`** — используйте `Routes::search()`. Метод продолжает
+работать и будет удалён в 7.0.
+
 ## 6.0.0
 
 Библиотека написана заново под новое API `ticket.rzd.ru`. Прежний протокол

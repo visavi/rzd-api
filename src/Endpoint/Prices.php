@@ -33,9 +33,7 @@ final readonly class Prices extends Endpoint
         DateTimeInterface $from,
         DateTimeInterface $to,
     ): array {
-        if ($origin === '' || $destination === '') {
-            throw new InvalidArgumentException('Коды станций отправления и прибытия обязательны');
-        }
+        $this->guardStations($origin, $destination);
 
         if ($to < $from) {
             throw new InvalidArgumentException('Конец периода не может быть раньше начала');
@@ -74,9 +72,7 @@ final readonly class Prices extends Endpoint
      */
     public function saleCalendar(string $origin, string $destination, ?DateTimeInterface $from = null): array
     {
-        if ($origin === '' || $destination === '') {
-            throw new InvalidArgumentException('Коды станций отправления и прибытия обязательны');
-        }
+        $this->guardStations($origin, $destination);
 
         $response = $this->transport->post(self::SALE_CALENDAR_PATH, [
             'OriginCode'      => $origin,
@@ -97,9 +93,7 @@ final readonly class Prices extends Endpoint
      */
     public function calendar(string $origin, string $destination, DateTimeInterface $from): array
     {
-        if ($origin === '' || $destination === '') {
-            throw new InvalidArgumentException('Коды станций отправления и прибытия обязательны');
-        }
+        $this->guardStations($origin, $destination);
 
         $response = $this->transport->get(self::MINIMAL_PRICING_PATH, [
             'originCode'      => $origin,
@@ -108,5 +102,15 @@ final readonly class Prices extends Endpoint
         ]);
 
         return $this->models($response['PriceByDepartureDates'] ?? [], PriceDay::class);
+    }
+
+    /**
+     * Общая проверка станций: все календари строятся по паре кодов
+     */
+    private function guardStations(string $origin, string $destination): void
+    {
+        if ($origin === '' || $destination === '') {
+            throw new InvalidArgumentException('Коды станций отправления и прибытия обязательны');
+        }
     }
 }

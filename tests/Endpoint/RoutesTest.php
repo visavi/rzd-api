@@ -31,7 +31,7 @@ final class RoutesTest extends TestCase
     #[Test]
     public function returnsRouteWithStops(): void
     {
-        $route = $this->clientWith('train-route')->routes->forTrain($this->search());
+        $route = $this->clientWith('train-route')->routes->search($this->search());
 
         self::assertSame('ОСНОВНОЙ МАРШРУТ', $route->name);
         self::assertSame('197Щ', $route->trainNumber);
@@ -43,7 +43,7 @@ final class RoutesTest extends TestCase
     #[Test]
     public function parsesRouteStop(): void
     {
-        $route = $this->clientWith('train-route')->routes->forTrain($this->search());
+        $route = $this->clientWith('train-route')->routes->search($this->search());
 
         $first = $route->stops[0];
 
@@ -63,7 +63,7 @@ final class RoutesTest extends TestCase
     #[Test]
     public function iteratesAsStopList(): void
     {
-        $route = $this->clientWith('train-route')->routes->forTrain($this->search());
+        $route = $this->clientWith('train-route')->routes->search($this->search());
 
         $names = [];
 
@@ -89,14 +89,14 @@ final class RoutesTest extends TestCase
         $this->assertThrows(
             MalformedResponseException::class,
             'Сайт не вернул ни одного маршрута поезда',
-            fn() => $this->client(['{"Routes":[]}'])->routes->forTrain($this->search()),
+            fn() => $this->client(['{"Routes":[]}'])->routes->search($this->search()),
         );
     }
 
     #[Test]
     public function sendsRouteParameters(): void
     {
-        $this->clientWith('train-route')->routes->forTrain($this->search());
+        $this->clientWith('train-route')->routes->search($this->search());
 
         $query = $this->query();
 
@@ -112,7 +112,7 @@ final class RoutesTest extends TestCase
     #[Test]
     public function omitsEmptyStationNames(): void
     {
-        $this->clientWith('train-route')->routes->forTrain(new RouteSearch(
+        $this->clientWith('train-route')->routes->search(new RouteSearch(
             trainNumber: '197Щ',
             origin: '2000005',
             destination: '2064150',
@@ -124,6 +124,15 @@ final class RoutesTest extends TestCase
     }
 
     #[Test]
+    public function keepsDeprecatedAlias(): void
+    {
+        // forTrain оставлен до 7.0: имя совпадало с фабрикой запроса
+        $route = $this->clientWith('train-route')->routes->forTrain($this->search());
+
+        self::assertSame('ОСНОВНОЙ МАРШРУТ', $route->name);
+    }
+
+    #[Test]
     public function buildsRouteRequestFromFoundTrain(): void
     {
         $client = $this->clientWith('train-pricing', 'train-route');
@@ -132,7 +141,7 @@ final class RoutesTest extends TestCase
             new TrainSearch('2000000', '2060500', new DateTimeImmutable('2026-08-01')),
         )->trains[0];
 
-        $client->routes->forTrain(RouteSearch::forTrain($train));
+        $client->routes->search(RouteSearch::forTrain($train));
 
         $query = $this->query(1);
 

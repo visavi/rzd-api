@@ -6,6 +6,7 @@ namespace Rzd\Request;
 
 use DateTimeInterface;
 use Rzd\Exception\InvalidArgumentException;
+use Rzd\Model\Station;
 
 /**
  * Параметры поиска поездов
@@ -43,6 +44,26 @@ final readonly class TrainSearch
         if ($this->children < 0) {
             throw new InvalidArgumentException('Число детей не может быть отрицательным');
         }
+    }
+
+    /**
+     * Собирает параметры из подсказок станций
+     *
+     * Прочие условия поиска остаются по умолчанию, менять их удобнее через
+     * обычный конструктор
+     */
+    public static function forStations(
+        Station $origin,
+        Station $destination,
+        DateTimeInterface $date,
+        int $adults = 1,
+        int $children = 0,
+    ): self {
+        if ($origin->code === null || $destination->code === null) {
+            throw new InvalidArgumentException('У станции нет кода, поиск поездов невозможен');
+        }
+
+        return new self($origin->code, $destination->code, $date, $adults, $children);
     }
 
     /**

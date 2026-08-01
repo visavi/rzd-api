@@ -186,6 +186,18 @@ $config = new Config(
 Клиент разбит по ресурсам: `trains`, `cars`, `routes`, `stations`, `prices`,
 `references`, `aeroexpress`, `transfers`.
 
+Параметры передаются объектами запросов. Собрать такой объект можно двумя
+способами: обычным конструктором с именованными аргументами либо фабрикой из
+уже полученного ответа — `CarSearch::forTrain($train)`,
+`RouteSearch::forTrain($train)`, `CarSchemeSearch::forCar($car, $train)`,
+`TrainSearch::forStations($from, $to, $date)`,
+`TransferSearch::forStations($from, $to, $date)`.
+
+Фабрики нужны не только для краткости. Например, запросу вагонов нужны коды
+**конкретных вокзалов** (`2000003` — Москва Казанская), а не города
+(`2000000` — Москва), которым искали поезда, плюс система бронирования поезда.
+Перенося это руками, легко получить пустой ответ вместо ошибки.
+
 ### Поиск поездов
 
 ```php
@@ -198,6 +210,17 @@ $result = $client->trains->search(new TrainSearch(
     fromSchedule: true,   // добавлять поезда из расписания, у которых мест ещё нет
     largeFamily: false,   // искать места для многодетных
     groupCars: false,     // группировать вагоны одного типа
+));
+```
+
+Если станции найдены подсказкой, коды доставать не нужно:
+
+```php
+$result = $client->trains->search(TrainSearch::forStations(
+    $client->stations->suggest('Москва')[0],
+    $client->stations->suggest('Санкт-Петербург')[0],
+    new DateTimeImmutable('2026-08-01'),
+    adults: 2,
 ));
 ```
 
@@ -445,7 +468,7 @@ foreach ($client->cars->images($request) as $image) {
 ```php
 use Rzd\Request\RouteSearch;
 
-$route = $client->routes->forTrain(RouteSearch::forTrain($train));
+$route = $client->routes->search(RouteSearch::forTrain($train));
 
 foreach ($route as $stop) {
     printf(
@@ -460,7 +483,11 @@ foreach ($route as $stop) {
 ```
 
 У части поездов сайт отдаёт несколько вариантов маршрута, например с
-прицепными вагонами. `forTrain` возвращает основной, `all` — все.
+прицепными вагонами. `search` возвращает основной, `all` — все.
+
+Прежнее имя `routes->forTrain()` сохранено до 7.0, но помечено устаревшим:
+рядом с фабрикой запроса вызов читался как
+`routes->forTrain(RouteSearch::forTrain($train))`.
 
 ### Станции
 

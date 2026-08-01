@@ -263,6 +263,38 @@ final class RequestTest extends TestCase
     }
 
     #[Test]
+    public function trainSearchIsBuiltFromStations(): void
+    {
+        $request = TrainSearch::forStations(
+            Station::fromArray(['Codes' => ['Railway' => '2000000']]),
+            Station::fromArray(['Codes' => ['Railway' => '2004000']]),
+            $this->date(),
+            adults: 2,
+            children: 1,
+        );
+
+        self::assertSame('2000000', $request->origin);
+        self::assertSame('2004000', $request->destination);
+        self::assertSame(2, $request->adults);
+        self::assertSame(1, $request->children);
+        self::assertSame('2026-08-01T00:00:00', $request->toQuery()['departureDate']);
+    }
+
+    #[Test]
+    public function trainSearchRequiresStationCodes(): void
+    {
+        $this->assertThrows(
+            InvalidArgumentException::class,
+            'У станции нет кода, поиск поездов невозможен',
+            fn() => TrainSearch::forStations(
+                Station::fromArray(['Name' => 'Москва']),
+                Station::fromArray(['Codes' => ['Railway' => '2004000']]),
+                $this->date(),
+            ),
+        );
+    }
+
+    #[Test]
     public function transferSearchIsBuiltFromStations(): void
     {
         $request = TransferSearch::forStations(

@@ -14,6 +14,7 @@ use Rzd\Client;
 use Rzd\Config;
 use Rzd\Enum\SchemeView;
 use Rzd\Exception\TransportException;
+use Rzd\Model\PopularDirection;
 use Rzd\Model\Station;
 use Rzd\Model\Train;
 use Rzd\Request\CarSchemeSearch;
@@ -390,6 +391,48 @@ final class ClientLiveTest extends TestCase
         ));
 
         self::assertNotSame([], $result->routes);
+    }
+
+    #[Test]
+    public function returnsPopularDirections(): void
+    {
+        $directions = $this->guard(fn() => $this->client->stations->directions());
+
+        self::assertNotSame([], $directions);
+
+        $direction = $directions[0];
+
+        self::assertInstanceOf(PopularDirection::class, $direction);
+
+        $origin = $direction->origin;
+
+        self::assertNotNull($origin);
+        self::assertNotNull($origin->name);
+        self::assertNotNull($origin->code);
+        self::assertNotNull($direction->destination?->nodeId);
+        // Направления строятся между городами, а не вокзалами
+        self::assertTrue($origin->isCity());
+    }
+
+    #[Test]
+    public function picksCheapestAndFastestTrainLive(): void
+    {
+        $result = $this->guard(fn() => $this->client->trains->search(new TrainSearch(
+            self::MOSCOW,
+            self::SAINT_PETERSBURG,
+            $this->date(),
+        )));
+
+        $cheapest = $result->cheapest();
+        $fastest = $result->fastest();
+
+        self::assertNotNull($cheapest);
+        self::assertNotNull($fastest);
+
+        foreach ($result->withSeats() as $train) {
+            self::assertGreaterThanOrEqual($cheapest->minPrice(), $train->minPrice());
+            self::assertGreaterThanOrEqual($fastest->duration, $train->duration);
+        }
     }
 
     #[Test]

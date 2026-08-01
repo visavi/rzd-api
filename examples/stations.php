@@ -40,3 +40,15 @@ heading('Популярные города');
 foreach (array_slice(attempt(fn() => $client->stations->popular()), 0, 10) as $city) {
     printf("%s %-9s %s\n", pad($city->name, 20), $city->code, $city->nodeId);
 }
+
+heading('Популярные направления');
+
+foreach (attempt(fn() => $client->stations->directions()) as $direction) {
+    printf(
+        "%s → %s  %s → %s\n",
+        pad($direction->origin?->name, 18),
+        pad($direction->destination?->name, 18),
+        $direction->origin?->code,
+        $direction->destination?->code,
+    );
+}

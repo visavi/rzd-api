@@ -67,7 +67,7 @@ final readonly class TransferResult extends Model implements IteratorAggregate, 
      */
     public function fastest(): ?TransferRoute
     {
-        return $this->best(static fn(TransferRoute $route): ?int => $route->duration());
+        return self::least($this->routes, static fn(TransferRoute $route): ?int => $route->duration());
     }
 
     /**
@@ -75,30 +75,6 @@ final readonly class TransferResult extends Model implements IteratorAggregate, 
      */
     public function cheapest(): ?TransferRoute
     {
-        return $this->best(static fn(TransferRoute $route): ?float => $route->minPrice);
-    }
-
-    /**
-     * @param callable(TransferRoute): (int|float|null) $value
-     */
-    private function best(callable $value): ?TransferRoute
-    {
-        $best = null;
-        $bestValue = null;
-
-        foreach ($this->routes as $route) {
-            $current = $value($route);
-
-            if ($current === null) {
-                continue;
-            }
-
-            if ($bestValue === null || $current < $bestValue) {
-                $best = $route;
-                $bestValue = $current;
-            }
-        }
-
-        return $best;
+        return self::least($this->routes, static fn(TransferRoute $route): ?float => $route->minPrice);
     }
 }

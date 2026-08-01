@@ -231,6 +231,8 @@ $result = $client->trains->search(TrainSearch::forStations(
 count($result);            // сколько поездов найдено
 $result->trains;           // список Train
 $result->withSeats();      // только поезда со свободными местами
+$result->cheapest();       // самый дешёвый из тех, где есть места
+$result->fastest();        // самый быстрый из тех, где есть места
 $result->originName;        // название станции отправления
 $result->destinationName;
 $result->moscowTime;        // текущее московское время сайта
@@ -418,6 +420,7 @@ $cars = $client->cars->search(new CarSearch(
 ```php
 count($cars);              // сколько вагонов
 $cars->withSeats();        // только вагоны со свободными местами
+$cars->cheapest();         // самый дешёвый из тех, где есть места
 $cars->train;              // данные поезда, приходят тем же ответом
 
 $car->number;              // 09
@@ -499,6 +502,7 @@ $station->name;             // Чебоксары
 $station->code;             // 2060620, он нужен для поиска поездов
 $station->nodeId;           // идентификатор узла нового сайта, нужен для пересадок
 $station->cityId;           // узел города станции, у самого города равен nodeId
+$station->isCity();         // узел города, а не отдельного вокзала
 $station->region;           // Российская Федерация
 $station->type;             // Город, Станция, Поселок
 $station->timezone;         // Europe/Moscow
@@ -507,6 +511,11 @@ $station->stationCodes;     // коды всех вокзалов города
 
 // Популярные города
 $client->stations->popular();
+
+// Популярные направления: готовые пары станций
+foreach ($client->stations->directions() as $direction) {
+    printf("%s → %s\n", $direction->origin?->name, $direction->destination?->name);
+}
 
 // Город или станция по идентификатору узла
 $client->stations->byNodeId('5a323c29340c7441a0a556bb');

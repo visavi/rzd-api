@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Rzd\Endpoint;
 
 use Rzd\Exception\InvalidArgumentException;
+use Rzd\Model\PopularDirection;
 use Rzd\Model\Station;
 
 /**
@@ -18,6 +19,7 @@ final readonly class Stations extends Endpoint
     private const SUGGEST_PATH = '/isdk/suggests';
     private const POPULAR_PATH = '/api/v1/popular_cities';
     private const OBJECT_PATH = '/api/v1/getobject';
+    private const DIRECTIONS_PATH = '/api/v1/directions';
 
     /**
      * Ищет станции по части названия
@@ -69,6 +71,18 @@ final readonly class Stations extends Endpoint
         $response = $this->transport->get(self::POPULAR_PATH . '/' . $this->config->language->value);
 
         return $this->models($response, Station::class);
+    }
+
+    /**
+     * Популярные направления с главной страницы сайта
+     *
+     * В отличие от popular отдает готовые пары станций, а не отдельные узлы
+     *
+     * @return list<PopularDirection>
+     */
+    public function directions(): array
+    {
+        return $this->models($this->transport->get(self::DIRECTIONS_PATH), PopularDirection::class);
     }
 
     /**

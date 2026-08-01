@@ -136,6 +136,36 @@ abstract readonly class Model
     }
 
     /**
+     * Элемент с наименьшим значением, полученным из него же
+     *
+     * Элементы, у которых значения нет, пропускаются: цена и время в пути
+     * известны не всегда
+     *
+     * @template T of self
+     *
+     * @param list<T>                     $items
+     * @param callable(T): (int|float|null) $value
+     *
+     * @return T|null
+     */
+    protected static function least(array $items, callable $value): ?self
+    {
+        $best = null;
+        $least = null;
+
+        foreach ($items as $item) {
+            $current = $value($item);
+
+            if ($current !== null && ($least === null || $current < $least)) {
+                $best = $item;
+                $least = $current;
+            }
+        }
+
+        return $best;
+    }
+
+    /**
      * Последний элемент списка
      *
      * @template T

@@ -72,4 +72,12 @@ final readonly class CarList extends Model implements IteratorAggregate, Countab
             static fn(Car $car): bool => $car->placeNumbers() !== [],
         ));
     }
+
+    /**
+     * Самый дешевый вагон из тех, где есть места
+     */
+    public function cheapest(): ?Car
+    {
+        return self::least($this->withSeats(), static fn(Car $car): ?float => $car->minPrice);
+    }
 }

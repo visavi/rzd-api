@@ -128,6 +128,55 @@ final class StationsTest extends TestCase
     }
 
     #[Test]
+    public function returnsPopularDirections(): void
+    {
+        $response = '[{"from":"Москва","to":"Казань","type":"train",'
+            . '"departure":{"nodeId":"5a323c29340c7441a0a556bb","expressCode":"2000000","nodeType":"city","name":"Москва"},'
+            . '"arrival":{"nodeId":"5a13bd41340c745ca1e88b55","expressCode":"2060615","nodeType":"city","name":"Казань"}}]';
+
+        $directions = $this->client([$response])->stations->directions();
+
+        self::assertCount(1, $directions);
+        self::assertSame('Москва', $directions[0]->origin?->name);
+        self::assertSame('2060615', $directions[0]->destination?->code);
+        self::assertSame('train', $directions[0]->type);
+        self::assertSame('/api/v1/directions', $this->request()->getUri()->getPath());
+    }
+
+    #[Test]
+    public function returnsDirectionWithoutStations(): void
+    {
+        $directions = $this->client(['[{"from":"Москва","to":"Казань"}]'])->stations->directions();
+
+        self::assertNull($directions[0]->origin);
+        self::assertNull($directions[0]->destination);
+        self::assertNull($directions[0]->type);
+    }
+
+    #[Test]
+    public function tellsCityFromStation(): void
+    {
+        $response = '{"transport_node_suggests":['
+            . '{"Name":"Новый Уренгой","NodeId":"5a13bdc3","CityId":"5a13bdc3","Codes":{"Railway":"2030319"}},'
+            . '{"Name":"Новый Уренгой","NodeId":"5a8ac376","CityId":"5a13bdc3","Codes":{"Railway":"2030317"}}]}';
+
+        $stations = $this->client([$response])->stations->suggest('Новый Уренгой');
+
+        // Город ссылается сам на себя, вокзал - на город
+        self::assertTrue($stations[0]->isCity());
+        self::assertFalse($stations[1]->isCity());
+    }
+
+    #[Test]
+    public function treatsPopularCitiesAsCities(): void
+    {
+        // В популярных городах CityId не приходит вовсе
+        $response = '[{"nodeId":"5a323c29340c7441a0a556bb","expressCode":"2000000","nodeType":"city","name":"Москва"}]';
+
+        self::assertTrue($this->client([$response])->stations->popular()[0]->isCity());
+    }
+
+    #[Test]
     public function returnsCityByNodeId(): void
     {
         $response = '{"nodeId":"5a323c29340c7441a0a556bb","expressCode":"2000000","name":"Москва"}';

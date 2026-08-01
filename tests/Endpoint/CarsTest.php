@@ -41,6 +41,21 @@ final class CarsTest extends TestCase
     }
 
     #[Test]
+    public function picksCheapestCar(): void
+    {
+        $cars = $this->clientWith('car-pricing')->cars->search($this->search());
+
+        $cheapest = $cars->cheapest();
+
+        self::assertNotNull($cheapest);
+        self::assertContains($cheapest, $cars->withSeats());
+
+        foreach ($cars->withSeats() as $car) {
+            self::assertGreaterThanOrEqual($cheapest->minPrice, $car->minPrice);
+        }
+    }
+
+    #[Test]
     public function returnsCarsWithPlaceNumbers(): void
     {
         $cars = $this->clientWith('car-pricing')->cars->search($this->search());

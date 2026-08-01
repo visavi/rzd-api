@@ -74,4 +74,20 @@ final readonly class SearchResult extends Model implements IteratorAggregate, Co
             static fn(Train $train): bool => $train->freeSeats() > 0,
         ));
     }
+
+    /**
+     * Самый дешевый поезд из тех, где есть места
+     */
+    public function cheapest(): ?Train
+    {
+        return self::least($this->withSeats(), static fn(Train $train): ?float => $train->minPrice());
+    }
+
+    /**
+     * Самый быстрый поезд из тех, где есть места
+     */
+    public function fastest(): ?Train
+    {
+        return self::least($this->withSeats(), static fn(Train $train): ?int => $train->duration);
+    }
 }

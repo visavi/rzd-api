@@ -31,6 +31,16 @@ final class TrainsTest extends TestCase
     }
 
     #[Test]
+    public function picksCheapestAndFastestTrain(): void
+    {
+        $result = $this->clientWith('train-pricing')->trains->search($this->search());
+
+        // 130Х дешевле на три тысячи, 056М быстрее почти на два часа
+        self::assertSame('130Х', $result->cheapest()?->number);
+        self::assertSame('056М', $result->fastest()?->number);
+    }
+
+    #[Test]
     public function iteratesAsTrainList(): void
     {
         $result = $this->clientWith('train-pricing')->trains->search($this->search());

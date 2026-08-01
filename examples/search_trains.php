@@ -50,3 +50,11 @@ foreach ($result->trains[0]->carGroups as $group) {
         price($group->maxPrice),
     );
 }
+
+heading('Крайние варианты');
+
+$cheapest = $result->cheapest();
+$fastest = $result->fastest();
+
+printf("дешевле всех  %-6s %10s\n", $cheapest?->number, price($cheapest?->minPrice()));
+printf("быстрее всех  %-6s %10s\n", $fastest?->number, duration($fastest?->duration));

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Rzd\Endpoint;
 
+use Rzd\Enum\SchemeView;
+use Rzd\Exception\InvalidArgumentException;
 use Rzd\Model\CarImage;
 use Rzd\Model\CarList;
 use Rzd\Model\CarScheme;
-use Rzd\Enum\SchemeView;
-use Rzd\Exception\InvalidArgumentException;
 use Rzd\Request\CarSchemeSearch;
 use Rzd\Request\CarSearch;
 

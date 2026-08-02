@@ -29,6 +29,12 @@ foreach ($stations as $station) {
     );
 }
 
+heading('Первая подходящая станция без разбора списка');
+
+$found = attempt(fn() => $client->stations->find($query));
+
+printf("%s %s\n", pad($found?->name, 24), $found?->code);
+
 heading('Коды смежных видов транспорта у первой станции');
 
 foreach ($stations[0]->codes as $type => $code) {

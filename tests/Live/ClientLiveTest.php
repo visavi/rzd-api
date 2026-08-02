@@ -412,6 +412,22 @@ final class ClientLiveTest extends TestCase
         self::assertNotNull($direction->destination?->nodeId);
         // Направления строятся между городами, а не вокзалами
         self::assertTrue($origin->isCity());
+
+        // Направление годится обоим поискам без обращения к подсказкам
+        $result = $this->guard(fn() => $this->client->trains->search(
+            TrainSearch::forDirection($direction, $this->date('+21 days')),
+        ));
+
+        self::assertNotSame([], $result->trains);
+    }
+
+    #[Test]
+    public function findsStationByName(): void
+    {
+        $station = $this->guard(fn() => $this->client->stations->find('Чебоксары'));
+
+        self::assertInstanceOf(Station::class, $station);
+        self::assertSame('2060620', $station->code);
     }
 
     #[Test]

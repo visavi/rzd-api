@@ -28,12 +28,37 @@ $result = $client->trains->search(TrainSearch::forStations(
 
 **Популярные направления** — `Stations::directions()`. В отличие от `popular()`
 отдаёт готовые пары станций с обоими видами кодов, поэтому подходит и обычному
-поиску, и пересадкам без запроса подсказок.
+поиску, и пересадкам без запроса подсказок. Скормить направление поиску можно
+сразу: `TrainSearch::forDirection($direction, $date)` и
+`TransferSearch::forDirection($direction, $date)`.
+
+**`Stations::find()`** — первая подходящая станция или `null`. Подсказки
+отсортированы по близости к запросу, поэтому для готового названия города
+разбирать список незачем. Фабрики `forStations()` принимают такой результат
+как есть: ненайденная станция даёт `InvalidArgumentException`, а не запрос
+с пустым кодом.
+
+```php
+$result = $client->trains->search(TrainSearch::forStations(
+    $client->stations->find('Москва'),
+    $client->stations->find('Санкт-Петербург'),
+    new DateTimeImmutable('2026-08-01'),
+));
+```
 
 **`Routes::search()`** — основной маршрут поезда. Пришёл на смену
 `Routes::forTrain()`, у которого имя совпадало с фабрикой запроса, отчего вызов
 читался как `routes->forTrain(RouteSearch::forTrain($train))`, и выбивался из
 ряда `trains->search()`, `cars->search()`, `transfers->search()`.
+
+### Fixed
+
+**`MalformedResponseException::body()` у `Routes::search()`** — теперь содержит
+ответ сайта, как и обещает описание метода. Раньше туда попадали параметры
+отправленного запроса, что сбивало при разборе причины.
+
+**`Train::minPrice()`** — цена `0` больше не отбрасывается вместе с
+отсутствующей: фильтр сравнивает с `null`, а не приводит к `bool`.
 
 ### Deprecated
 

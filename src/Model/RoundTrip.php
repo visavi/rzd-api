@@ -34,26 +34,13 @@ final readonly class RoundTrip
      */
     public function minPrice(): ?float
     {
-        $forward = $this->cheapest($this->forward);
-        $back = $this->cheapest($this->back);
+        $forward = $this->forward->cheapest()?->minPrice();
+        $back = $this->back->cheapest()?->minPrice();
 
         if ($forward === null || $back === null) {
             return null;
         }
 
         return $forward + $back;
-    }
-
-    /**
-     * Наименьшая цена среди поездов со свободными местами
-     */
-    private function cheapest(SearchResult $result): ?float
-    {
-        $prices = array_filter(array_map(
-            static fn(Train $train): ?float => $train->minPrice(),
-            $result->withSeats(),
-        ));
-
-        return $prices === [] ? null : min($prices);
     }
 }

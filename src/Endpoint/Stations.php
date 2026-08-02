@@ -62,6 +62,18 @@ final readonly class Stations extends Endpoint
     }
 
     /**
+     * Первая подходящая станция или null, если не нашлось
+     *
+     * Сайт сортирует подсказки по близости к запросу, поэтому для готового
+     * названия города первая и есть нужная. Избавляет от разбора списка
+     * там, где станция заведомо одна
+     */
+    public function find(string $query): ?Station
+    {
+        return $this->suggest($query)[0] ?? null;
+    }
+
+    /**
      * Популярные города с кодами станций
      *
      * @return list<Station>

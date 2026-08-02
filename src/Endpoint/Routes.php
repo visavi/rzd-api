@@ -24,12 +24,13 @@ final readonly class Routes extends Endpoint
      */
     public function search(RouteSearch $request): Route
     {
-        $routes = $this->all($request);
+        $response = $this->fetch($request);
+        $routes = $this->routes($response);
 
         if ($routes === []) {
             throw new MalformedResponseException(
                 'Сайт не вернул ни одного маршрута поезда',
-                json_encode($request->toQuery(), JSON_UNESCAPED_UNICODE) ?: '',
+                json_encode($response, JSON_UNESCAPED_UNICODE) ?: '',
             );
         }
 
@@ -55,11 +56,30 @@ final readonly class Routes extends Endpoint
      */
     public function all(RouteSearch $request): array
     {
-        $response = $this->transport->get(
+        return $this->routes($this->fetch($request));
+    }
+
+    /**
+     * Ответ сайта целиком, он же попадает в исключение при пустом маршруте
+     *
+     * @return array<mixed>
+     */
+    private function fetch(RouteSearch $request): array
+    {
+        // Поставщик услуги здесь в другом написании, чем в остальных запросах
+        return $this->transport->get(
             self::PATH,
             $request->toQuery() + ['serviceProvider' => $this->config->serviceProvider->value],
         );
+    }
 
+    /**
+     * @param array<mixed> $response
+     *
+     * @return list<Route>
+     */
+    private function routes(array $response): array
+    {
         return $this->models($response['Routes'] ?? [], Route::class);
     }
 }

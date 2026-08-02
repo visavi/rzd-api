@@ -6,6 +6,7 @@ namespace Rzd\Request;
 
 use DateTimeInterface;
 use Rzd\Exception\InvalidArgumentException;
+use Rzd\Model\PopularDirection;
 use Rzd\Model\Station;
 
 /**
@@ -50,20 +51,39 @@ final readonly class TrainSearch
      * Собирает параметры из подсказок станций
      *
      * Прочие условия поиска остаются по умолчанию, менять их удобнее через
-     * обычный конструктор
+     * обычный конструктор. Станции принимаются пустыми, чтобы результат
+     * Stations::find подходил без проверок на стороне вызова
      */
     public static function forStations(
-        Station $origin,
-        Station $destination,
+        ?Station $origin,
+        ?Station $destination,
         DateTimeInterface $date,
         int $adults = 1,
         int $children = 0,
     ): self {
-        if ($origin->code === null || $destination->code === null) {
-            throw new InvalidArgumentException('У станции нет кода, поиск поездов невозможен');
+        if ($origin?->code === null || $destination?->code === null) {
+            throw new InvalidArgumentException('Станция не найдена или у нее нет кода, поиск поездов невозможен');
         }
 
         return new self($origin->code, $destination->code, $date, $adults, $children);
+    }
+
+    /**
+     * Собирает параметры из популярного направления
+     *
+     * Направление уже содержит обе станции, поэтому подсказки не нужны
+     */
+    public static function forDirection(
+        PopularDirection $direction,
+        DateTimeInterface $date,
+        int $adults = 1,
+        int $children = 0,
+    ): self {
+        if ($direction->origin === null || $direction->destination === null) {
+            throw new InvalidArgumentException('У направления нет пары станций, поиск поездов невозможен');
+        }
+
+        return self::forStations($direction->origin, $direction->destination, $date, $adults, $children);
     }
 
     /**

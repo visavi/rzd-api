@@ -94,6 +94,21 @@ final class RoutesTest extends TestCase
     }
 
     #[Test]
+    public function keepsResponseBodyInMissingRouteException(): void
+    {
+        try {
+            $this->client(['{"Routes":[],"Message":"нет данных"}'])->routes->search($this->search());
+        } catch (MalformedResponseException $e) {
+            // В исключении должен лежать ответ сайта, а не отправленный запрос
+            self::assertStringContainsString('нет данных', $e->body());
+
+            return;
+        }
+
+        self::fail('Исключение не выброшено');
+    }
+
+    #[Test]
     public function sendsRouteParameters(): void
     {
         $this->clientWith('train-route')->routes->search($this->search());

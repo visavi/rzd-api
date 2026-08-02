@@ -55,6 +55,20 @@ final class StationsTest extends TestCase
     }
 
     #[Test]
+    public function findsFirstStation(): void
+    {
+        $station = $this->clientWith('suggests')->stations->find('ЧЕБ');
+
+        self::assertSame('Чебоксары', $station?->name);
+    }
+
+    #[Test]
+    public function findsNothingWithoutSuggests(): void
+    {
+        self::assertNull($this->client(['{"transport_node_suggests":[]}'])->stations->find('ЧЕБ'));
+    }
+
+    #[Test]
     public function sendsSuggestParameters(): void
     {
         $this->clientWith('suggests')->stations->suggest('ЧЕБ');

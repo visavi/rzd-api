@@ -94,10 +94,12 @@ final readonly class Train extends Model
      */
     public function minPrice(): ?float
     {
-        $prices = array_filter(array_map(
-            static fn(CarGroup $group): ?float => $group->minPrice,
-            $this->carGroups,
-        ));
+        // Цену сравниваем с null, а не приводим к bool: бесплатное место
+        // теоретически возможно, и терять его нельзя
+        $prices = array_filter(
+            array_map(static fn(CarGroup $group): ?float => $group->minPrice, $this->carGroups),
+            static fn(?float $price): bool => $price !== null,
+        );
 
         return $prices === [] ? null : min($prices);
     }

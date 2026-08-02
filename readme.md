@@ -191,7 +191,9 @@ $config = new Config(
 уже полученного ответа — `CarSearch::forTrain($train)`,
 `RouteSearch::forTrain($train)`, `CarSchemeSearch::forCar($car, $train)`,
 `TrainSearch::forStations($from, $to, $date)`,
-`TransferSearch::forStations($from, $to, $date)`.
+`TransferSearch::forStations($from, $to, $date)`,
+`TrainSearch::forDirection($direction, $date)`,
+`TransferSearch::forDirection($direction, $date)`.
 
 Фабрики нужны не только для краткости. Например, запросу вагонов нужны коды
 **конкретных вокзалов** (`2000003` — Москва Казанская), а не города
@@ -217,11 +219,22 @@ $result = $client->trains->search(new TrainSearch(
 
 ```php
 $result = $client->trains->search(TrainSearch::forStations(
-    $client->stations->suggest('Москва')[0],
-    $client->stations->suggest('Санкт-Петербург')[0],
+    $client->stations->find('Москва'),
+    $client->stations->find('Санкт-Петербург'),
     new DateTimeImmutable('2026-08-01'),
     adults: 2,
 ));
+```
+
+Фабрика принимает и ненайденную станцию: если `find` вернул `null`, будет
+`InvalidArgumentException` вместо запроса с пустым кодом.
+
+Популярное направление содержит обе станции сразу, подсказки ему не нужны:
+
+```php
+$direction = $client->stations->directions()[0];
+
+$result = $client->trains->search(TrainSearch::forDirection($direction, $date));
 ```
 
 `SearchResult` перебирается как список поездов и хранит данные направления,
@@ -313,8 +326,8 @@ $result = $client->transfers->search(new TransferSearch(
 
 ```php
 $request = TransferSearch::forStations(
-    $client->stations->suggest('Новый Уренгой')[0],
-    $client->stations->suggest('Абакан')[0],
+    $client->stations->find('Новый Уренгой'),
+    $client->stations->find('Абакан'),
     new DateTimeImmutable('2026-08-20'),
 );
 ```
@@ -497,6 +510,10 @@ foreach ($route as $stop) {
 ```php
 // Поиск по части названия, повторяющиеся коды отбрасываются
 $stations = $client->stations->suggest('ЧЕБ');
+
+// Первая подходящая станция или null: подсказки отсортированы по близости
+// к запросу, поэтому для готового названия города разбирать список незачем
+$station = $client->stations->find('Чебоксары');
 
 $station->name;             // Чебоксары
 $station->code;             // 2060620, он нужен для поиска поездов

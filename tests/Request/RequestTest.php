@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Rzd\Enum\TransportProvider;
 use Rzd\Exception\InvalidArgumentException;
 use Rzd\Model\Car;
+use Rzd\Model\PopularDirection;
 use Rzd\Model\Station;
 use Rzd\Model\Train;
 use Rzd\Request\CarSchemeSearch;
@@ -285,7 +286,7 @@ final class RequestTest extends TestCase
     {
         $this->assertThrows(
             InvalidArgumentException::class,
-            'У станции нет кода, поиск поездов невозможен',
+            'Станция не найдена или у нее нет кода, поиск поездов невозможен',
             fn() => TrainSearch::forStations(
                 Station::fromArray(['Name' => 'Москва']),
                 Station::fromArray(['Codes' => ['Railway' => '2004000']]),
@@ -314,10 +315,87 @@ final class RequestTest extends TestCase
     {
         $this->assertThrows(
             InvalidArgumentException::class,
-            'У станции нет идентификатора узла',
+            'Станция не найдена или у нее нет узла',
             fn() => TransferSearch::forStations(
                 Station::fromArray(['Name' => 'Москва']),
                 Station::fromArray(['nodeId' => '5a13baf9340c745ca1e80436']),
+                $this->date(),
+            ),
+        );
+    }
+
+    #[Test]
+    public function trainSearchRejectsMissingStation(): void
+    {
+        // Так выглядит вызов с результатом Stations::find, ничего не нашедшим
+        $this->assertThrows(
+            InvalidArgumentException::class,
+            'Станция не найдена',
+            fn() => TrainSearch::forStations(null, Station::fromArray(['Codes' => ['Railway' => '2004000']]), $this->date()),
+        );
+    }
+
+    #[Test]
+    public function transferSearchRejectsMissingStation(): void
+    {
+        $this->assertThrows(
+            InvalidArgumentException::class,
+            'Станция не найдена',
+            fn() => TransferSearch::forStations(Station::fromArray(['nodeId' => 'a']), null, $this->date()),
+        );
+    }
+
+    #[Test]
+    public function trainSearchIsBuiltFromDirection(): void
+    {
+        $request = TrainSearch::forDirection(
+            PopularDirection::fromArray([
+                'departure' => ['expressCode' => '2000000'],
+                'arrival'   => ['expressCode' => '2060615'],
+            ]),
+            $this->date(),
+        );
+
+        self::assertSame('2000000', $request->origin);
+        self::assertSame('2060615', $request->destination);
+    }
+
+    #[Test]
+    public function trainSearchRequiresDirectionStations(): void
+    {
+        $this->assertThrows(
+            InvalidArgumentException::class,
+            'У направления нет пары станций, поиск поездов невозможен',
+            fn() => TrainSearch::forDirection(
+                PopularDirection::fromArray(['departure' => ['expressCode' => '2000000']]),
+                $this->date(),
+            ),
+        );
+    }
+
+    #[Test]
+    public function transferSearchIsBuiltFromDirection(): void
+    {
+        $request = TransferSearch::forDirection(
+            PopularDirection::fromArray([
+                'departure' => ['nodeId' => '5a323c29340c7441a0a556bb'],
+                'arrival'   => ['nodeId' => '5a13baf9340c745ca1e80436'],
+            ]),
+            $this->date(),
+        );
+
+        self::assertSame('5a323c29340c7441a0a556bb', $request->origin);
+        self::assertSame('5a13baf9340c745ca1e80436', $request->destination);
+    }
+
+    #[Test]
+    public function transferSearchRequiresDirectionStations(): void
+    {
+        $this->assertThrows(
+            InvalidArgumentException::class,
+            'У направления нет пары станций, поиск с пересадками невозможен',
+            fn() => TransferSearch::forDirection(
+                PopularDirection::fromArray(['arrival' => ['nodeId' => '5a13baf9340c745ca1e80436']]),
                 $this->date(),
             ),
         );
